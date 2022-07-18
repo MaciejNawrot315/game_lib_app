@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:game_lib_app/credentials.dart';
 import 'package:game_lib_app/game.dart';
 import 'package:game_lib_app/network_manager.dart';
 import 'dart:convert';
@@ -58,10 +59,7 @@ class ResourceManager {
       while (true) {
         response = await netMan.sendRequest(
             'v4/covers',
-            {
-              'Client-ID': 'pvo0zbv2nusp4sk6zy34oro2rvl0ve',
-              'Authorization': "Bearer xa35gn2632o7nsnxb1nlfybtnn7zwj"
-            },
+            {'Client-ID': clientID, 'Authorization': auth},
             "fields url; $where");
         if (response.statusCode == 429) {
           //review
