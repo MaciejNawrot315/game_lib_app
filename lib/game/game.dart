@@ -7,16 +7,17 @@ part 'game.g.dart';
 
 @JsonSerializable()
 class Game {
-  final String name, summary;
+  final String name;
+  final String? summary;
   final Cover cover;
   final double rating;
-  final List<Genre> genres;
+  final List<Genre>? genres;
   Game(
       {required this.name,
-      required this.summary,
+      this.summary,
       required this.cover,
       required this.rating,
-      required this.genres});
+      this.genres});
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
   Map<String, dynamic> toJson() => _$GameToJson(this);
 }
