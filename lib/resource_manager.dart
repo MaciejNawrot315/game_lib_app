@@ -13,13 +13,6 @@ class ResourceManager {
   ResourceManager() : homePageGamesLoaded = [];
 
   Game getGame(int index) {
-    var length = homePageGamesLoaded.length;
-    if (index > length + 9) {
-      throw Exception();
-    }
-    if (index >= length) {
-      loadMoreGames((index / 10).floor());
-    }
     return homePageGamesLoaded[index];
   }
 
@@ -27,16 +20,17 @@ class ResourceManager {
     return homePageGamesLoaded;
   }
 
-  Future<bool> loadMoreGames(int count) async {
+  Future<int> loadMoreGames(int count) async {
     const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/games',
         {'Client-ID': clientID, 'Authorization': auth},
-        "fields name, summary, cover.url,genres.name,rating; where cover !=null&rating >99;limit $pagesToLoad;offset ${pagesToLoad * count}");
+        "fields name, summary, cover.url,genres.name,rating; where cover !=null&rating >90; limit $pagesToLoad; offset $count;");
+    var respolseLookUp = response.body;
     List<Game> tempList = List<Game>.from(
         decoder.convert(response.body).map((game) => Game.fromJson(game)));
 
     homePageGamesLoaded.addAll(tempList);
-    return true;
+    return tempList.length;
   }
 }

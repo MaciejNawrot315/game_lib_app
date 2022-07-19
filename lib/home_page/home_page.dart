@@ -20,9 +20,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       gamesLoading = true;
     });
-    count += 1;
-    bool worked = await resMan.loadMoreGames(count);
 
+    count += await resMan.loadMoreGames(count);
     setState(() {
       gamesLoading = false;
     });
@@ -39,14 +38,20 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: LazyLoadScrollView(
+        scrollOffset: 200,
         isLoading: gamesLoading,
         onEndOfPage: () => loadMoreGames(),
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
             ),
-            itemCount: pagesToLoad * count,
+            itemCount: count + 2,
             itemBuilder: (BuildContext context, index) {
+              if (index >= count) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
               return HomePageGameTile(
                 game: resMan.getGame(index),
                 index: index,

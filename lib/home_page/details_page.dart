@@ -108,7 +108,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   )),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(widget.game.summary),
+                child: Text(widget.game.summary!),
               ),
               const Divider(),
             ],
