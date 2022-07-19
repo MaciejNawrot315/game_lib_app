@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_lib_app/game.dart';
+import 'package:game_lib_app/game/game.dart';
 import 'package:game_lib_app/resource_manager.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 Hero(
                   tag: "cover${widget.index}",
                   child: Image.network(
-                    widget.game.coverUrl!,
+                    'https:${widget.game.cover.url}',
                     fit: BoxFit.fitWidth,
                     height: MediaQuery.of(context).size.width,
                   ),
@@ -63,7 +63,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
-                              child: Text(widget.game.name!,
+                              child: Text(widget.game.name,
                                   style: const TextStyle(fontSize: 30),
                                   overflow: TextOverflow.clip),
                             ),
@@ -84,9 +84,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                     0,
                                   ),
                                   child: Text(
-                                    (widget.game.rating! / 20.0)
+                                    (widget.game.rating / 20.0)
                                         .toStringAsPrecision(3),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 20,
                                     ),
                                   ),
@@ -108,7 +108,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   )),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(widget.game.summary!),
+                child: Text(widget.game.summary),
               ),
               const Divider(),
             ],

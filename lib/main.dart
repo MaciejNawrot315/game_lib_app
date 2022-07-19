@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/home_page/home_page.dart';
-import 'package:game_lib_app/network_manager.dart';
-import 'package:game_lib_app/resource_manager.dart';
 
 void main() {
   runApp(const MyApp());
