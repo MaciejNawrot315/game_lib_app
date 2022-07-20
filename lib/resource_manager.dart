@@ -20,12 +20,16 @@ class ResourceManager {
     return homePageGamesLoaded;
   }
 
+  static String getResolution(String link, String resolution_name) {
+    return 'https:${link.replaceAll(RegExp('thumb'), resolution_name)}';
+  }
+
   Future<int> loadMoreGames(int count) async {
     const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/games',
         {'Client-ID': clientID, 'Authorization': auth},
-        "fields name, summary, cover.url,genres.name,rating; where cover !=null&rating >90; limit $pagesToLoad; offset $count;");
+        "fields *, cover.url,genres.name,collection.name,dlcs.name,expansions.name,parent_game.name,franchises.name,screenshots.url,involved_companies.company.name,platforms.name,game_modes.name; where cover !=null&rating !=null; limit $pagesToLoad; offset $count;");
     var respolseLookUp = response.body;
     List<Game> tempList = List<Game>.from(
         decoder.convert(response.body).map((game) => Game.fromJson(game)));
