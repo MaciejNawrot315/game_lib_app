@@ -1,15 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'genre.dart';
+part of 'field_with_name.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Genre _$GenreFromJson(Map<String, dynamic> json) => Genre(
-      name: json['name'] as String,
+FieldWithName _$FieldWithNameFromJson(Map<String, dynamic> json) =>
+    FieldWithName(
+      name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$GenreToJson(Genre instance) => <String, dynamic>{
+Map<String, dynamic> _$FieldWithNameToJson(FieldWithName instance) =>
+    <String, dynamic>{
       'name': instance.name,
     };

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:game_lib_app/resource_manager.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
@@ -38,17 +39,15 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: LazyLoadScrollView(
-        scrollOffset: 200,
+        scrollOffset: 600,
         isLoading: gamesLoading,
         onEndOfPage: () => loadMoreGames(),
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemCount: count + 2,
+        child: MasonryGridView.count(
+            crossAxisCount: 2,
+            itemCount: count + 1,
             itemBuilder: (BuildContext context, index) {
               if (index >= count) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
