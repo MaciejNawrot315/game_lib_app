@@ -142,7 +142,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   )),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(widget.game.summary!),
+                child: Text(widget.game.summary ?? ""),
               ),
               const Divider(),
               DetailsItemIfExists(
@@ -198,10 +198,30 @@ class _DetailsPageState extends State<DetailsPage> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(ResourceManager.getResolution(
-                            widget.game.screenshots![index].url!, '720p')),
+                      child: GestureDetector(
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) => Dismissible(
+                            direction: DismissDirection.down,
+                            key: const Key('key'),
+                            onDismissed: (_) => Navigator.of(context).pop(),
+                            child: Dialog(
+                              insetPadding: EdgeInsets.zero,
+                              child: Image.network(
+                                  ResourceManager.getResolution(
+                                      widget.game.screenshots![index].url!,
+                                      '720p'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            ResourceManager.getResolution(
+                                widget.game.screenshots![index].url!, '720p'),
+                          ),
+                        ),
                       ),
                     );
                   },

@@ -29,7 +29,7 @@ class ResourceManager {
     Response response = await netMan.sendRequest(
         'v4/games',
         {'Client-ID': clientID, 'Authorization': auth},
-        "fields *, cover.url,genres.name,collection.name,dlcs.name,expansions.name,parent_game.name,franchises.name,screenshots.url,involved_companies.company.name,platforms.name,game_modes.name; where cover !=null&rating !=null; limit $pagesToLoad; offset $count;");
+        "fields *, cover.url,genres.name,collection.name,dlcs.name,expansions.name,parent_game.name,franchises.name,screenshots.url,involved_companies.company.name,platforms.name,game_modes.name; where cover !=null&rating !=null; limit $pagesToLoad; offset $count;sort rating desc;");
     var respolseLookUp = response.body;
     List<Game> tempList = List<Game>.from(
         decoder.convert(response.body).map((game) => Game.fromJson(game)));
