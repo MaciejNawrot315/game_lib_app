@@ -20,8 +20,8 @@ class ResourceManager {
     return homePageGamesLoaded;
   }
 
-  static String getResolution(String link, String resolution_name) {
-    return 'https:${link.replaceAll(RegExp('thumb'), resolution_name)}';
+  static String getResolution(String link, String resolutionName) {
+    return 'https:${link.replaceAll(RegExp('thumb'), resolutionName)}';
   }
 
   Future<int> loadMoreGames(int count) async {
