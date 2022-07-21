@@ -7,10 +7,12 @@ part of 'game.dart';
 // **************************************************************************
 
 Game _$GameFromJson(Map<String, dynamic> json) => Game(
-      name: json['name'] as String,
+      name: json['name'] as String?,
       summary: json['summary'] as String?,
-      cover: Cover.fromJson(json['cover'] as Map<String, dynamic>),
-      rating: (json['rating'] as num).toDouble(),
+      cover: json['cover'] == null
+          ? null
+          : Cover.fromJson(json['cover'] as Map<String, dynamic>),
+      rating: (json['rating'] as num?)?.toDouble(),
       genres: (json['genres'] as List<dynamic>?)
           ?.map((e) => FieldWithName.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -36,7 +38,7 @@ Game _$GameFromJson(Map<String, dynamic> json) => Game(
       platforms: (json['platforms'] as List<dynamic>?)
           ?.map((e) => FieldWithName.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rating_count: json['rating_count'] as int,
+      rating_count: json['rating_count'] as int?,
       game_modes: (json['game_modes'] as List<dynamic>?)
           ?.map((e) => FieldWithName.fromJson(e as Map<String, dynamic>))
           .toList(),

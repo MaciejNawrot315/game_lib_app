@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:game_lib_app/resource_manager.dart';
 
 class SearchingView extends StatefulWidget {
   const SearchingView({Key? key}) : super(key: key);
@@ -10,10 +11,18 @@ class SearchingView extends StatefulWidget {
 }
 
 class _SearchingViewState extends State<SearchingView> {
-  Future<String> searchInAPI(String text) async {
-    return "cat";
+  Future<void> searchInAPI(String text) async {
+    int length = await resMan.searchForPhrases(text);
+    setState(
+      () {
+        listLength = length;
+      },
+    );
   }
 
+  TextEditingController editingController = TextEditingController();
+  int listLength = 0;
+  ResourceManager resMan = ResourceManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +49,8 @@ class _SearchingViewState extends State<SearchingView> {
                               const Icon(Icons.search_rounded),
                               Flexible(
                                   child: TextField(
+                                controller: editingController,
+                                autocorrect: false,
                                 onSubmitted: (text) => searchInAPI(text),
                                 decoration: const InputDecoration(
                                     contentPadding:
@@ -47,7 +58,10 @@ class _SearchingViewState extends State<SearchingView> {
                                     hintText: "Search",
                                     border: InputBorder.none),
                               )),
-                              const Icon(Icons.cancel)
+                              IconButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () => editingController.clear(),
+                                  icon: const Icon(Icons.cancel))
                             ],
                           ),
                         ),
@@ -65,6 +79,26 @@ class _SearchingViewState extends State<SearchingView> {
             ),
           ),
         ],
+      ),
+      body: ListView.builder(
+        itemCount: listLength,
+        itemBuilder: (context, index) => ListTile(
+          leading: SizedBox(
+            width: 45,
+            child: resMan.searchResponses[index].game?.cover?.url != null
+                ? Image.network(
+                    ResourceManager.getPictureWithResolution(
+                        resMan.searchResponses[index].game!.cover!.url,
+                        'thumb'),
+                    fit: BoxFit.fitWidth,
+                  )
+                : Container(),
+          ),
+          title: Text(
+            resMan.searchResponses[index].name,
+            overflow: TextOverflow.clip,
+          ),
+        ),
       ),
     );
   }

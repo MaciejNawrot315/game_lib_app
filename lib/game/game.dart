@@ -23,10 +23,10 @@ enum StatusEnum {
 
 @JsonSerializable()
 class Game {
-  final String name;
+  final String? name;
   final String? summary;
-  final Cover cover;
-  final double rating;
+  final Cover? cover;
+  final double? rating;
   final List<FieldWithName>? genres;
   final int? first_release_date;
   final Collection? collection;
@@ -36,16 +36,16 @@ class Game {
   final List<InvolvedCompany>? involved_companies;
   final FieldWithName? parent_game;
   final List<FieldWithName>? platforms;
-  final int rating_count;
+  final int? rating_count;
   final List<FieldWithName>? game_modes;
   final List<Screenshot>? screenshots;
   Game(
-      {required this.name,
+      {this.name,
       this.summary,
-      required this.cover,
-      required this.rating,
+      this.cover,
+      this.rating,
       this.genres,
-      required this.first_release_date,
+      this.first_release_date,
       this.dlcs,
       this.collection,
       this.expansions,
@@ -53,7 +53,7 @@ class Game {
       this.involved_companies,
       this.parent_game,
       this.platforms,
-      required this.rating_count,
+      this.rating_count,
       this.game_modes,
       this.screenshots});
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);

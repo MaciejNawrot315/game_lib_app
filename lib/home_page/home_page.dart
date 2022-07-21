@@ -18,14 +18,18 @@ class _HomePageState extends State<HomePage> {
   bool gamesLoading = false;
   int count = 0;
   Future loadMoreGames() async {
-    setState(() {
-      gamesLoading = true;
-    });
+    if (mounted) {
+      setState(() {
+        gamesLoading = true;
+      });
+    }
 
     count += await resMan.loadMoreGames(count);
-    setState(() {
-      gamesLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        gamesLoading = false;
+      });
+    }
   }
 
   @override

@@ -59,10 +59,10 @@ class _DetailsPageState extends State<DetailsPage> {
             children: [
               Stack(children: [
                 Hero(
-                  tag: "cover${widget.game.cover.url}",
+                  tag: "cover${widget.game.cover!.url}",
                   child: Image.network(
-                    ResourceManager.getResolution(
-                        widget.game.cover.url, '720p'),
+                    ResourceManager.getPictureWithResolution(
+                        widget.game.cover!.url, '720p'),
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -97,7 +97,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
-                              child: Text(widget.game.name,
+                              child: Text(widget.game.name!,
                                   style: const TextStyle(fontSize: 30),
                                   overflow: TextOverflow.clip),
                             ),
@@ -118,7 +118,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                     0,
                                   ),
                                   child: Text(
-                                    (widget.game.rating / 20.0)
+                                    (widget.game.rating! / 20.0)
                                         .toStringAsPrecision(3),
                                     style: const TextStyle(
                                       fontSize: 20,
@@ -208,7 +208,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             child: Dialog(
                               insetPadding: EdgeInsets.zero,
                               child: Image.network(
-                                  ResourceManager.getResolution(
+                                  ResourceManager.getPictureWithResolution(
                                       widget.game.screenshots![index].url!,
                                       '720p'),
                                   fit: BoxFit.cover),
@@ -218,7 +218,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            ResourceManager.getResolution(
+                            ResourceManager.getPictureWithResolution(
                                 widget.game.screenshots![index].url!, '720p'),
                           ),
                         ),
