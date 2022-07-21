@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/home_page/home_page.dart';
+import 'package:game_lib_app/search_page/search_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey[900],
+        primarySwatch: Colors.purple,
       ),
       home: const MainView(),
     );
@@ -47,9 +49,7 @@ class _MainViewState extends State<MainView> {
       'label': "Home",
     },
     {
-      'body': Center(
-        child: Container(color: Colors.green),
-      ),
+      'body': const SearchPage(),
       'icon': const Icon(Icons.search),
       'label': "Search",
     },
@@ -86,7 +86,7 @@ class _MainViewState extends State<MainView> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
                 child: Icon(Icons.settings),
-              )
+              ),
             ]),
             body: destinations.elementAt(_selectedIndex)['body'] as Widget,
             bottomNavigationBar: BottomNavigationBar(
