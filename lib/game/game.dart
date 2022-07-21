@@ -23,6 +23,7 @@ enum StatusEnum {
 
 @JsonSerializable()
 class Game {
+  final int? id;
   final String? name;
   final String? summary;
   final Cover? cover;
@@ -40,7 +41,8 @@ class Game {
   final List<FieldWithName>? game_modes;
   final List<Screenshot>? screenshots;
   Game(
-      {this.name,
+      {this.id,
+      this.name,
       this.summary,
       this.cover,
       this.rating,

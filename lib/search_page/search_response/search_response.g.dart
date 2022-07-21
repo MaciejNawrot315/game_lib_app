@@ -8,7 +8,8 @@ part of 'search_response.dart';
 
 SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
     SearchResponse(
-      name: json['name'] as String,
+      id: json['id'] as int?,
+      name: json['name'] as String?,
       game: json['game'] == null
           ? null
           : Game.fromJson(json['game'] as Map<String, dynamic>),
@@ -16,6 +17,7 @@ SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SearchResponseToJson(SearchResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'game': instance.game,
     };

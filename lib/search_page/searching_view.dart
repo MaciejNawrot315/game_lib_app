@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:game_lib_app/details_page/details_page.dart';
 import 'package:game_lib_app/resource_manager.dart';
 
 class SearchingView extends StatefulWidget {
@@ -19,6 +20,8 @@ class _SearchingViewState extends State<SearchingView> {
       },
     );
   }
+
+  late FocusNode focusNode = FocusNode();
 
   TextEditingController editingController = TextEditingController();
   int listLength = 0;
@@ -49,6 +52,8 @@ class _SearchingViewState extends State<SearchingView> {
                               const Icon(Icons.search_rounded),
                               Flexible(
                                   child: TextField(
+                                focusNode: focusNode,
+                                autofocus: true,
                                 controller: editingController,
                                 autocorrect: false,
                                 onSubmitted: (text) => searchInAPI(text),
@@ -95,9 +100,16 @@ class _SearchingViewState extends State<SearchingView> {
                 : Container(),
           ),
           title: Text(
-            resMan.searchResponses[index].name,
+            resMan.searchResponses[index].name ?? "",
+            style: TextStyle(color: Colors.white),
             overflow: TextOverflow.clip,
           ),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DetailsPage(
+                      gameID: resMan.searchResponses[index].game!.id!,
+                      resMan: resMan))),
         ),
       ),
     );
