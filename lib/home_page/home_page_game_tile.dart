@@ -49,9 +49,8 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPage(
-                            game: widget.game,
-                            resMan: widget.resourceManager,
-                            index: widget.index),
+                            gameID: widget.game.id!,
+                            resMan: widget.resourceManager),
                       ),
                     );
                   },
