@@ -22,7 +22,7 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
   @override
   Widget build(BuildContext context) {
     Image image = Image.network(
-      ResourceManager.getResolution(widget.game.cover.url, '720p'),
+      ResourceManager.getPictureWithResolution(widget.game.cover!.url, '720p'),
       fit: BoxFit.fitWidth,
     );
     return SizedBox(
@@ -37,10 +37,10 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
               children: [
                 GestureDetector(
                   child: Hero(
-                    tag: "cover${widget.game.cover.url}",
+                    tag: "cover${widget.game.cover!.url}",
                     child: Image.network(
-                      ResourceManager.getResolution(
-                          widget.game.cover.url, '720p'),
+                      ResourceManager.getPictureWithResolution(
+                          widget.game.cover!.url, '720p'),
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -96,7 +96,7 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
-                                    widget.game.name,
+                                    widget.game.name!,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -110,7 +110,7 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
                                       color: Colors.yellow,
                                     ),
                                   ),
-                                  Text((widget.game.rating / 20.0)
+                                  Text((widget.game.rating! / 20.0)
                                       .toStringAsPrecision(3))
                                 ],
                               )
