@@ -41,7 +41,7 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
-
+  bool _switchValue = false;
   var destinations = {
     {
       'body': const HomePage(),
@@ -75,6 +75,12 @@ class _MainViewState extends State<MainView> {
         padding: EdgeInsets.symmetric(vertical: passedPadding));
   }
 
+  void changeLanguage(bool value) {
+    setState(() {
+      _switchValue = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool smallScreen = MediaQuery.of(context).size.width <= 640 ? true : false;
@@ -82,12 +88,31 @@ class _MainViewState extends State<MainView> {
         (MediaQuery.of(context).size.height / 6) - 40;
     return smallScreen
         ? Scaffold(
-            appBar: AppBar(actions: const [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                child: Icon(Icons.settings),
-              ),
+            appBar: AppBar(actions: [
+              Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                  child: IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                  ),
+                );
+              }),
             ]),
+            endDrawer: Drawer(
+              child: ListView(
+                children: [
+                  const Text("Settings"),
+                  Row(
+                    children: [
+                      const Text("EN"),
+                      Switch(value: _switchValue, onChanged: changeLanguage),
+                      const Text("PL")
+                    ],
+                  ),
+                ],
+              ),
+            ),
             body: destinations.elementAt(_selectedIndex)['body'] as Widget,
             bottomNavigationBar: BottomNavigationBar(
               items: <BottomNavigationBarItem>[

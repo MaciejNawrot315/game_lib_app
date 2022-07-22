@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class DetailsItemIfExists extends StatelessWidget {
   const DetailsItemIfExists({Key? key, required this.item, required this.value})
@@ -23,7 +21,6 @@ class DetailsItemIfExists extends StatelessWidget {
       Flexible(
         child: Text(
           value,
-          style: TextStyle(),
           overflow: TextOverflow.clip,
         ),
       )
