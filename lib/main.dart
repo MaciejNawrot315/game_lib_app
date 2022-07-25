@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_lib_app/home_page/home_page.dart';
+import 'package:game_lib_app/results_grid/results_grid.dart';
 import 'package:game_lib_app/search_page/search_page.dart';
 
 void main() {
@@ -44,7 +44,7 @@ class _MainViewState extends State<MainView> {
   bool _switchValue = false;
   var destinations = {
     {
-      'body': const HomePage(),
+      'body': const ResultsGrid(),
       'icon': const Icon(Icons.home),
       'label': "Home",
     },
