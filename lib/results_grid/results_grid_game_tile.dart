@@ -42,7 +42,7 @@ class ResultsGameTile extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPage(
-                            gameID: game.id, resMan: widget.resourceManager),
+                            gameID: game.id, resMan: resourceManager),
                       ),
                     );
                   },
@@ -87,7 +87,7 @@ class ResultsGameTile extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
-                                    game.name!,
+                                    game.name ?? "",
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -101,7 +101,7 @@ class ResultsGameTile extends StatelessWidget {
                                       color: Colors.yellow,
                                     ),
                                   ),
-                                  Text((game.rating! / 20.0)
+                                  Text((game.rating ?? 0.0 / 20.0)
                                       .toStringAsPrecision(3))
                                 ],
                               )

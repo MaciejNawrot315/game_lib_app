@@ -26,10 +26,11 @@ class _SearchingViewState extends State<SearchingView> {
 
   void checkIfEmpty(String value) {
     if (value.isEmpty) {
-      setState(() {
-        listLength = 0;
-        resMan.searchResponses = [];
-      });
+      if (mounted)
+        setState(() {
+          listLength = 0;
+          resMan.searchResponses = [];
+        });
     }
   }
 
@@ -80,10 +81,12 @@ class _SearchingViewState extends State<SearchingView> {
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
                                     editingController.clear();
-                                    setState(() {
-                                      listLength = 0;
-                                      resMan.searchResponses = [];
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        listLength = 0;
+                                        resMan.searchResponses = [];
+                                      });
+                                    }
                                   },
                                   icon: const Icon(Icons.cancel))
                             ],
