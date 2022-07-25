@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SingleDetailsLineIfExists extends StatelessWidget {
-  const SingleDetailsLineIfExists(
-      {Key? key, required this.item, required this.value})
-      : super(key: key);
   final String item, value;
+
+  const SingleDetailsLineIfExists({
+    Key? key,
+    required this.item,
+    required this.value,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     if (value == "") {

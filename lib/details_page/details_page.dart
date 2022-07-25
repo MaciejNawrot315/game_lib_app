@@ -8,24 +8,28 @@ import 'package:intl/intl.dart';
 import 'single_details_item.dart';
 
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({Key? key, required this.gameID, required this.resMan})
-      : super(key: key);
   final int gameID;
   final ResourceManager resMan;
+
+  const DetailsPage({
+    Key? key,
+    required this.gameID,
+    required this.resMan,
+  }) : super(key: key);
+
   @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  final dateFormat = DateFormat('dd-MM-yyyy');
-
+  final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   String getNamesString(List<FieldWithName> list) {
     String output = '';
     if (list.isEmpty) {
       return output;
     }
     for (FieldWithName nameClass in list) {
-      output = '$output${nameClass.name} / ';
+      output += '${nameClass.name} / ';
     }
     output = output.substring(0, output.length - 2);
     return output;
@@ -43,18 +47,24 @@ class _DetailsPageState extends State<DetailsPage> {
     return getNamesString(namesList);
   }
 
+  Future<Game> fetchGame() {
+    return widget.resMan.fetchGame(widget.gameID);
+  }
+
+  void openScreenchot() {}
+
   @override
   Widget build(BuildContext context) {
-    Future<Game> game = widget.resMan.fetchGame(widget.gameID);
     return Scaffold(
       appBar: AppBar(),
       body: Container(
           color: Colors.grey[300],
           child: FutureBuilder<Game>(
-            future: game,
+            future: fetchGame(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                int screenshotsAmount = snapshot.data!.screenshots?.length ?? 0;
+                Game game = snapshot.data!;
+                int screenshotsAmount = game.screenshots?.length ?? 0;
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,10 +72,10 @@ class _DetailsPageState extends State<DetailsPage> {
                     children: [
                       Stack(children: [
                         Hero(
-                          tag: "cover${snapshot.data!.cover!.url}",
+                          tag: "cover${game.cover!.url}",
                           child: Image.network(
                             ResourceManager.getPictureWithResolution(
-                                snapshot.data!.cover!.url, '720p'),
+                                game.cover!.url, '720p'),
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -99,12 +109,11 @@ class _DetailsPageState extends State<DetailsPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Row(
-                                    mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Flexible(
-                                        child: Text(snapshot.data!.name!,
+                                        child: Text(game.name!,
                                             style:
                                                 const TextStyle(fontSize: 30),
                                             overflow: TextOverflow.clip),
@@ -127,9 +136,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                   left: 10,
                                                 ),
                                                 child: Text(
-                                                  ((snapshot.data!.rating ??
-                                                              0) /
-                                                          20.0)
+                                                  ((game.rating ?? 0) / 20.0)
                                                       .toStringAsPrecision(3),
                                                   style: const TextStyle(
                                                     fontSize: 20,
@@ -150,9 +157,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                   left: 10,
                                                 ),
                                                 child: Text(
-                                                  (snapshot.data!
-                                                              .rating_count ??
-                                                          0)
+                                                  (game.rating_count ?? 0)
                                                       .toString(),
                                                   style: const TextStyle(
                                                     fontSize: 15,
@@ -177,63 +182,46 @@ class _DetailsPageState extends State<DetailsPage> {
                           )),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(snapshot.data!.summary ?? ""),
+                        child: Text(game.summary ?? ""),
                       ),
                       const Divider(),
-<<<<<<< HEAD
                       SingleDetailsLineIfExists(
                         item: "release date",
                         value: dateFormat.format(
                             DateTime.fromMillisecondsSinceEpoch(
-                                (snapshot.data!.first_release_date ?? 0) *
-                                    1000)),
+                                (game.first_release_date ?? 0) * 1000)),
                       ),
-=======
-                      snapshot.data!.first_release_date != null
-                          ? DetailsItemIfExists(
-                              item: "release date",
-                              value: dateFormat.format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      snapshot.data!.first_release_date! *
-                                          1000)),
-                            )
-                          : Container(),
->>>>>>> dev
-                      snapshot.data!.genres != null
-                          ? SingleDetailsLineIfExists(
-                              item: "genres",
-                              value: getNamesString(
-                                  snapshot.data!.genres ?? <FieldWithName>[]),
-                            )
-                          : Container(),
+                      SingleDetailsLineIfExists(
+                        item: "genres",
+                        value: getNamesString(game.genres ?? <FieldWithName>[]),
+                      ),
                       SingleDetailsLineIfExists(
                         item: "game modes",
                         value: getNamesString(
-                            snapshot.data!.game_modes ?? <FieldWithName>[]),
+                            game.game_modes ?? <FieldWithName>[]),
                       ),
                       SingleDetailsLineIfExists(
                         item: "part of the series",
-                        value: snapshot.data!.collection?.name ?? "",
+                        value: game.collection?.name ?? "",
                       ),
                       SingleDetailsLineIfExists(
                         item: "from the franchise",
                         value: getNamesString(
-                            snapshot.data!.franchises ?? <FieldWithName>[]),
+                            game.franchises ?? <FieldWithName>[]),
                       ),
                       SingleDetailsLineIfExists(
                         item: "companies",
                         value: getCompaniesNamesString(
-                            snapshot.data!.involved_companies ??
-                                <InvolvedCompany>[]),
+                            game.involved_companies ?? <InvolvedCompany>[]),
                       ),
                       SingleDetailsLineIfExists(
                         item: "available on",
-                        value: getNamesString(
-                            snapshot.data!.platforms ?? <FieldWithName>[]),
+                        value:
+                            getNamesString(game.platforms ?? <FieldWithName>[]),
                       ),
                       SingleDetailsLineIfExists(
                         item: "part of the main game",
-                        value: snapshot.data!.parent_game?.name ?? "",
+                        value: game.parent_game?.name ?? "",
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 30, 0, 0),
@@ -263,8 +251,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                       child: Image.network(
                                           ResourceManager
                                               .getPictureWithResolution(
-                                                  snapshot.data!
-                                                      .screenshots![index].url!,
+                                                  game.screenshots![index].url!,
                                                   '720p'),
                                           fit: BoxFit.cover),
                                     ),
@@ -274,8 +261,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Image.network(
                                     ResourceManager.getPictureWithResolution(
-                                        snapshot.data!.screenshots![index].url!,
-                                        '720p'),
+                                        game.screenshots![index].url!, '720p'),
                                   ),
                                 ),
                               ),
@@ -286,7 +272,19 @@ class _DetailsPageState extends State<DetailsPage> {
                     ],
                   ),
                 );
-              } else if (snapshot.hasError) {}
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    children: [
+                      const Icon(Icons.error_outline, color: Colors.red),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Error: ${snapshot.error}'),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return const Center(child: CircularProgressIndicator());
             },
           )),

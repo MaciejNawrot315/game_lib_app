@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:game_lib_app/results_grid/results_grid.dart';
 
 class GenresGridPage extends StatefulWidget {
-  const GenresGridPage({Key? key, required this.whereFilters})
-      : super(key: key);
   final String whereFilters;
+
+  const GenresGridPage({
+    Key? key,
+    required this.whereFilters,
+  }) : super(key: key);
+
   @override
   State<GenresGridPage> createState() => _GenresGridPageState();
 }

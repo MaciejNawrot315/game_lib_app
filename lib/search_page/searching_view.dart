@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
 import 'package:game_lib_app/resource_manager.dart';
+import 'package:game_lib_app/search_page/search_response/search_response.dart';
 
 class SearchingView extends StatefulWidget {
-  const SearchingView({Key? key}) : super(key: key);
+  const SearchingView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SearchingView> createState() => _SearchingViewState();
@@ -12,11 +15,13 @@ class SearchingView extends StatefulWidget {
 class _SearchingViewState extends State<SearchingView> {
   Future<void> searchInAPI(String text) async {
     int length = await resMan.searchForPhrases(text);
-    setState(
-      () {
-        listLength = length;
-      },
-    );
+    if (mounted) {
+      setState(
+        () {
+          listLength = length;
+        },
+      );
+    }
   }
 
   void checkIfEmpty(String value) {
@@ -28,7 +33,7 @@ class _SearchingViewState extends State<SearchingView> {
     }
   }
 
-  late FocusNode focusNode = FocusNode();
+  FocusNode focusNode = FocusNode();
 
   TextEditingController editingController = TextEditingController();
   int listLength = 0;
@@ -100,32 +105,39 @@ class _SearchingViewState extends State<SearchingView> {
         ],
       ),
       body: ListView.builder(
-        itemCount: listLength,
-        itemBuilder: (context, index) => ListTile(
-          leading: SizedBox(
-            width: 45,
-            child: resMan.searchResponses[index].game?.cover?.url != null
-                ? Image.network(
-                    ResourceManager.getPictureWithResolution(
-                        resMan.searchResponses[index].game!.cover!.url,
-                        'thumb'),
-                    fit: BoxFit.fitWidth,
-                  )
-                : Container(),
-          ),
-          title: Text(
-            resMan.searchResponses[index].name ?? "",
-            style: const TextStyle(color: Colors.white),
-            overflow: TextOverflow.clip,
-          ),
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                      gameID: resMan.searchResponses[index].game!.id!,
-                      resMan: resMan))),
-        ),
-      ),
+          itemCount: listLength,
+          itemBuilder: (context, index) {
+            SearchResponse resp = resMan.searchResponses[index];
+            return ListTile(
+              leading: SizedBox(
+                width: 45,
+                child: resp.game?.cover?.url != null
+                    ? Image.network(
+                        ResourceManager.getPictureWithResolution(
+                            resp.game!.cover!.url, 'thumb'),
+                        fit: BoxFit.fitWidth,
+                      )
+                    : Container(),
+              ),
+              title: Text(
+                resp.name ?? "",
+                style: const TextStyle(color: Colors.white),
+                overflow: TextOverflow.clip,
+              ),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DetailsPage(gameID: resp.game!.id, resMan: resMan))),
+            );
+          }),
     );
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    editingController.dispose();
+    super.dispose();
   }
 }

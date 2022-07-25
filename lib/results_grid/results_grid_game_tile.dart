@@ -4,25 +4,22 @@ import 'package:game_lib_app/resource_manager.dart';
 
 import 'package:game_lib_app/game/game.dart';
 
-class HomePageGameTile extends StatefulWidget {
-  const HomePageGameTile(
-      {Key? key,
-      required this.index,
-      required this.game,
-      required this.resourceManager})
-      : super(key: key);
+class ResultsGameTile extends StatelessWidget {
   final int index;
   final ResourceManager resourceManager;
-  final Game game;
-  @override
-  State<HomePageGameTile> createState() => _HomePageGameTileState();
-}
+  late final Game game;
 
-class _HomePageGameTileState extends State<HomePageGameTile> {
+  ResultsGameTile({
+    Key? key,
+    required this.index,
+    required this.resourceManager,
+  })  : game = resourceManager.resaultsGamesLoaded[index],
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Image image = Image.network(
-      ResourceManager.getPictureWithResolution(widget.game.cover!.url, '720p'),
+      ResourceManager.getPictureWithResolution(game.cover!.url, '720p'),
       fit: BoxFit.fitWidth,
     );
     return SizedBox(
@@ -37,20 +34,15 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
               children: [
                 GestureDetector(
                   child: Hero(
-                    tag: "cover${widget.game.cover!.url}",
-                    child: Image.network(
-                      ResourceManager.getPictureWithResolution(
-                          widget.game.cover!.url, '720p'),
-                      fit: BoxFit.fitWidth,
-                    ),
+                    tag: "cover${game.cover!.url}",
+                    child: image,
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPage(
-                            gameID: widget.game.id!,
-                            resMan: widget.resourceManager),
+                            gameID: game.id, resMan: widget.resourceManager),
                       ),
                     );
                   },
@@ -85,7 +77,7 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
                             children: [
                               Flexible(
                                 child: Tooltip(
-                                  message: widget.game.name,
+                                  message: game.name,
                                   waitDuration: const Duration(seconds: 1),
                                   showDuration:
                                       const Duration(milliseconds: 100),
@@ -95,7 +87,7 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
-                                    widget.game.name!,
+                                    game.name!,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -109,7 +101,7 @@ class _HomePageGameTileState extends State<HomePageGameTile> {
                                       color: Colors.yellow,
                                     ),
                                   ),
-                                  Text((widget.game.rating! / 20.0)
+                                  Text((game.rating! / 20.0)
                                       .toStringAsPrecision(3))
                                 ],
                               )

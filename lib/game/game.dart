@@ -9,21 +9,9 @@ import 'field_with_name.dart';
 
 part 'game.g.dart';
 
-enum StatusEnum {
-  released,
-  one,
-  alpha,
-  beta,
-  early_access,
-  offline,
-  cancelled,
-  rumored,
-  delisted
-}
-
 @JsonSerializable()
 class Game {
-  final int? id;
+  final int id;
   final String? name;
   final String? summary;
   final Cover? cover;
@@ -41,7 +29,7 @@ class Game {
   final List<FieldWithName>? game_modes;
   final List<Screenshot>? screenshots;
   Game(
-      {this.id,
+      {required this.id,
       this.name,
       this.summary,
       this.cover,
