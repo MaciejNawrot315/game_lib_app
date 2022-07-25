@@ -51,8 +51,8 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () => Navigator.push(
                           context,
                           PageRouteBuilder(
-                            pageBuilder: (c, a1, a2) => const SearchingView(),
-                            transitionsBuilder: (c, anim, a2, child) =>
+                            pageBuilder: (_, __, ___) => const SearchingView(),
+                            transitionsBuilder: (_, anim, __, child) =>
                                 FadeTransition(opacity: anim, child: child),
                             transitionDuration:
                                 const Duration(milliseconds: 15),
