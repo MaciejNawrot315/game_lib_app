@@ -1,6 +1,5 @@
 import 'package:game_lib_app/constants.dart';
 import 'package:game_lib_app/credentials.dart';
-import 'package:game_lib_app/game/field_with_name.dart';
 import 'package:game_lib_app/game/game.dart';
 import 'package:game_lib_app/game/genre.dart';
 import 'package:game_lib_app/network_manager.dart';
@@ -10,22 +9,24 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class ResourceManager {
-  List<Game> homePageGamesLoaded;
+  List<Game> resaultsGamesLoaded;
   List<SearchResponse> searchResponses;
   List<Genre> genresLoaded;
+  JsonDecoder decoder;
   NetworkManager netMan = NetworkManager(baseUrl: 'api.igdb.com');
 
   ResourceManager()
-      : homePageGamesLoaded = [],
+      : resaultsGamesLoaded = [],
         searchResponses = [],
-        genresLoaded = [];
+        genresLoaded = [],
+        decoder = const JsonDecoder();
 
   Game getGame(int index) {
-    return homePageGamesLoaded[index];
+    return resaultsGamesLoaded[index];
   }
 
   List<Game> getLoadedGames() {
-    return homePageGamesLoaded;
+    return resaultsGamesLoaded;
   }
 
   static String getPictureWithResolution(String link, String resolutionName) {
@@ -33,7 +34,6 @@ class ResourceManager {
   }
 
   Future<int> loadMoreGames(int count, String whereFilters) async {
-    const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/games',
         {'Client-ID': clientID, 'Authorization': auth},
@@ -42,13 +42,12 @@ class ResourceManager {
     List<Game> tempList = List<Game>.from(
         decoder.convert(response.body).map((game) => Game.fromJson(game)));
 
-    homePageGamesLoaded.addAll(tempList);
+    resaultsGamesLoaded.addAll(tempList);
     return tempList.length;
   }
 
   Future<int> searchForPhrases(String phrase) async {
     searchResponses = [];
-    const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/search',
         {'Client-ID': clientID, 'Authorization': auth},
@@ -63,7 +62,6 @@ class ResourceManager {
   }
 
   Future<Game> fetchGame(int id) async {
-    const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/games',
         {'Client-ID': clientID, 'Authorization': auth},
@@ -76,7 +74,6 @@ class ResourceManager {
   }
 
   Future<int> loadGenres(int count) async {
-    const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/genres',
         {'Client-ID': clientID, 'Authorization': auth},
