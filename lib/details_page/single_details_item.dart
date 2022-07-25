@@ -24,7 +24,6 @@ class SingleDetailsLineIfExists extends StatelessWidget {
       Flexible(
         child: Text(
           value,
-          style: TextStyle(),
           overflow: TextOverflow.clip,
         ),
       )
