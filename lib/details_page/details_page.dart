@@ -99,48 +99,75 @@ class _DetailsPageState extends State<DetailsPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Text(snapshot.data!.name!,
-                                          style: const TextStyle(fontSize: 30),
-                                          overflow: TextOverflow.clip),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Transform.scale(
-                                          scale: 1.5,
-                                          child: const Icon(
-                                            Icons.star,
-                                            color: Colors.yellow,
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Text(snapshot.data!.name!,
+                                            style:
+                                                const TextStyle(fontSize: 30),
+                                            overflow: TextOverflow.clip),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Transform.scale(
+                                                scale: 1.5,
+                                                child: const Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                ),
+                                                child: Text(
+                                                  ((snapshot.data!.rating ??
+                                                              0) /
+                                                          20.0)
+                                                      .toStringAsPrecision(3),
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                          ),
-                                          child: Text(
-                                            ((snapshot.data!.rating ?? 0) /
-                                                    20.0)
-                                                .toStringAsPrecision(3),
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                          const SizedBox(height: 7),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.person,
+                                                color: Colors.white,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                ),
+                                                child: Text(
+                                                  (snapshot.data!
+                                                              .rating_count ??
+                                                          0)
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ]),
                               ),
                             ),
                           ),
-                        ),
+                        )
                       ]),
                       const Align(
                           alignment: Alignment.topLeft,
@@ -153,13 +180,15 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: Text(snapshot.data!.summary ?? ""),
                       ),
                       const Divider(),
-                      DetailsItemIfExists(
-                        item: "release date",
-                        value: dateFormat.format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                (snapshot.data!.first_release_date ?? 0) *
-                                    1000)),
-                      ),
+                      snapshot.data!.first_release_date != null
+                          ? DetailsItemIfExists(
+                              item: "release date",
+                              value: dateFormat.format(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      snapshot.data!.first_release_date! *
+                                          1000)),
+                            )
+                          : Container(),
                       snapshot.data!.genres != null
                           ? DetailsItemIfExists(
                               item: "genres",
