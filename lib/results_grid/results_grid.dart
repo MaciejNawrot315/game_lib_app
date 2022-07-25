@@ -4,16 +4,16 @@ import 'package:game_lib_app/resource_manager.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import 'package:game_lib_app/constants.dart';
-import 'home_page_game_tile.dart';
+import 'results_grid_game_tile.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+class ResultsGrid extends StatefulWidget {
+  const ResultsGrid({Key? key, this.whereFilters = ''}) : super(key: key);
+  final String whereFilters;
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ResultsGrid> createState() => _ResultsGridState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ResultsGridState extends State<ResultsGrid> {
   ResourceManager resMan = ResourceManager();
   bool gamesLoading = false;
   int count = 0;
@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    count += await resMan.loadMoreGames(count);
+    count += await resMan.loadMoreGames(count, widget.whereFilters);
     if (mounted) {
       setState(() {
         gamesLoading = false;
@@ -34,8 +34,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    loadMoreGames();
     super.initState();
+    loadMoreGames();
   }
 
   @override

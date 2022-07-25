@@ -1,6 +1,8 @@
 import 'package:game_lib_app/constants.dart';
 import 'package:game_lib_app/credentials.dart';
+import 'package:game_lib_app/game/field_with_name.dart';
 import 'package:game_lib_app/game/game.dart';
+import 'package:game_lib_app/game/genre.dart';
 import 'package:game_lib_app/network_manager.dart';
 import 'package:game_lib_app/search_page/search_response/search_response.dart';
 import 'dart:convert';
@@ -10,11 +12,13 @@ import 'package:http/http.dart';
 class ResourceManager {
   List<Game> homePageGamesLoaded;
   List<SearchResponse> searchResponses;
+  List<Genre> genresLoaded;
   NetworkManager netMan = NetworkManager(baseUrl: 'api.igdb.com');
 
   ResourceManager()
       : homePageGamesLoaded = [],
-        searchResponses = [];
+        searchResponses = [],
+        genresLoaded = [];
 
   Game getGame(int index) {
     return homePageGamesLoaded[index];
@@ -28,12 +32,12 @@ class ResourceManager {
     return 'https:${link.replaceAll(RegExp('thumb'), resolutionName)}';
   }
 
-  Future<int> loadMoreGames(int count) async {
+  Future<int> loadMoreGames(int count, String whereFilters) async {
     const JsonDecoder decoder = JsonDecoder();
     Response response = await netMan.sendRequest(
         'v4/games',
         {'Client-ID': clientID, 'Authorization': auth},
-        "fields name,rating, cover.url; where cover !=null&rating !=null; limit $pagesToLoad; offset $count;sort rating desc;");
+        "fields name,rating, cover.url,genres.*; where cover !=null&rating !=null$whereFilters; limit $pagesToLoad; offset $count;sort rating desc;");
     var respolseLookUp = response.body;
     List<Game> tempList = List<Game>.from(
         decoder.convert(response.body).map((game) => Game.fromJson(game)));
@@ -69,5 +73,19 @@ class ResourceManager {
         decoder.convert(response.body).map((game) => Game.fromJson(game)));
 
     return tempList[0];
+  }
+
+  Future<int> loadGenres(int count) async {
+    const JsonDecoder decoder = JsonDecoder();
+    Response response = await netMan.sendRequest(
+        'v4/genres',
+        {'Client-ID': clientID, 'Authorization': auth},
+        "fields name; limit 30; offset $count;");
+    var respolseLookUp = response.body;
+    List<Genre> tempList = List<Genre>.from(
+        decoder.convert(response.body).map((game) => Genre.fromJson(game)));
+
+    genresLoaded.addAll(tempList);
+    return tempList.length;
   }
 }

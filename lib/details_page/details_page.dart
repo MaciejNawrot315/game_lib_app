@@ -5,7 +5,7 @@ import 'package:game_lib_app/game/field_with_name.dart';
 import 'package:game_lib_app/resource_manager.dart';
 import 'package:intl/intl.dart';
 
-import 'details_item.dart';
+import 'single_details_item.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({Key? key, required this.gameID, required this.resMan})
@@ -153,7 +153,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: Text(snapshot.data!.summary ?? ""),
                       ),
                       const Divider(),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "release date",
                         value: dateFormat.format(
                             DateTime.fromMillisecondsSinceEpoch(
@@ -161,38 +161,38 @@ class _DetailsPageState extends State<DetailsPage> {
                                     1000)),
                       ),
                       snapshot.data!.genres != null
-                          ? DetailsItemIfExists(
+                          ? SingleDetailsLineIfExists(
                               item: "genres",
                               value: getNamesString(
                                   snapshot.data!.genres ?? <FieldWithName>[]),
                             )
                           : Container(),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "game modes",
                         value: getNamesString(
                             snapshot.data!.game_modes ?? <FieldWithName>[]),
                       ),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "part of the series",
                         value: snapshot.data!.collection?.name ?? "",
                       ),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "from the franchise",
                         value: getNamesString(
                             snapshot.data!.franchises ?? <FieldWithName>[]),
                       ),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "companies",
                         value: getCompaniesNamesString(
                             snapshot.data!.involved_companies ??
                                 <InvolvedCompany>[]),
                       ),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "available on",
                         value: getNamesString(
                             snapshot.data!.platforms ?? <FieldWithName>[]),
                       ),
-                      DetailsItemIfExists(
+                      SingleDetailsLineIfExists(
                         item: "part of the main game",
                         value: snapshot.data!.parent_game?.name ?? "",
                       ),

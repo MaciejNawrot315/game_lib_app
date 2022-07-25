@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class DetailsItemIfExists extends StatelessWidget {
-  const DetailsItemIfExists({Key? key, required this.item, required this.value})
+class SingleDetailsLineIfExists extends StatelessWidget {
+  const SingleDetailsLineIfExists(
+      {Key? key, required this.item, required this.value})
       : super(key: key);
   final String item, value;
   @override
