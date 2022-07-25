@@ -3,8 +3,15 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:game_lib_app/resource_manager.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
+<<<<<<< HEAD:lib/results_grid/results_grid.dart
 import 'package:game_lib_app/constants.dart';
 import 'results_grid_game_tile.dart';
+=======
+import 'home_page_game_tile.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+>>>>>>> dev:lib/home_page/home_page.dart
 
 class ResultsGrid extends StatefulWidget {
   const ResultsGrid({Key? key, this.whereFilters = ''}) : super(key: key);

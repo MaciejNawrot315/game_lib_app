@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'collection.dart';
 
 import 'field_with_name.dart';
-//TODO delete unused files+Company!
+
 part 'game.g.dart';
 
 enum StatusEnum {

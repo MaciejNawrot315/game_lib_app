@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
 import 'package:game_lib_app/resource_manager.dart';
 
@@ -19,6 +17,15 @@ class _SearchingViewState extends State<SearchingView> {
         listLength = length;
       },
     );
+  }
+
+  void checkIfEmpty(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        listLength = 0;
+        resMan.searchResponses = [];
+      });
+    }
   }
 
   late FocusNode focusNode = FocusNode();
@@ -52,6 +59,7 @@ class _SearchingViewState extends State<SearchingView> {
                               const Icon(Icons.search_rounded),
                               Flexible(
                                   child: TextField(
+                                onChanged: (value) => checkIfEmpty(value),
                                 focusNode: focusNode,
                                 autofocus: true,
                                 controller: editingController,
@@ -65,7 +73,13 @@ class _SearchingViewState extends State<SearchingView> {
                               )),
                               IconButton(
                                   padding: EdgeInsets.zero,
-                                  onPressed: () => editingController.clear(),
+                                  onPressed: () {
+                                    editingController.clear();
+                                    setState(() {
+                                      listLength = 0;
+                                      resMan.searchResponses = [];
+                                    });
+                                  },
                                   icon: const Icon(Icons.cancel))
                             ],
                           ),
@@ -78,7 +92,7 @@ class _SearchingViewState extends State<SearchingView> {
                   padding: const EdgeInsets.only(right: 13.0),
                   child: GestureDetector(
                       onTap: (() => Navigator.pop(context)),
-                      child: Center(child: Text("Cancel"))),
+                      child: const Center(child: Text("Cancel"))),
                 ),
               ],
             ),
@@ -101,7 +115,7 @@ class _SearchingViewState extends State<SearchingView> {
           ),
           title: Text(
             resMan.searchResponses[index].name ?? "",
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
             overflow: TextOverflow.clip,
           ),
           onTap: () => Navigator.push(
