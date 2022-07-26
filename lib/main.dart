@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:game_lib_app/locale_string.dart';
 import 'package:game_lib_app/main/my_destination.dart';
 import 'package:game_lib_app/results_grid/results_grid.dart';
 import 'package:game_lib_app/search_page/search_page.dart';
 import 'package:game_lib_app/services/network_service.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +14,14 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Game Library',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[900],
         primarySwatch: Colors.purple,
       ),
+      locale: const Locale('en', 'US'),
+      translations: LocaleString(),
       home: const MainView(),
     );
   }
@@ -39,18 +43,18 @@ class _MainViewState extends State<MainView> {
     MyDestination(
       body: const ResultsGrid(),
       icon: const Icon(Icons.home),
-      label: "Home",
+      label: 'home',
     ),
     MyDestination(
       body: const SearchPage(),
       icon: const Icon(Icons.search),
-      label: "Search",
+      label: "search",
     ),
     MyDestination(
         body: Center(
           child: Container(color: Colors.red),
         ),
-        label: "Library",
+        label: "library",
         icon: const Icon(Icons.library_books))
   ];
   void _onDestinationSelected(int index) {
@@ -70,6 +74,11 @@ class _MainViewState extends State<MainView> {
   }
 
   void changeLanguage(bool value) {
+    if (Get.locale == const Locale('pl', 'PL')) {
+      Get.updateLocale(const Locale('en', 'US'));
+    } else {
+      Get.updateLocale(const Locale('pl', 'PL'));
+    }
     if (mounted) {
       setState(() {
         _switchValue = value;
@@ -98,7 +107,7 @@ class _MainViewState extends State<MainView> {
             endDrawer: Drawer(
               child: ListView(
                 children: [
-                  const Text("Settings"),
+                  Text("settings".tr),
                   Row(
                     children: [
                       const Text("EN"),
@@ -113,7 +122,7 @@ class _MainViewState extends State<MainView> {
             bottomNavigationBar: BottomNavigationBar(
               items: destinations
                   .map((e) =>
-                      BottomNavigationBarItem(icon: e.icon, label: e.label))
+                      BottomNavigationBarItem(icon: e.icon, label: e.label.tr))
                   .toList(),
               currentIndex: _selectedIndex,
               onTap: _onDestinationSelected,

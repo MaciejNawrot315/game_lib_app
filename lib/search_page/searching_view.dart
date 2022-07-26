@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/search_page/search_response/search_response.dart';
+import 'package:get/utils.dart';
 
 class SearchingView extends StatefulWidget {
   const SearchingView({
@@ -19,7 +20,9 @@ class _SearchingViewState extends State<SearchingView> {
     loadedResponses = await IgdbRepository.searchForPhrases(text);
     if (mounted) {
       setState(
-        () {},
+        () {
+          listLength = loadedResponses.length;
+        },
       );
     }
   }
@@ -70,10 +73,10 @@ class _SearchingViewState extends State<SearchingView> {
                                 controller: editingController,
                                 autocorrect: false,
                                 onSubmitted: (text) => searchInAPI(text),
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                     contentPadding:
-                                        EdgeInsets.only(bottom: 13.0),
-                                    hintText: "Search",
+                                        const EdgeInsets.only(bottom: 13.0),
+                                    hintText: "search".tr,
                                     border: InputBorder.none),
                               )),
                               IconButton(
@@ -99,7 +102,7 @@ class _SearchingViewState extends State<SearchingView> {
                   padding: const EdgeInsets.only(right: 13.0),
                   child: GestureDetector(
                       onTap: (() => Navigator.pop(context)),
-                      child: const Center(child: Text("Cancel"))),
+                      child: Center(child: Text("cancel".tr))),
                 ),
               ],
             ),

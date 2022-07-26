@@ -6,6 +6,8 @@ import 'package:game_lib_app/search_page/genres_grid_page.dart';
 import 'package:game_lib_app/search_page/searching_view.dart';
 import 'dart:math' as math;
 
+import 'package:get/utils.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({
     Key? key,
@@ -62,9 +64,9 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.search_rounded),
-                        Text("Search for your favourite games"),
+                      children: [
+                        const Icon(Icons.search_rounded),
+                        Text("search_for".tr),
                       ],
                     )),
               ),

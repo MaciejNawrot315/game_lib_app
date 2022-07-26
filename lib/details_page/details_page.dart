@@ -5,6 +5,7 @@ import 'package:game_lib_app/game/game.dart';
 import 'package:game_lib_app/game/involved_company.dart';
 import 'package:game_lib_app/game/field_with_name.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
+import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 
 import 'single_details_item.dart';
@@ -75,11 +76,11 @@ class _DetailsPageState extends State<DetailsPage> {
                         name: game.name!,
                         rating: game.rating,
                         ratingCount: game.rating_count),
-                    const Align(
+                    Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text("Summary:"),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("${'summary'.tr}:"),
                         )),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -87,22 +88,22 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     const Divider(),
                     SingleDetailsLineIfExists(
-                      item: "release date",
+                      item: 'release_date'.tr,
                       value: dateFormat.format(
                           DateTime.fromMillisecondsSinceEpoch(
                               (game.first_release_date ?? 0) * 1000)),
                     ),
                     SingleDetailsLineIfExists(
-                      item: "genres",
+                      item: 'genres'.tr,
                       value: getNamesString(game.genres ?? <FieldWithName>[]),
                     ),
                     SingleDetailsLineIfExists(
-                      item: "game modes",
+                      item: 'game_modes'.tr,
                       value:
                           getNamesString(game.game_modes ?? <FieldWithName>[]),
                     ),
                     SingleDetailsLineIfExists(
-                      item: "part of the series",
+                      item: "part_of".tr,
                       value: game.collection?.name ?? "",
                     ),
                     SingleDetailsLineIfExists(
@@ -111,22 +112,22 @@ class _DetailsPageState extends State<DetailsPage> {
                           getNamesString(game.franchises ?? <FieldWithName>[]),
                     ),
                     SingleDetailsLineIfExists(
-                      item: "companies",
+                      item: "companies".tr,
                       value: getCompaniesNamesString(
                           game.involved_companies ?? <InvolvedCompany>[]),
                     ),
                     SingleDetailsLineIfExists(
-                      item: "available on",
+                      item: "available_on".tr,
                       value:
                           getNamesString(game.platforms ?? <FieldWithName>[]),
                     ),
                     SingleDetailsLineIfExists(
-                      item: "part of the main game",
+                      item: "main_game".tr,
                       value: game.parent_game?.name ?? "",
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 30, 0, 0),
-                      child: Text("ingame screenshots:",
+                      child: Text("${"screenshots".tr}:",
                           style:
                               TextStyle(color: Colors.grey[700], fontSize: 12)),
                     ),
