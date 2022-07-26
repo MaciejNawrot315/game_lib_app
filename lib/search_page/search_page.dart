@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:game_lib_app/game/genre.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
 
-import 'package:game_lib_app/resource_manager.dart';
 import 'package:game_lib_app/search_page/genres_grid_page.dart';
 import 'package:game_lib_app/search_page/searching_view.dart';
 import 'dart:math' as math;
@@ -15,14 +16,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  ResourceManager resMan = ResourceManager();
   int listLength = 0;
+  List<Genre> loadedGenres = [];
   Future<void> loadGenres() async {
-    int length = await resMan.loadGenres(listLength);
-
-    setState(() {
-      listLength += length;
-    });
+    loadedGenres = await IgdbRepository.fetchGenres(listLength);
+    if (mounted) {
+      setState(() {
+        listLength = loadedGenres.length;
+      });
+    }
   }
 
   @override
@@ -86,7 +88,7 @@ class _SearchPageState extends State<SearchPage> {
                           MaterialPageRoute(
                             builder: (context) => GenresGridPage(
                               whereFilters:
-                                  "&genres = ${resMan.genresLoaded[index].id}",
+                                  "&genres = ${loadedGenres[index].id}",
                             ),
                           ),
                         ),
@@ -96,7 +98,7 @@ class _SearchPageState extends State<SearchPage> {
                               .withOpacity(1.0),
                           child: Center(
                               child: Text(
-                            resMan.genresLoaded[index].name ?? "",
+                            loadedGenres[index].name ?? "",
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,

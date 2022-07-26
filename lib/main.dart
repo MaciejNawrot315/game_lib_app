@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_lib_app/main/my_destination.dart';
 import 'package:game_lib_app/results_grid/results_grid.dart';
 import 'package:game_lib_app/search_page/search_page.dart';
+import 'package:game_lib_app/services/network_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+NetworkService networkService = NetworkService();
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -51,9 +54,11 @@ class _MainViewState extends State<MainView> {
         icon: const Icon(Icons.library_books))
   ];
   void _onDestinationSelected(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (mounted) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   NavigationRailDestination _getRailDestination(
@@ -65,9 +70,11 @@ class _MainViewState extends State<MainView> {
   }
 
   void changeLanguage(bool value) {
-    setState(() {
-      _switchValue = value;
-    });
+    if (mounted) {
+      setState(() {
+        _switchValue = value;
+      });
+    }
   }
 
   @override
