@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
-import 'package:game_lib_app/resource_manager.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/search_page/search_response/search_response.dart';
 
 class SearchingView extends StatefulWidget {
@@ -13,24 +13,24 @@ class SearchingView extends StatefulWidget {
 }
 
 class _SearchingViewState extends State<SearchingView> {
+  List<SearchResponse> loadedResponses = [];
+
   Future<void> searchInAPI(String text) async {
-    int length = await resMan.searchForPhrases(text);
+    loadedResponses = await IgdbRepository.searchForPhrases(text);
     if (mounted) {
       setState(
-        () {
-          listLength = length;
-        },
+        () {},
       );
     }
   }
 
   void checkIfEmpty(String value) {
     if (value.isEmpty) {
-      if (mounted)
+      if (mounted) {
         setState(() {
-          listLength = 0;
-          resMan.searchResponses = [];
+          loadedResponses = [];
         });
+      }
     }
   }
 
@@ -38,7 +38,6 @@ class _SearchingViewState extends State<SearchingView> {
 
   TextEditingController editingController = TextEditingController();
   int listLength = 0;
-  ResourceManager resMan = ResourceManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +83,7 @@ class _SearchingViewState extends State<SearchingView> {
                                     if (mounted) {
                                       setState(() {
                                         listLength = 0;
-                                        resMan.searchResponses = [];
+                                        loadedResponses = [];
                                       });
                                     }
                                   },
@@ -110,17 +109,17 @@ class _SearchingViewState extends State<SearchingView> {
       body: ListView.builder(
           itemCount: listLength,
           itemBuilder: (context, index) {
-            SearchResponse resp = resMan.searchResponses[index];
+            SearchResponse resp = loadedResponses[index];
             return ListTile(
               leading: SizedBox(
                 width: 45,
                 child: resp.game?.cover?.url != null
                     ? Image.network(
-                        ResourceManager.getPictureWithResolution(
+                        IgdbRepository.getPictureWithResolution(
                             resp.game!.cover!.url, 'thumb'),
                         fit: BoxFit.fitWidth,
                       )
-                    : Container(),
+                    : const SizedBox(),
               ),
               title: Text(
                 resp.name ?? "",
@@ -131,7 +130,7 @@ class _SearchingViewState extends State<SearchingView> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          DetailsPage(gameID: resp.game!.id, resMan: resMan))),
+                          DetailsPage(gameID: resp.game!.id))),
             );
           }),
     );

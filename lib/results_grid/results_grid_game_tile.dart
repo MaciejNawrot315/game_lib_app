@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
-import 'package:game_lib_app/resource_manager.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
 
 import 'package:game_lib_app/game/game.dart';
 
 class ResultsGameTile extends StatelessWidget {
   final int index;
-  final ResourceManager resourceManager;
-  late final Game game;
 
-  ResultsGameTile({
+  final Game game;
+
+  const ResultsGameTile({
     Key? key,
     required this.index,
-    required this.resourceManager,
-  })  : game = resourceManager.resaultsGamesLoaded[index],
-        super(key: key);
+    required this.game,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Image image = Image.network(
-      ResourceManager.getPictureWithResolution(game.cover!.url, '720p'),
+      IgdbRepository.getPictureWithResolution(game.cover!.url, '720p'),
       fit: BoxFit.fitWidth,
     );
     return SizedBox(
@@ -42,7 +41,8 @@ class ResultsGameTile extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPage(
-                            gameID: game.id, resMan: resourceManager),
+                          gameID: game.id,
+                        ),
                       ),
                     );
                   },

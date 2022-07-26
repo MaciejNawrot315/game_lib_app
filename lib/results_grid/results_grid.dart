@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:game_lib_app/resource_manager.dart';
+import 'package:game_lib_app/game/game.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
+
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import 'results_grid_game_tile.dart';
@@ -17,9 +19,9 @@ class ResultsGrid extends StatefulWidget {
 }
 
 class _ResultsGridState extends State<ResultsGrid> {
-  ResourceManager resMan = ResourceManager();
   bool gamesLoading = false;
   int count = 0;
+  List<Game> loadedGames = [];
   Future<void> loadMoreGames() async {
     if (mounted) {
       setState(() {
@@ -27,8 +29,9 @@ class _ResultsGridState extends State<ResultsGrid> {
       });
     }
 
-    await resMan.loadMoreGames(count, widget.whereFilters);
-    count = resMan.resaultsGamesLoaded.length;
+    loadedGames +=
+        await IgdbRepository.fetchGamePosters(widget.whereFilters, count);
+    count = loadedGames.length;
     if (mounted) {
       setState(() {
         gamesLoading = false;
@@ -61,7 +64,7 @@ class _ResultsGridState extends State<ResultsGrid> {
               }
               return ResultsGameTile(
                 index: index,
-                resourceManager: resMan,
+                game: loadedGames[index],
               );
             }),
       ),
