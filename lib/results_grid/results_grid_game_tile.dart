@@ -101,7 +101,7 @@ class ResultsGameTile extends StatelessWidget {
                                       color: Colors.yellow,
                                     ),
                                   ),
-                                  Text((game.rating ?? 0.0 / 20.0)
+                                  Text(((game.rating ?? 0.0) / 20.0)
                                       .toStringAsPrecision(3))
                                 ],
                               )
