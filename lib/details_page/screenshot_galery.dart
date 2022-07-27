@@ -21,17 +21,12 @@ class ScreenshotGalery extends StatelessWidget {
             child: GestureDetector(
               onTap: () => showDialog(
                 context: context,
-                builder: (BuildContext context) => Dismissible(
-                  direction: DismissDirection.down,
-                  key: const Key('key'),
-                  onDismissed: (_) => Navigator.of(context).pop(),
-                  child: Dialog(
-                    insetPadding: EdgeInsets.zero,
-                    child: Image.network(
-                        IgdbRepository.getPictureWithResolution(
-                            screenshots![index].url!, '720p'),
-                        fit: BoxFit.cover),
-                  ),
+                builder: (BuildContext context) => Dialog(
+                  insetPadding: EdgeInsets.zero,
+                  child: Image.network(
+                      IgdbRepository.getPictureWithResolution(
+                          screenshots![index].url!, '720p'),
+                      fit: BoxFit.cover),
                 ),
               ),
               child: ClipRRect(

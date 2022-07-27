@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/game/genre.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 
@@ -55,7 +57,10 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () => Navigator.push(
                           context,
                           PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => const SearchingView(),
+                            pageBuilder: (_, __, ___) => BlocProvider.value(
+                              value: context.read<FavGamesCubit>(),
+                              child: const SearchingView(),
+                            ),
                             transitionsBuilder: (_, anim, __, child) =>
                                 FadeTransition(opacity: anim, child: child),
                             transitionDuration:
@@ -88,9 +93,12 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => GenresGridPage(
-                              whereFilters:
-                                  "&genres = ${loadedGenres[index].id}",
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<FavGamesCubit>(),
+                              child: GenresGridPage(
+                                whereFilters:
+                                    "&genres = ${loadedGenres[index].id}",
+                              ),
                             ),
                           ),
                         ),

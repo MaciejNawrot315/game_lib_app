@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/details_page/details_image.dart';
+
 import 'package:game_lib_app/details_page/screenshot_galery.dart';
 import 'package:game_lib_app/game/game.dart';
 import 'package:game_lib_app/game/involved_company.dart';
 import 'package:game_lib_app/game/field_with_name.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
+import 'package:game_lib_app/widgets/favourite_game_dialog.dart';
 import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +56,14 @@ class _DetailsPageState extends State<DetailsPage> {
     return IgdbRepository.fetchGame(widget.gameID);
   }
 
-  void openScreenchot() {}
+  bool isFavourite(BuildContext context, int id) {
+    for (Game favGame in context.read<FavGamesCubit>().state.list) {
+      if (favGame.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +87,54 @@ class _DetailsPageState extends State<DetailsPage> {
                         name: game.name!,
                         rating: game.rating,
                         ratingCount: game.rating_count),
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("${'summary'.tr}:"),
-                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text("${'summary'.tr}:"),
+                          ),
+                          BlocBuilder<FavGamesCubit, FavGamesState>(
+                            builder: (context, state) {
+                              return GestureDetector(
+                                onLongPress: () => showDialog(
+                                  context: context,
+                                  builder: (_) => BlocProvider.value(
+                                    value: context.read<FavGamesCubit>(),
+                                    child: FavDialog(
+                                      game: game,
+                                    ),
+                                  ),
+                                ),
+                                child: isFavourite(context, game.id)
+                                    ? IconButton(
+                                        onPressed: () {
+                                          context
+                                              .read<FavGamesCubit>()
+                                              .removeGame(game.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite_rounded,
+                                          color: Colors.pink,
+                                        ))
+                                    : IconButton(
+                                        onPressed: () {
+                                          context
+                                              .read<FavGamesCubit>()
+                                              .addGame(game);
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite_border_rounded,
+                                        ),
+                                      ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(game.summary ?? ""),
