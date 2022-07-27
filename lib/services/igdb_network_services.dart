@@ -13,7 +13,7 @@ class IGDBNetworkService {
 
   static Future<Response> searchForPhrases(String phrase, int offset) async {
     Response response = await networkService.post('v4/search',
-        "fields *, game.cover.url, game.rating ;search \"$phrase\";where game.cover.url!=null;limit 30;offset $offset;");
+        "fields *, game.cover.url, game.rating, game.name;search \"$phrase\";where game.cover.url!=null;limit 30;offset $offset;");
 
     return response;
   }

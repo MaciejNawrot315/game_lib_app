@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 
 import 'package:game_lib_app/game/game.dart';
+import 'package:game_lib_app/widgets/favourite_game_dialog.dart';
 
 class ResultsGameTile extends StatelessWidget {
   final int index;
@@ -40,12 +43,24 @@ class ResultsGameTile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailsPage(
-                          gameID: game.id,
+                        builder: (_) => BlocProvider.value(
+                          value: context.read<FavGamesCubit>(),
+                          child: DetailsPage(
+                            gameID: game.id,
+                          ),
                         ),
                       ),
                     );
                   },
+                  onLongPress: () => showDialog(
+                    context: context,
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<FavGamesCubit>(),
+                      child: FavDialog(
+                        game: game,
+                      ),
+                    ),
+                  ),
                 ),
                 Positioned(
                   bottom: 0,
