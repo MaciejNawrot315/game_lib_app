@@ -18,15 +18,12 @@ class IgdbRepository {
     }
   }
 
-  static Future<List<SearchResponse>> searchForPhrases(String phrase) async {
-    try {
-      Response response = await IGDBNetworkService.searchForPhrases(phrase);
-      return List<SearchResponse>.from(
-          response.data.map((response) => SearchResponse.fromJson(response)));
-    } catch (e) {
-      print(e);
-      return [];
-    }
+  static Future<List<SearchResponse>> searchForPhrases(
+      String phrase, int offset) async {
+    Response response =
+        await IGDBNetworkService.searchForPhrases(phrase, offset);
+    return List<SearchResponse>.from(
+        response.data.map((response) => SearchResponse.fromJson(response)));
   }
 
   static Future<Game> fetchGame(int id) async {

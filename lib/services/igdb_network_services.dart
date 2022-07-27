@@ -11,9 +11,9 @@ class IGDBNetworkService {
     return response;
   }
 
-  static Future<Response> searchForPhrases(String phrase) async {
+  static Future<Response> searchForPhrases(String phrase, int offset) async {
     Response response = await networkService.post('v4/search',
-        "fields *, game.cover.url, game.rating ;search \"$phrase\";where game.cover.url!=null;limit: 30;");
+        "fields *, game.cover.url, game.rating ;search \"$phrase\";where game.cover.url!=null;limit 30;offset $offset;");
 
     return response;
   }
