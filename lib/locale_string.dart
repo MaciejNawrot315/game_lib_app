@@ -20,6 +20,10 @@ class LocaleString extends Translations {
           'search_for': "Search for your favourite games",
           'cancel': "Cancel",
           'settings': "Settings",
+          'all': "All",
+          'played': "Played",
+          'wishlist': "Wishlist",
+          'search_more': "Display more results",
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -38,6 +42,10 @@ class LocaleString extends Translations {
           'search_for': "Znajdź swoje ulubione gry",
           'cancel': "Anuluj",
           'settings': "Ustawienia",
+          'all': "Wszystkie",
+          'played': "Zagrane",
+          'wishlist': "Do zagrania",
+          'search_more': "Wyświetl więcej wyników",
         }
       };
 }

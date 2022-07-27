@@ -14,10 +14,12 @@ class SearchingView extends StatefulWidget {
 }
 
 class _SearchingViewState extends State<SearchingView> {
+  bool isFetching = false;
   List<SearchResponse> loadedResponses = [];
-
-  Future<void> searchInAPI(String text) async {
-    loadedResponses = await IgdbRepository.searchForPhrases(text);
+//TODO cant click mutliple times
+  Future<void> searchInAPI(String text, int offset) async {
+    isFetching = true;
+    loadedResponses.addAll(await IgdbRepository.searchForPhrases(text, offset));
     if (mounted) {
       setState(
         () {
@@ -25,6 +27,7 @@ class _SearchingViewState extends State<SearchingView> {
         },
       );
     }
+    isFetching = false;
   }
 
   void checkIfEmpty(String value) {
@@ -32,6 +35,7 @@ class _SearchingViewState extends State<SearchingView> {
       if (mounted) {
         setState(() {
           loadedResponses = [];
+          listLength = 0;
         });
       }
     }
@@ -41,6 +45,7 @@ class _SearchingViewState extends State<SearchingView> {
 
   TextEditingController editingController = TextEditingController();
   int listLength = 0;
+  String searchText = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +77,14 @@ class _SearchingViewState extends State<SearchingView> {
                                 autofocus: true,
                                 controller: editingController,
                                 autocorrect: false,
-                                onSubmitted: (text) => searchInAPI(text),
+                                onSubmitted: (text) => isFetching
+                                    ? {
+                                        searchText = text,
+                                        loadedResponses = [],
+                                        listLength = 0,
+                                        searchInAPI(text, 0)
+                                      }
+                                    : null,
                                 decoration: InputDecoration(
                                     contentPadding:
                                         const EdgeInsets.only(bottom: 13.0),
@@ -110,8 +122,17 @@ class _SearchingViewState extends State<SearchingView> {
         ],
       ),
       body: ListView.builder(
-          itemCount: listLength,
+          itemCount: listLength + 1,
           itemBuilder: (context, index) {
+            if (index == listLength) {
+              if (index > 0) {
+                return TextButton(
+                    onPressed: () =>
+                        isFetching ? searchInAPI(searchText, listLength) : null,
+                    child: Text('search_more'.tr));
+              }
+              return const SizedBox();
+            }
             SearchResponse resp = loadedResponses[index];
             return ListTile(
               leading: SizedBox(

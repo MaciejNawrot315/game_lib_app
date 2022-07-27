@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:game_lib_app/library/all_library_page.dart';
+import 'package:game_lib_app/library/played_library_page.dart';
+import 'package:game_lib_app/library/wishlist_library_page.dart';
 import 'package:game_lib_app/locale_string.dart';
-import 'package:game_lib_app/main/my_destination.dart';
+import 'package:game_lib_app/my_destination.dart';
 import 'package:game_lib_app/results_grid/results_grid.dart';
 import 'package:game_lib_app/search_page/search_page.dart';
 import 'package:game_lib_app/services/network_service.dart';
@@ -19,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[900],
         primarySwatch: Colors.purple,
+        primaryColor: Colors.purple[600],
       ),
       locale: const Locale('en', 'US'),
       translations: LocaleString(),
@@ -51,8 +55,9 @@ class _MainViewState extends State<MainView> {
       label: "search",
     ),
     MyDestination(
-        body: Center(
-          child: Container(color: Colors.red),
+        body: const Center(
+          child: TabBarView(
+              children: [LibraryAll(), LibraryPlayed(), LibraryWishlist()]),
         ),
         label: "library",
         icon: const Icon(Icons.library_books))
@@ -91,42 +96,66 @@ class _MainViewState extends State<MainView> {
     bool smallScreen = MediaQuery.of(context).size.width <= 640;
     double paddingBetweenNavigationRail =
         (MediaQuery.of(context).size.height / 6) - 40;
+    TabBar tabBar = TabBar(
+      indicatorColor: Theme.of(context).primaryColor,
+      tabs: [
+        Tab(text: 'all'.tr),
+        Tab(text: 'played'.tr),
+        Tab(text: 'wishlist'.tr),
+      ],
+    );
     return smallScreen
-        ? Scaffold(
-            appBar: AppBar(actions: [
-              Builder(builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  ),
-                );
-              }),
-            ]),
-            endDrawer: Drawer(
-              child: ListView(
-                children: [
-                  Text("settings".tr),
-                  Row(
+        ? DefaultTabController(
+            length: 3,
+            child: Scaffold(
+                appBar: AppBar(
+                  actions: [
+                    Builder(builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: IconButton(
+                          icon: const Icon(Icons.settings),
+                          onPressed: () => Scaffold.of(context).openEndDrawer(),
+                        ),
+                      );
+                    }),
+                  ],
+                  //preffered size is here so that I can change the color of the tabBar
+                  bottom: (_selectedIndex == 2)
+                      ? PreferredSize(
+                          preferredSize: tabBar.preferredSize,
+                          child: ColoredBox(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: tabBar,
+                          ),
+                        )
+                      : null,
+                ),
+                endDrawer: Drawer(
+                  child: ListView(
                     children: [
-                      const Text("EN"),
-                      Switch(value: _switchValue, onChanged: changeLanguage),
-                      const Text("PL")
+                      Text("settings".tr),
+                      Row(
+                        children: [
+                          const Text("EN"),
+                          Switch(
+                              value: _switchValue, onChanged: changeLanguage),
+                          const Text("PL")
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            body: destinations.elementAt(_selectedIndex).body,
-            bottomNavigationBar: BottomNavigationBar(
-              items: destinations
-                  .map((e) =>
-                      BottomNavigationBarItem(icon: e.icon, label: e.label.tr))
-                  .toList(),
-              currentIndex: _selectedIndex,
-              onTap: _onDestinationSelected,
-            ))
+                ),
+                body: destinations.elementAt(_selectedIndex).body,
+                bottomNavigationBar: BottomNavigationBar(
+                  items: destinations
+                      .map((e) => BottomNavigationBarItem(
+                          icon: e.icon, label: e.label.tr))
+                      .toList(),
+                  currentIndex: _selectedIndex,
+                  onTap: _onDestinationSelected,
+                )),
+          )
         : Scaffold(
             body: Row(
             children: [
