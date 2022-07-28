@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-
-import 'package:game_lib_app/resource_manager.dart';
-import 'package:game_lib_app/search_page/genres_grid_page.dart';
-import 'package:game_lib_app/search_page/searching_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/cubit/fav_games_cubit.dart';
+import 'package:game_lib_app/cubit/played_games_cubit.dart';
+import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/models/game/genre.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
+import 'package:game_lib_app/views/search_page/genres_grid_page.dart';
+import 'package:game_lib_app/views/search_page/searching_view.dart';
 import 'dart:math' as math;
+
+import 'package:get/utils.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({
@@ -15,14 +21,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  ResourceManager resMan = ResourceManager();
   int listLength = 0;
+  List<Genre> loadedGenres = [];
   Future<void> loadGenres() async {
-    int length = await resMan.loadGenres(listLength);
-
-    setState(() {
-      listLength += length;
-    });
+    loadedGenres = await IgdbRepository.fetchGenres(listLength);
+    if (mounted) {
+      setState(() {
+        listLength = loadedGenres.length;
+      });
+    }
   }
 
   @override
@@ -51,7 +58,16 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () => Navigator.push(
                           context,
                           PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => const SearchingView(),
+                            pageBuilder: (_, __, ___) => BlocProvider.value(
+                              value: context.read<FavGamesCubit>(),
+                              child: BlocProvider.value(
+                                value: context.read<PlayedGamesCubit>(),
+                                child: BlocProvider.value(
+                                  value: context.read<WishlistGamesCubit>(),
+                                  child: const SearchingView(),
+                                ),
+                              ),
+                            ),
                             transitionsBuilder: (_, anim, __, child) =>
                                 FadeTransition(opacity: anim, child: child),
                             transitionDuration:
@@ -60,9 +76,9 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.search_rounded),
-                        Text("Search for your favourite games"),
+                      children: [
+                        const Icon(Icons.search_rounded),
+                        Text("search_for".tr),
                       ],
                     )),
               ),
@@ -84,9 +100,18 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => GenresGridPage(
-                              whereFilters:
-                                  "&genres = ${resMan.genresLoaded[index].id}",
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<FavGamesCubit>(),
+                              child: BlocProvider.value(
+                                value: context.read<PlayedGamesCubit>(),
+                                child: BlocProvider.value(
+                                  value: context.read<WishlistGamesCubit>(),
+                                  child: GenresGridPage(
+                                    whereFilters:
+                                        "&genres = ${loadedGenres[index].id}",
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -96,7 +121,7 @@ class _SearchPageState extends State<SearchPage> {
                               .withOpacity(1.0),
                           child: Center(
                               child: Text(
-                            resMan.genresLoaded[index].name ?? "",
+                            loadedGenres[index].name ?? "",
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,
