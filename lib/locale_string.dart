@@ -36,6 +36,7 @@ class LocaleString extends Translations {
           'played_added': 'Added Game to the \'played\' library',
           'fav_removed': 'Removed Game from the favourites',
           'fav_added': 'Added Game to the favourites',
+          'no_more_results': 'no more results :('
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -70,6 +71,7 @@ class LocaleString extends Translations {
           'played_added': 'Gra została dodana do \'Zagranych\'',
           'fav_added': 'Gra została dodana do Ulubionych',
           'fav_removed': 'Gra została usunięta z Ulubionych',
+          'no_more_results': 'brak dalszych wyników :('
         }
       };
 }
