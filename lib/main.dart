@@ -4,8 +4,8 @@ import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/cubit/played_games_cubit.dart';
 import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
 import 'package:game_lib_app/locale_string.dart';
-import 'package:game_lib_app/main_view/main_view.dart';
 import 'package:game_lib_app/services/network_service.dart';
+import 'package:game_lib_app/views/main_view/main_view.dart';
 import 'package:get/get.dart';
 
 void main() {

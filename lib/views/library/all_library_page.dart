@@ -4,10 +4,11 @@ import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/cubit/list_state.dart';
 import 'package:game_lib_app/cubit/played_games_cubit.dart';
 import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
-import 'package:game_lib_app/details_page/details_page.dart';
-import 'package:game_lib_app/game/game.dart';
+
+import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
-import 'package:game_lib_app/widgets/favourite_game_dialog.dart';
+import 'package:game_lib_app/views/details_page/details_page.dart';
+import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
 
 class LibraryAll extends StatelessWidget {
   int count = 0;
@@ -48,7 +49,6 @@ class LibraryAll extends StatelessWidget {
           return Container(color: Colors.red);
         }
     }
-    return Container(color: Colors.red);
   }
 
   ListView myListView(ListState state) {

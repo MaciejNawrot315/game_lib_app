@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:game_lib_app/cubit/list_state.dart';
-import 'package:game_lib_app/game/game.dart';
+import 'package:game_lib_app/models/game/game.dart';
 
 part 'wishlist_games_state.dart';
 

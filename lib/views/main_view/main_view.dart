@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:game_lib_app/library/all_library_page.dart';
+import 'package:game_lib_app/views/library/all_library_page.dart';
+import 'package:game_lib_app/views/main_view/my_destination.dart';
+import 'package:game_lib_app/views/results_grid/results_grid.dart';
+import 'package:game_lib_app/views/search_page/search_page.dart';
 
-import 'package:game_lib_app/main_view/my_destination.dart';
-import 'package:game_lib_app/results_grid/results_grid.dart';
-import 'package:game_lib_app/search_page/search_page.dart';
 import 'package:get/get.dart';
 
 class MainView extends StatefulWidget {

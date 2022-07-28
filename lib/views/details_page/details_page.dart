@@ -3,14 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/cubit/played_games_cubit.dart';
 import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
-import 'package:game_lib_app/details_page/details_image.dart';
-
-import 'package:game_lib_app/details_page/screenshot_galery.dart';
-import 'package:game_lib_app/game/game.dart';
-import 'package:game_lib_app/game/involved_company.dart';
-import 'package:game_lib_app/game/field_with_name.dart';
+import 'package:game_lib_app/models/game/field_with_name.dart';
+import 'package:game_lib_app/models/game/game.dart';
+import 'package:game_lib_app/models/game/involved_company.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
-import 'package:game_lib_app/widgets/favourite_game_dialog.dart';
+import 'package:game_lib_app/views/details_page/details_image.dart';
+import 'package:game_lib_app/views/details_page/fav_button.dart';
+import 'package:game_lib_app/views/details_page/played_button.dart';
+import 'package:game_lib_app/views/details_page/screenshot_galery.dart';
+import 'package:game_lib_app/views/details_page/wishlist_button.dart';
+import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
 import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 
@@ -58,33 +60,6 @@ class _DetailsPageState extends State<DetailsPage> {
     return IgdbRepository.fetchGame(widget.gameID);
   }
 
-  bool isFavourite(BuildContext context, int id) {
-    for (Game favGame in context.read<FavGamesCubit>().state.list) {
-      if (favGame.id == id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  bool isInPlayed(BuildContext context, int id) {
-    for (Game playedGame in context.read<PlayedGamesCubit>().state.list) {
-      if (playedGame.id == id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  bool isInWishlist(BuildContext context, int id) {
-    for (Game wishlistGame in context.read<WishlistGamesCubit>().state.list) {
-      if (wishlistGame.id == id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,54 +91,13 @@ class _DetailsPageState extends State<DetailsPage> {
                             alignment: Alignment.topLeft,
                             child: Text("${'summary'.tr}:"),
                           ),
-                          Builder(
-                            builder: (context) {
-                              final stateFav =
-                                  context.watch<FavGamesCubit>().state;
-                              final statePlayed =
-                                  context.watch<PlayedGamesCubit>().state;
-                              final stateWishlist =
-                                  context.watch<WishlistGamesCubit>().state;
-                              return GestureDetector(
-                                onLongPress: () => showDialog(
-                                  context: context,
-                                  builder: (_) => BlocProvider.value(
-                                    value: context.read<FavGamesCubit>(),
-                                    child: BlocProvider.value(
-                                      value: context.read<PlayedGamesCubit>(),
-                                      child: BlocProvider.value(
-                                        value:
-                                            context.read<WishlistGamesCubit>(),
-                                        child: FavDialog(
-                                          game: game,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                child: isFavourite(context, game.id)
-                                    ? IconButton(
-                                        onPressed: () {
-                                          context
-                                              .read<FavGamesCubit>()
-                                              .removeGame(game.id);
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite_rounded,
-                                          color: Colors.pink,
-                                        ))
-                                    : IconButton(
-                                        onPressed: () {
-                                          context
-                                              .read<FavGamesCubit>()
-                                              .addGame(game);
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite_border_rounded,
-                                        ),
-                                      ),
-                              );
-                            },
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FavButton(game: game),
+                              PlayedButton(game: game),
+                              WishlistButton(game: game)
+                            ],
                           ),
                         ],
                       ),

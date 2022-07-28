@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:game_lib_app/results_grid/results_grid.dart';
+import 'package:game_lib_app/views/results_grid/results_grid.dart';
 
 class GenresGridPage extends StatefulWidget {
   final String whereFilters;

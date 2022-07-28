@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/cubit/played_games_cubit.dart';
 import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
-import 'package:game_lib_app/details_page/details_page.dart';
+import 'package:game_lib_app/models/search_response/search_response.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
-import 'package:game_lib_app/search_page/search_response/search_response.dart';
-import 'package:game_lib_app/widgets/favourite_game_dialog.dart';
+import 'package:game_lib_app/views/details_page/details_page.dart';
+import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
 import 'package:get/utils.dart';
 
 class SearchingView extends StatefulWidget {

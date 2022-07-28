@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:game_lib_app/game/game.dart';
+
+import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
