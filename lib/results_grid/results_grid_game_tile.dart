@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/fav_games_cubit.dart';
-import 'package:game_lib_app/cubit/played_games_cubit.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/details_page/details_page.dart';
+import 'package:game_lib_app/resource_manager.dart';
 
-import 'package:game_lib_app/models/game/game.dart';
-import 'package:game_lib_app/repositories/igdb_repository.dart';
-
-import 'package:game_lib_app/views/details_page/details_page.dart';
-import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
+import 'package:game_lib_app/game/game.dart';
 
 class ResultsGameTile extends StatelessWidget {
   final int index;
+  final ResourceManager resourceManager;
+  late final Game game;
 
-  final Game game;
-
-  const ResultsGameTile({
+  ResultsGameTile({
     Key? key,
     required this.index,
-    required this.game,
-  }) : super(key: key);
+    required this.resourceManager,
+  })  : game = resourceManager.resaultsGamesLoaded[index],
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Image image = Image.network(
-      IgdbRepository.getPictureWithResolution(game.cover!.url, '720p'),
+      ResourceManager.getPictureWithResolution(game.cover!.url, '720p'),
       fit: BoxFit.fitWidth,
     );
     return SizedBox(
@@ -46,36 +41,11 @@ class ResultsGameTile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<FavGamesCubit>(),
-                          child: BlocProvider.value(
-                            value: context.read<PlayedGamesCubit>(),
-                            child: BlocProvider.value(
-                              value: context.read<WishlistGamesCubit>(),
-                              child: DetailsPage(
-                                gameID: game.id,
-                              ),
-                            ),
-                          ),
-                        ),
+                        builder: (context) => DetailsPage(
+                            gameID: game.id, resMan: resourceManager),
                       ),
                     );
                   },
-                  onLongPress: () => showDialog(
-                    context: context,
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<FavGamesCubit>(),
-                      child: BlocProvider.value(
-                        value: context.read<PlayedGamesCubit>(),
-                        child: BlocProvider.value(
-                          value: context.read<WishlistGamesCubit>(),
-                          child: FavDialog(
-                            game: game,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
                 Positioned(
                   bottom: 0,
@@ -131,7 +101,7 @@ class ResultsGameTile extends StatelessWidget {
                                       color: Colors.yellow,
                                     ),
                                   ),
-                                  Text(((game.rating ?? 0.0) / 20.0)
+                                  Text((game.rating ?? 0.0 / 20.0)
                                       .toStringAsPrecision(3))
                                 ],
                               )

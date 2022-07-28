@@ -1,4 +1,4 @@
-import 'package:game_lib_app/models/game/game.dart';
+import 'package:game_lib_app/game/game.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_response.g.dart';

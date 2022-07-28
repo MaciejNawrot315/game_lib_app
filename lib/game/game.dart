@@ -1,6 +1,6 @@
-import 'package:game_lib_app/models/game/cover.dart';
-import 'package:game_lib_app/models/game/involved_company.dart';
-import 'package:game_lib_app/models/game/screenshot.dart';
+import 'package:game_lib_app/game/cover.dart';
+import 'package:game_lib_app/game/involved_company.dart';
+import 'package:game_lib_app/game/screenshot.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'collection.dart';
