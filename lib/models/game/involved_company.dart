@@ -1,4 +1,4 @@
-import 'package:game_lib_app/game/field_with_name.dart';
+import 'package:game_lib_app/models/game/field_with_name.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'involved_company.g.dart';

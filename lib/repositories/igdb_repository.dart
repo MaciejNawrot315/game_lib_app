@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:game_lib_app/game/game.dart';
-import 'package:game_lib_app/game/genre.dart';
-import 'package:game_lib_app/search_page/search_response/search_response.dart';
+import 'package:game_lib_app/models/game/game.dart';
+import 'package:game_lib_app/models/game/genre.dart';
+import 'package:game_lib_app/models/search_response/search_response.dart';
+
 import 'package:game_lib_app/services/igdb_network_services.dart';
 
 class IgdbRepository {

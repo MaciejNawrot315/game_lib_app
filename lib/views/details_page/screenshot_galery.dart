@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_lib_app/game/screenshot.dart';
+import 'package:game_lib_app/models/game/screenshot.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 
 class ScreenshotGalery extends StatelessWidget {

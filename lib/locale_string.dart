@@ -30,6 +30,12 @@ class LocaleString extends Translations {
           'remove_fav': 'remove from favourites',
           'remove_played': 'remove from played games',
           'remove_wishlist': 'remove from wishlist',
+          'wishlist_removed': 'Removed Game from the wishList',
+          'wishlist_added': 'Added Game to the wishList',
+          'played_removed': 'Removed Game from the \'played\' library',
+          'played_added': 'Added Game to the \'played\' library',
+          'fav_removed': 'Removed Game from the favourites',
+          'fav_added': 'Added Game to the favourites',
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -58,6 +64,12 @@ class LocaleString extends Translations {
           'remove_fav': 'Usuń z ulubionych',
           'remove_played': 'Usuń z zagranych',
           'remove_wishlist': 'Usuń z \'do zagrania\'',
+          'wishlist_removed': 'Gra została usunięta z listy do zagrania',
+          'wishlist_added': 'Gra została dodania do listy do zagrania ',
+          'played_removed': 'Gra została usinięta z \'Zagranych\'',
+          'played_added': 'Gra została dodana do \'Zagranych\'',
+          'fav_added': 'Gra została dodana do Ulubionych',
+          'fav_removed': 'Gra została usunięta z Ulubionych',
         }
       };
 }

@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
 import 'package:game_lib_app/cubit/played_games_cubit.dart';
 import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
-import 'package:game_lib_app/game/genre.dart';
+import 'package:game_lib_app/models/game/genre.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
-
-import 'package:game_lib_app/search_page/genres_grid_page.dart';
-import 'package:game_lib_app/search_page/searching_view.dart';
+import 'package:game_lib_app/views/search_page/genres_grid_page.dart';
+import 'package:game_lib_app/views/search_page/searching_view.dart';
 import 'dart:math' as math;
 
 import 'package:get/utils.dart';
