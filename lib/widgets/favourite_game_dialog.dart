@@ -1,10 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
+import 'package:game_lib_app/cubit/played_games_cubit.dart';
+import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
 import 'package:game_lib_app/game/game.dart';
 import 'package:get/get.dart';
 
@@ -17,10 +18,12 @@ class FavDialog extends StatelessWidget {
   }
 
   void addToPlayed(BuildContext context) {
+    context.read<PlayedGamesCubit>().addGame(game);
     Navigator.of(context).pop();
   }
 
   void addTowishlist(BuildContext context) {
+    context.read<WishlistGamesCubit>().addGame(game);
     Navigator.of(context).pop();
   }
 

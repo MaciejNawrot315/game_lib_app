@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
+import 'package:game_lib_app/cubit/played_games_cubit.dart';
+import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
 import 'package:game_lib_app/details_page/details_image.dart';
 
 import 'package:game_lib_app/details_page/screenshot_galery.dart';
@@ -65,6 +67,24 @@ class _DetailsPageState extends State<DetailsPage> {
     return false;
   }
 
+  bool isInPlayed(BuildContext context, int id) {
+    for (Game playedGame in context.read<PlayedGamesCubit>().state.list) {
+      if (playedGame.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool isInWishlist(BuildContext context, int id) {
+    for (Game wishlistGame in context.read<WishlistGamesCubit>().state.list) {
+      if (wishlistGame.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,15 +116,28 @@ class _DetailsPageState extends State<DetailsPage> {
                             alignment: Alignment.topLeft,
                             child: Text("${'summary'.tr}:"),
                           ),
-                          BlocBuilder<FavGamesCubit, FavGamesState>(
-                            builder: (context, state) {
+                          Builder(
+                            builder: (context) {
+                              final stateFav =
+                                  context.watch<FavGamesCubit>().state;
+                              final statePlayed =
+                                  context.watch<PlayedGamesCubit>().state;
+                              final stateWishlist =
+                                  context.watch<WishlistGamesCubit>().state;
                               return GestureDetector(
                                 onLongPress: () => showDialog(
                                   context: context,
                                   builder: (_) => BlocProvider.value(
                                     value: context.read<FavGamesCubit>(),
-                                    child: FavDialog(
-                                      game: game,
+                                    child: BlocProvider.value(
+                                      value: context.read<PlayedGamesCubit>(),
+                                      child: BlocProvider.value(
+                                        value:
+                                            context.read<WishlistGamesCubit>(),
+                                        child: FavDialog(
+                                          game: game,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

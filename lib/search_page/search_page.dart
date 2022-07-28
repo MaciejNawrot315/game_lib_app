@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
+import 'package:game_lib_app/cubit/played_games_cubit.dart';
+import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
 import 'package:game_lib_app/game/genre.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 
@@ -59,7 +61,13 @@ class _SearchPageState extends State<SearchPage> {
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) => BlocProvider.value(
                               value: context.read<FavGamesCubit>(),
-                              child: const SearchingView(),
+                              child: BlocProvider.value(
+                                value: context.read<PlayedGamesCubit>(),
+                                child: BlocProvider.value(
+                                  value: context.read<WishlistGamesCubit>(),
+                                  child: const SearchingView(),
+                                ),
+                              ),
                             ),
                             transitionsBuilder: (_, anim, __, child) =>
                                 FadeTransition(opacity: anim, child: child),
@@ -95,9 +103,15 @@ class _SearchPageState extends State<SearchPage> {
                           MaterialPageRoute(
                             builder: (_) => BlocProvider.value(
                               value: context.read<FavGamesCubit>(),
-                              child: GenresGridPage(
-                                whereFilters:
-                                    "&genres = ${loadedGenres[index].id}",
+                              child: BlocProvider.value(
+                                value: context.read<PlayedGamesCubit>(),
+                                child: BlocProvider.value(
+                                  value: context.read<WishlistGamesCubit>(),
+                                  child: GenresGridPage(
+                                    whereFilters:
+                                        "&genres = ${loadedGenres[index].id}",
+                                  ),
+                                ),
                               ),
                             ),
                           ),

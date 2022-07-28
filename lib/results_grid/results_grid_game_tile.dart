@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
+import 'package:game_lib_app/cubit/played_games_cubit.dart';
+import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
 import 'package:game_lib_app/details_page/details_page.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 
@@ -45,8 +47,14 @@ class ResultsGameTile extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => BlocProvider.value(
                           value: context.read<FavGamesCubit>(),
-                          child: DetailsPage(
-                            gameID: game.id,
+                          child: BlocProvider.value(
+                            value: context.read<PlayedGamesCubit>(),
+                            child: BlocProvider.value(
+                              value: context.read<WishlistGamesCubit>(),
+                              child: DetailsPage(
+                                gameID: game.id,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -56,8 +64,14 @@ class ResultsGameTile extends StatelessWidget {
                     context: context,
                     builder: (_) => BlocProvider.value(
                       value: context.read<FavGamesCubit>(),
-                      child: FavDialog(
-                        game: game,
+                      child: BlocProvider.value(
+                        value: context.read<PlayedGamesCubit>(),
+                        child: BlocProvider.value(
+                          value: context.read<WishlistGamesCubit>(),
+                          child: FavDialog(
+                            game: game,
+                          ),
+                        ),
                       ),
                     ),
                   ),

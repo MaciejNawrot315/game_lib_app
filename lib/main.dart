@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/cubit/fav_games_cubit.dart';
+import 'package:game_lib_app/cubit/played_games_cubit.dart';
+import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
 import 'package:game_lib_app/locale_string.dart';
 import 'package:game_lib_app/main_view/main_view.dart';
 import 'package:game_lib_app/services/network_service.dart';
@@ -23,8 +25,18 @@ class MyApp extends StatelessWidget {
       ),
       locale: const Locale('en', 'US'),
       translations: LocaleString(),
-      home: BlocProvider(
-        create: (context) => FavGamesCubit(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<FavGamesCubit>(
+            create: (context) => FavGamesCubit(),
+          ),
+          BlocProvider<PlayedGamesCubit>(
+            create: (context) => PlayedGamesCubit(),
+          ),
+          BlocProvider<WishlistGamesCubit>(
+            create: (context) => WishlistGamesCubit(),
+          ),
+        ],
         child: const MainView(),
       ),
     );

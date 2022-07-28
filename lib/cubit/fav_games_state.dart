@@ -1,6 +1,5 @@
 part of 'fav_games_cubit.dart';
 
-class FavGamesState {
-  List<Game> list = [];
-  FavGamesState(this.list);
+class FavGamesState extends ListState {
+  FavGamesState(List<Game> list) : super(list);
 }
