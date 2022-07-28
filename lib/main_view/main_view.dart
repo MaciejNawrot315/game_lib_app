@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/library/all_library_page.dart';
-import 'package:game_lib_app/library/played_library_page.dart';
-import 'package:game_lib_app/library/wishlist_library_page.dart';
 
 import 'package:game_lib_app/main_view/my_destination.dart';
 import 'package:game_lib_app/results_grid/results_grid.dart';
@@ -32,7 +30,7 @@ class _MainViewState extends State<MainView> {
     MyDestination(
         body: Center(
           child: TabBarView(
-            children: [LibraryAll(), LibraryPlayed(), LibraryWishlist()],
+            children: [LibraryAll(id: 0), LibraryAll(id: 1), LibraryAll(id: 2)],
           ),
         ),
         label: "library",
