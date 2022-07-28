@@ -21,7 +21,6 @@ class SearchingView extends StatefulWidget {
 class _SearchingViewState extends State<SearchingView> {
   bool isFetching = false;
   List<SearchResponse> loadedResponses = [];
-//TODO cant click mutliple times
   Future<void> searchInAPI(String text, int offset) async {
     isFetching = true;
     loadedResponses.addAll(await IgdbRepository.searchForPhrases(text, offset));

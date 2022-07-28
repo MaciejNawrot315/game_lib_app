@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/fav_games_cubit.dart';
-import 'package:game_lib_app/cubit/played_games_cubit.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+
 import 'package:game_lib_app/models/game/field_with_name.dart';
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/models/game/involved_company.dart';
@@ -12,7 +9,7 @@ import 'package:game_lib_app/views/details_page/fav_button.dart';
 import 'package:game_lib_app/views/details_page/played_button.dart';
 import 'package:game_lib_app/views/details_page/screenshot_galery.dart';
 import 'package:game_lib_app/views/details_page/wishlist_button.dart';
-import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
+
 import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 

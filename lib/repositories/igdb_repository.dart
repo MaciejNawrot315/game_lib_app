@@ -14,7 +14,6 @@ class IgdbRepository {
 
       return List<Game>.from(response.data.map((game) => Game.fromJson(game)));
     } catch (e) {
-      print(e);
       return [];
     }
   }
