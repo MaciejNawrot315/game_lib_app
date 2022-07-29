@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>126935175631-326r5lnqkorpfdk0tuapjhi5c7kc5vf5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.126935175631-326r5lnqkorpfdk0tuapjhi5c7kc5vf5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCjVyW_XgOeghu84Z88eP2hTrdJNbSv-bQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>126935175631</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.gameLibApp</string>
+	<key>PROJECT_ID</key>
+	<string>maciek-game-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>maciek-game-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:126935175631:ios:abab377fbcc76e202642ba</string>
+</dict>
+</plist>

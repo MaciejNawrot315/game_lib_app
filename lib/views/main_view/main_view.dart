@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_lib_app/views/library/all_library_page.dart';
 import 'package:game_lib_app/views/main_view/my_destination.dart';
+import 'package:game_lib_app/views/drawer/settings_drawer.dart';
 import 'package:game_lib_app/views/results_grid/results_grid.dart';
 import 'package:game_lib_app/views/search_page/search_page.dart';
 
@@ -15,7 +16,7 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
-  bool _switchValue = false;
+
   List<MyDestination> destinations = [
     MyDestination(
       body: const ResultsGrid(),
@@ -52,19 +53,6 @@ class _MainViewState extends State<MainView> {
         padding: EdgeInsets.symmetric(vertical: passedPadding));
   }
 
-  void changeLanguage(bool value) {
-    if (Get.locale == const Locale('pl', 'PL')) {
-      Get.updateLocale(const Locale('en', 'US'));
-    } else {
-      Get.updateLocale(const Locale('pl', 'PL'));
-    }
-    if (mounted) {
-      setState(() {
-        _switchValue = value;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     bool smallScreen = MediaQuery.of(context).size.width <= 640;
@@ -83,17 +71,16 @@ class _MainViewState extends State<MainView> {
             length: 3,
             child: Scaffold(
                 appBar: AppBar(
-                  actions: [
-                    Builder(builder: (context) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: IconButton(
-                          icon: const Icon(Icons.settings),
-                          onPressed: () => Scaffold.of(context).openEndDrawer(),
-                        ),
-                      );
-                    }),
-                  ],
+                  leading: Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: IconButton(
+                        icon: const Icon(Icons.settings),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                      ),
+                    );
+                  }),
+
                   //preffered size is here so that I can change the color of the tabBar
                   bottom: (_selectedIndex == 2)
                       ? PreferredSize(
@@ -105,21 +92,7 @@ class _MainViewState extends State<MainView> {
                         )
                       : null,
                 ),
-                endDrawer: Drawer(
-                  child: ListView(
-                    children: [
-                      Text("settings".tr),
-                      Row(
-                        children: [
-                          const Text("EN"),
-                          Switch(
-                              value: _switchValue, onChanged: changeLanguage),
-                          const Text("PL")
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                drawer: SettingsDrawer(),
                 body: destinations.elementAt(_selectedIndex).body,
                 bottomNavigationBar: BottomNavigationBar(
                   items: destinations

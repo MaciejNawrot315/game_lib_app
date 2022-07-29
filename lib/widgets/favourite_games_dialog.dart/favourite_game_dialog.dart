@@ -45,7 +45,7 @@ class FavDialog extends StatelessWidget {
     context.read<WishlistGamesCubit>().addGame(game);
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context)
-        .showSnackBar(makeSnackBar('whitelist_added'.tr));
+        .showSnackBar(makeSnackBar('wishlist_added'.tr));
   }
 
   void removeFromFavourites(BuildContext context) {
@@ -76,7 +76,7 @@ class FavDialog extends StatelessWidget {
       child: Dialog(
           insetPadding: EdgeInsets.zero,
           alignment: Alignment.bottomCenter,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Colors.white,
           child: ListView(
             shrinkWrap: true,
             children: [
