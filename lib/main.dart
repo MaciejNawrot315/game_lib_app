@@ -18,36 +18,37 @@ void main() async {
   );
   runApp(const MyApp());
 }
+
 //TODO providers on the material app
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Game Library',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[900],
-        primarySwatch: Colors.purple,
-        primaryColor: Colors.purple[600],
-      ),
-      locale: const Locale('en', 'US'),
-      translations: LocaleString(),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<FavGamesCubit>(
-            create: (context) => FavGamesCubit(),
-          ),
-          BlocProvider<PlayedGamesCubit>(
-            create: (context) => PlayedGamesCubit(),
-          ),
-          BlocProvider<WishlistGamesCubit>(
-            create: (context) => WishlistGamesCubit(),
-          ),
-          BlocProvider<DrawerCubit>(
-            create: (context) => DrawerCubit(),
-          ),
-        ],
-        child: const MainView(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<FavGamesCubit>(
+          create: (context) => FavGamesCubit(),
+        ),
+        BlocProvider<PlayedGamesCubit>(
+          create: (context) => PlayedGamesCubit(),
+        ),
+        BlocProvider<WishlistGamesCubit>(
+          create: (context) => WishlistGamesCubit(),
+        ),
+      ],
+      child: GetMaterialApp(
+        title: 'Game Library',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.grey[900],
+          primarySwatch: Colors.purple,
+          primaryColor: Colors.purple[600],
+        ),
+        locale: const Locale('en', 'US'),
+        translations: LocaleString(),
+        home: BlocProvider<DrawerCubit>(
+          create: (context) => DrawerCubit(),
+          child: const MainView(),
+        ),
       ),
     );
   }
