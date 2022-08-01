@@ -134,17 +134,8 @@ class _SearchingViewState extends State<SearchingView> {
             return GestureDetector(
               onLongPress: () => showDialog(
                 context: context,
-                builder: (_) => BlocProvider.value(
-                  value: context.read<FavGamesCubit>(),
-                  child: BlocProvider.value(
-                    value: context.read<PlayedGamesCubit>(),
-                    child: BlocProvider.value(
-                      value: context.read<WishlistGamesCubit>(),
-                      child: FavDialog(
-                        game: resp.game!,
-                      ),
-                    ),
-                  ),
+                builder: (_) => FavDialog(
+                  game: resp.game!,
                 ),
               ),
               child: ListTile(
@@ -166,17 +157,8 @@ class _SearchingViewState extends State<SearchingView> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<FavGamesCubit>(),
-                      child: BlocProvider.value(
-                        value: context.read<PlayedGamesCubit>(),
-                        child: BlocProvider.value(
-                          value: context.read<WishlistGamesCubit>(),
-                          child: DetailsPage(
-                            gameID: resp.game!.id,
-                          ),
-                        ),
-                      ),
+                    builder: (_) => DetailsPage(
+                      gameID: resp.game!.id,
                     ),
                   ),
                 ),

@@ -44,34 +44,16 @@ class ResultsGameTile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<FavGamesCubit>(),
-                          child: BlocProvider.value(
-                            value: context.read<PlayedGamesCubit>(),
-                            child: BlocProvider.value(
-                              value: context.read<WishlistGamesCubit>(),
-                              child: DetailsPage(
-                                gameID: game.id,
-                              ),
-                            ),
-                          ),
+                        builder: (_) => DetailsPage(
+                          gameID: game.id,
                         ),
                       ),
                     );
                   },
                   onLongPress: () => showDialog(
                     context: context,
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<FavGamesCubit>(),
-                      child: BlocProvider.value(
-                        value: context.read<PlayedGamesCubit>(),
-                        child: BlocProvider.value(
-                          value: context.read<WishlistGamesCubit>(),
-                          child: FavDialog(
-                            game: game,
-                          ),
-                        ),
-                      ),
+                    builder: (_) => FavDialog(
+                      game: game,
                     ),
                   ),
                 ),

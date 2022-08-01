@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
 
 import 'package:game_lib_app/models/game/field_with_name.dart';
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/models/game/involved_company.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/views/details_page/details_image.dart';
-import 'package:game_lib_app/views/details_page/fav_button.dart';
-import 'package:game_lib_app/views/details_page/played_button.dart';
+
 import 'package:game_lib_app/views/details_page/screenshot_gallery.dart';
-import 'package:game_lib_app/views/details_page/wishlist_button.dart';
+import 'package:game_lib_app/views/details_page/add_to_list__button.dart';
 
 import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
@@ -91,9 +92,30 @@ class _DetailsPageState extends State<DetailsPage> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              FavButton(game: game),
-                              PlayedButton(game: game),
-                              WishlistButton(game: game)
+                              AddToListButton(
+                                game: game,
+                                cubit: context.watch<FavGamesCubit>(),
+                                removeTooltip: 'remove_fav'.tr,
+                                addTooltip: 'add__fav'.tr,
+                                icon: Icons.favorite_rounded,
+                                activeColor: Colors.red,
+                              ),
+                              AddToListButton(
+                                game: game,
+                                cubit: context.watch<PlayedGamesCubit>(),
+                                removeTooltip: 'remove_played'.tr,
+                                addTooltip: 'add__played'.tr,
+                                icon: Icons.check,
+                                activeColor: Colors.green,
+                              ),
+                              AddToListButton(
+                                game: game,
+                                cubit: context.watch<WishlistGamesCubit>(),
+                                removeTooltip: 'remove_wishlist'.tr,
+                                addTooltip: 'add__wishlist'.tr,
+                                icon: Icons.shopping_bag_rounded,
+                                activeColor: Colors.blue,
+                              ),
                             ],
                           ),
                         ],

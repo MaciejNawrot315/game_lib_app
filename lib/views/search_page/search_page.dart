@@ -53,16 +53,7 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () => Navigator.push(
                           context,
                           PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => BlocProvider.value(
-                              value: context.read<FavGamesCubit>(),
-                              child: BlocProvider.value(
-                                value: context.read<PlayedGamesCubit>(),
-                                child: BlocProvider.value(
-                                  value: context.read<WishlistGamesCubit>(),
-                                  child: const SearchingView(),
-                                ),
-                              ),
-                            ),
+                            pageBuilder: (_, __, ___) => const SearchingView(),
                             transitionsBuilder: (_, anim, __, child) =>
                                 FadeTransition(opacity: anim, child: child),
                             transitionDuration:
@@ -95,18 +86,9 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => BlocProvider.value(
-                              value: context.read<FavGamesCubit>(),
-                              child: BlocProvider.value(
-                                value: context.read<PlayedGamesCubit>(),
-                                child: BlocProvider.value(
-                                  value: context.read<WishlistGamesCubit>(),
-                                  child: GenresGridPage(
-                                    whereFilters:
-                                        "&genres = ${loadedGenres[index].id}",
-                                  ),
-                                ),
-                              ),
+                            builder: (_) => GenresGridPage(
+                              whereFilters:
+                                  "&genres = ${loadedGenres[index].id}",
                             ),
                           ),
                         ),
