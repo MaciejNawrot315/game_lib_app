@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:get/get.dart';
@@ -11,7 +11,10 @@ class WishlistButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return context.watch<WishlistGamesCubit>().state.contains(game.id)
+    return context
+            .watch<WishlistGamesCubit>()
+            .state
+            .any((elemGame) => elemGame.id == game.id)
         ? Tooltip(
             message: 'remove_wishlist'.tr,
             child: IconButton(

@@ -16,7 +16,10 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
   bool _switchValue = false;
-  List<MyDestination> destinations = [
+
+  List<LibraryAll> libraryTabChildren =
+      [0, 1, 2].map((e) => LibraryAll(id: e)).toList();
+  late List<MyDestination> destinations = [
     MyDestination(
       body: const ResultsGrid(),
       icon: const Icon(Icons.home),
@@ -30,7 +33,7 @@ class _MainViewState extends State<MainView> {
     MyDestination(
         body: Center(
           child: TabBarView(
-            children: [LibraryAll(id: 0), LibraryAll(id: 1), LibraryAll(id: 2)],
+            children: libraryTabChildren,
           ),
         ),
         label: "library",
@@ -80,7 +83,7 @@ class _MainViewState extends State<MainView> {
     );
     return smallScreen
         ? DefaultTabController(
-            length: 3,
+            length: libraryTabChildren.length,
             child: Scaffold(
                 appBar: AppBar(
                   actions: [
@@ -134,11 +137,10 @@ class _MainViewState extends State<MainView> {
             body: Row(
             children: [
               NavigationRail(
-                destinations: <NavigationRailDestination>[
-                  _getRailDestination(0, paddingBetweenNavigationRail),
-                  _getRailDestination(1, paddingBetweenNavigationRail),
-                  _getRailDestination(2, paddingBetweenNavigationRail)
-                ],
+                destinations: [0, 1, 2]
+                    .map((e) =>
+                        _getRailDestination(e, paddingBetweenNavigationRail))
+                    .toList(),
                 selectedIndex: _selectedIndex,
                 onDestinationSelected: _onDestinationSelected,
                 groupAlignment: 0,

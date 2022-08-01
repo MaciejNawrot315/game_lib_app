@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/fav_games_cubit.dart';
-import 'package:game_lib_app/cubit/played_games_cubit.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
 import 'package:game_lib_app/models/game/genre.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/views/search_page/genres_grid_page.dart';
@@ -21,14 +19,11 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  int listLength = 0;
   List<Genre> loadedGenres = [];
   Future<void> loadGenres() async {
-    loadedGenres = await IgdbRepository.fetchGenres(listLength);
+    loadedGenres = await IgdbRepository.fetchGenres(loadedGenres.length);
     if (mounted) {
-      setState(() {
-        listLength = loadedGenres.length;
-      });
+      setState(() {});
     }
   }
 
@@ -87,7 +82,7 @@ class _SearchPageState extends State<SearchPage> {
           GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: 4 / 3),
-              itemCount: listLength,
+              itemCount: loadedGenres.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {

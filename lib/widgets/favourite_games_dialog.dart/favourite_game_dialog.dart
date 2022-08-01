@@ -3,9 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/fav_games_cubit.dart';
-import 'package:game_lib_app/cubit/played_games_cubit.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
+
 import 'package:game_lib_app/models/game/game.dart';
 
 import 'package:game_lib_app/widgets/favourite_games_dialog.dart/add_button.dart';
@@ -80,7 +79,10 @@ class FavDialog extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              context.read<FavGamesCubit>().state.contains(game.id)
+              context
+                      .watch<FavGamesCubit>()
+                      .state
+                      .any((elemGame) => elemGame.id == game.id)
                   ? RemoveButton(
                       onPressed: () => removeFromFavourites(context),
                       text: 'remove_fav'.tr,
@@ -89,7 +91,10 @@ class FavDialog extends StatelessWidget {
                       onPressed: () => addToFavourites(context),
                       text: 'add_fav'.tr),
               const Divider(color: Colors.white30),
-              context.read<PlayedGamesCubit>().state.contains(game.id)
+              context
+                      .watch<PlayedGamesCubit>()
+                      .state
+                      .any((elemGame) => elemGame.id == game.id)
                   ? RemoveButton(
                       onPressed: () => removeFromPlayed(context),
                       text: 'remove_played'.tr,
@@ -98,7 +103,10 @@ class FavDialog extends StatelessWidget {
                       onPressed: () => addToPlayed(context),
                       text: 'add_played'.tr),
               const Divider(color: Colors.white30),
-              context.read<WishlistGamesCubit>().state.contains(game.id)
+              context
+                      .watch<WishlistGamesCubit>()
+                      .state
+                      .any((elemGame) => elemGame.id == game.id)
                   ? RemoveButton(
                       onPressed: () => removeFromWishlist(context),
                       text: 'remove_wishlist'.tr,

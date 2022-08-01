@@ -31,15 +31,15 @@ class _ResultsGridState extends State<ResultsGrid> {
         gamesLoading = true;
       });
     }
-    int prevLength = loadedGames.length;
     loadedGames +=
         await IgdbRepository.fetchGamePosters(widget.whereFilters, count);
-    count = loadedGames.length;
-    if (count == prevLength) {
+
+    if (count == loadedGames.length) {
       isEnd = true;
     } else {
       gamesLoading = false;
     }
+    count = loadedGames.length;
     if (mounted) {
       setState(() {});
     }

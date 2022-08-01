@@ -7,7 +7,7 @@ import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/views/details_page/details_image.dart';
 import 'package:game_lib_app/views/details_page/fav_button.dart';
 import 'package:game_lib_app/views/details_page/played_button.dart';
-import 'package:game_lib_app/views/details_page/screenshot_galery.dart';
+import 'package:game_lib_app/views/details_page/screenshot_gallery.dart';
 import 'package:game_lib_app/views/details_page/wishlist_button.dart';
 
 import 'package:get/utils.dart';
@@ -148,7 +148,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           style:
                               TextStyle(color: Colors.grey[700], fontSize: 12)),
                     ),
-                    ScreenshotGalery(screenshots: game.screenshots)
+                    ScreenshotGallery(screenshots: game.screenshots ?? [])
                   ],
                 ),
               );

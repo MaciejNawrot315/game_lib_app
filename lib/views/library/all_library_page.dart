@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/fav_games_cubit.dart';
-import 'package:game_lib_app/cubit/list_state.dart';
-import 'package:game_lib_app/cubit/played_games_cubit.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
@@ -11,9 +8,8 @@ import 'package:game_lib_app/views/details_page/details_page.dart';
 import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
 
 class LibraryAll extends StatelessWidget {
-  int count = 0;
   final int id;
-  LibraryAll({Key? key, required this.id}) : super(key: key);
+  const LibraryAll({Key? key, required this.id}) : super(key: key);
 
   String makeTooltip(List<Game> state) {
     String message = 'cats:';
@@ -27,19 +23,19 @@ class LibraryAll extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (id) {
       case 0:
-        return BlocBuilder<FavGamesCubit, FavGamesState>(
+        return BlocBuilder<FavGamesCubit, List<Game>>(
             builder: (context, state) {
           return myListView(state);
         });
 
       case 1:
-        return BlocBuilder<PlayedGamesCubit, PlayedGamesState>(
+        return BlocBuilder<PlayedGamesCubit, List<Game>>(
             builder: (context, state) {
           return myListView(state);
         });
 
       case 2:
-        return BlocBuilder<WishlistGamesCubit, WishlistGamesState>(
+        return BlocBuilder<WishlistGamesCubit, List<Game>>(
             builder: (context, state) {
           return myListView(state);
         });
@@ -51,11 +47,11 @@ class LibraryAll extends StatelessWidget {
     }
   }
 
-  ListView myListView(ListState state) {
+  ListView myListView(List<Game> state) {
     return ListView.builder(
-        itemCount: state.list.length,
+        itemCount: state.length,
         itemBuilder: (context, index) {
-          Game game = state.list[index];
+          Game game = state[index];
           return GestureDetector(
               onLongPress: () => showDialog(
                     context: context,

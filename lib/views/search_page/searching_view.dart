@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/fav_games_cubit.dart';
-import 'package:game_lib_app/cubit/played_games_cubit.dart';
-import 'package:game_lib_app/cubit/wishlist_games_cubit.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
 import 'package:game_lib_app/models/search_response/search_response.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/views/details_page/details_page.dart';
@@ -26,9 +24,7 @@ class _SearchingViewState extends State<SearchingView> {
     loadedResponses.addAll(await IgdbRepository.searchForPhrases(text, offset));
     if (mounted) {
       setState(
-        () {
-          listLength = loadedResponses.length;
-        },
+        () {},
       );
     }
     isFetching = false;
@@ -39,7 +35,6 @@ class _SearchingViewState extends State<SearchingView> {
       if (mounted) {
         setState(() {
           loadedResponses = [];
-          listLength = 0;
         });
       }
     }
@@ -48,10 +43,10 @@ class _SearchingViewState extends State<SearchingView> {
   FocusNode focusNode = FocusNode();
 
   TextEditingController editingController = TextEditingController();
-  int listLength = 0;
   String searchText = '';
   @override
   Widget build(BuildContext context) {
+    int listLength = loadedResponses.length;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -86,7 +81,6 @@ class _SearchingViewState extends State<SearchingView> {
                                     : {
                                         searchText = text,
                                         loadedResponses = [],
-                                        listLength = 0,
                                         searchInAPI(text, 0)
                                       },
                                 decoration: InputDecoration(
@@ -101,7 +95,6 @@ class _SearchingViewState extends State<SearchingView> {
                                     editingController.clear();
                                     if (mounted) {
                                       setState(() {
-                                        listLength = 0;
                                         loadedResponses = [];
                                       });
                                     }
