@@ -12,7 +12,7 @@ class SingleDetailsLineIfExists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (value == "") {
-      return Container();
+      return const SizedBox();
     }
     return Row(children: [
       SizedBox(

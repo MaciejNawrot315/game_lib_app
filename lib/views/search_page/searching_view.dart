@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:game_lib_app/details_page/details_page.dart';
-import 'package:game_lib_app/resource_manager.dart';
-import 'package:game_lib_app/search_page/search_response/search_response.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/cubit/games_cubits.dart';
+import 'package:game_lib_app/models/search_response/search_response.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
+import 'package:game_lib_app/views/details_page/details_page.dart';
+import 'package:game_lib_app/widgets/favourite_games_dialog.dart/favourite_game_dialog.dart';
+import 'package:get/utils.dart';
 
 class SearchingView extends StatefulWidget {
   const SearchingView({
@@ -13,34 +17,36 @@ class SearchingView extends StatefulWidget {
 }
 
 class _SearchingViewState extends State<SearchingView> {
-  Future<void> searchInAPI(String text) async {
-    int length = await resMan.searchForPhrases(text);
+  bool isFetching = false;
+  List<SearchResponse> loadedResponses = [];
+  Future<void> searchInAPI(String text, int offset) async {
+    isFetching = true;
+    loadedResponses.addAll(await IgdbRepository.searchForPhrases(text, offset));
     if (mounted) {
       setState(
-        () {
-          listLength = length;
-        },
+        () {},
       );
     }
+    isFetching = false;
   }
 
   void checkIfEmpty(String value) {
     if (value.isEmpty) {
-      if (mounted)
+      if (mounted) {
         setState(() {
-          listLength = 0;
-          resMan.searchResponses = [];
+          loadedResponses = [];
         });
+      }
     }
   }
 
   FocusNode focusNode = FocusNode();
 
   TextEditingController editingController = TextEditingController();
-  int listLength = 0;
-  ResourceManager resMan = ResourceManager();
+  String searchText = '';
   @override
   Widget build(BuildContext context) {
+    int listLength = loadedResponses.length;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -70,11 +76,17 @@ class _SearchingViewState extends State<SearchingView> {
                                 autofocus: true,
                                 controller: editingController,
                                 autocorrect: false,
-                                onSubmitted: (text) => searchInAPI(text),
-                                decoration: const InputDecoration(
+                                onSubmitted: (text) => isFetching
+                                    ? null
+                                    : {
+                                        searchText = text,
+                                        loadedResponses = [],
+                                        searchInAPI(text, 0)
+                                      },
+                                decoration: InputDecoration(
                                     contentPadding:
-                                        EdgeInsets.only(bottom: 13.0),
-                                    hintText: "Search",
+                                        const EdgeInsets.only(bottom: 13.0),
+                                    hintText: "search".tr,
                                     border: InputBorder.none),
                               )),
                               IconButton(
@@ -83,8 +95,7 @@ class _SearchingViewState extends State<SearchingView> {
                                     editingController.clear();
                                     if (mounted) {
                                       setState(() {
-                                        listLength = 0;
-                                        resMan.searchResponses = [];
+                                        loadedResponses = [];
                                       });
                                     }
                                   },
@@ -100,7 +111,7 @@ class _SearchingViewState extends State<SearchingView> {
                   padding: const EdgeInsets.only(right: 13.0),
                   child: GestureDetector(
                       onTap: (() => Navigator.pop(context)),
-                      child: const Center(child: Text("Cancel"))),
+                      child: Center(child: Text("cancel".tr))),
                 ),
               ],
             ),
@@ -108,30 +119,50 @@ class _SearchingViewState extends State<SearchingView> {
         ],
       ),
       body: ListView.builder(
-          itemCount: listLength,
+          itemCount: listLength + 1,
           itemBuilder: (context, index) {
-            SearchResponse resp = resMan.searchResponses[index];
-            return ListTile(
-              leading: SizedBox(
-                width: 45,
-                child: resp.game?.cover?.url != null
-                    ? Image.network(
-                        ResourceManager.getPictureWithResolution(
-                            resp.game!.cover!.url, 'thumb'),
-                        fit: BoxFit.fitWidth,
-                      )
-                    : Container(),
+            if (index == listLength) {
+              if (index > 0) {
+                return TextButton(
+                    onPressed: () =>
+                        isFetching ? null : searchInAPI(searchText, listLength),
+                    child: Text('search_more'.tr));
+              }
+              return const SizedBox();
+            }
+            SearchResponse resp = loadedResponses[index];
+            return GestureDetector(
+              onLongPress: () => showDialog(
+                context: context,
+                builder: (_) => FavDialog(
+                  game: resp.game!,
+                ),
               ),
-              title: Text(
-                resp.name ?? "",
-                style: const TextStyle(color: Colors.white),
-                overflow: TextOverflow.clip,
-              ),
-              onTap: () => Navigator.push(
+              child: ListTile(
+                leading: SizedBox(
+                  width: 45,
+                  child: resp.game?.cover?.url != null
+                      ? Image.network(
+                          IgdbRepository.getPictureWithResolution(
+                              resp.game!.cover!.url, 'thumb'),
+                          fit: BoxFit.fitWidth,
+                        )
+                      : const SizedBox(),
+                ),
+                title: Text(
+                  resp.name ?? "",
+                  style: const TextStyle(color: Colors.white),
+                  overflow: TextOverflow.clip,
+                ),
+                onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          DetailsPage(gameID: resp.game!.id, resMan: resMan))),
+                    builder: (_) => DetailsPage(
+                      gameID: resp.game!.id,
+                    ),
+                  ),
+                ),
+              ),
             );
           }),
     );

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:game_lib_app/resource_manager.dart';
+
+import 'package:game_lib_app/models/game/game.dart';
+import 'package:game_lib_app/repositories/igdb_repository.dart';
+import 'package:get/get.dart';
+
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import 'results_grid_game_tile.dart';
@@ -17,22 +21,27 @@ class ResultsGrid extends StatefulWidget {
 }
 
 class _ResultsGridState extends State<ResultsGrid> {
-  ResourceManager resMan = ResourceManager();
   bool gamesLoading = false;
   int count = 0;
+  bool isEnd = false;
+  List<Game> loadedGames = [];
   Future<void> loadMoreGames() async {
     if (mounted) {
       setState(() {
         gamesLoading = true;
       });
     }
+    loadedGames +=
+        await IgdbRepository.fetchGamePosters(widget.whereFilters, count);
 
-    await resMan.loadMoreGames(count, widget.whereFilters);
-    count = resMan.resaultsGamesLoaded.length;
+    if (count == loadedGames.length) {
+      isEnd = true;
+    } else {
+      gamesLoading = false;
+    }
+    count = loadedGames.length;
     if (mounted) {
-      setState(() {
-        gamesLoading = false;
-      });
+      setState(() {});
     }
   }
 
@@ -55,13 +64,20 @@ class _ResultsGridState extends State<ResultsGrid> {
             itemCount: count + 1,
             itemBuilder: (BuildContext context, index) {
               if (index >= count) {
+                if (isEnd) {
+                  return Text(
+                    'no_more_results'.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey[300]),
+                  );
+                }
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
               return ResultsGameTile(
                 index: index,
-                resourceManager: resMan,
+                game: loadedGames[index],
               );
             }),
       ),
