@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 
 class AddButton extends StatelessWidget {
   final Function() onPressed;
@@ -9,7 +11,10 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: onPressed,
+        onPressed: context.read<AuthBloc>().state.authStatus ==
+                AuthStatus.authenticated
+            ? onPressed
+            : null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Text(text), const Icon(Icons.add)],
