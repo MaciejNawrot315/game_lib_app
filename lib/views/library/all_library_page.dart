@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/games_cubits.dart';
+import 'package:game_lib_app/blocs_and_cubits/games_cubits.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
@@ -12,33 +12,25 @@ class LibraryAll extends StatelessWidget {
   final int id;
   const LibraryAll({Key? key, required this.id}) : super(key: key);
 
-  String makeTooltip(List<Game> state) {
-    String message = 'cats:';
-    for (Game game in state) {
-      message += '${game.id}';
-    }
-    return message;
-  }
-
   @override
   Widget build(BuildContext context) {
     switch (id) {
       case 0:
         return BlocBuilder<FavGamesCubit, List<Game>>(
             builder: (context, state) {
-          return myListView(state, context);
+          return myListView(state);
         });
 
       case 1:
         return BlocBuilder<PlayedGamesCubit, List<Game>>(
             builder: (context, state) {
-          return myListView(state, context);
+          return myListView(state);
         });
 
       case 2:
         return BlocBuilder<WishlistGamesCubit, List<Game>>(
             builder: (context, state) {
-          return myListView(state, context);
+          return myListView(state);
         });
 
       default:
@@ -48,98 +40,42 @@ class LibraryAll extends StatelessWidget {
     }
   }
 
-<<<<<<< HEAD
-  ListView myListView(List<Game> state) {
-    return ListView.builder(
-        itemCount: state.length,
-        itemBuilder: (context, index) {
-          Game game = state[index];
-          return GestureDetector(
-              onLongPress: () => showDialog(
-                    context: context,
-                    builder: (_) => FavDialog(
-                      game: game,
-                    ),
-                  ),
-              child: ListTile(
-                leading: SizedBox(
-                  width: 45,
-                  child: game.cover?.url != null
-                      ? Image.network(
-                          IgdbRepository.getPictureWithResolution(
-                              game.cover!.url, 'thumb'),
-                          fit: BoxFit.fitWidth,
-                        )
-                      : const SizedBox(),
-                ),
-                title: Text(
-                  game.name ?? "",
-                  style: const TextStyle(color: Colors.white),
-                  overflow: TextOverflow.clip,
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => DetailsPage(
-                      gameID: game.id,
-=======
-  Widget myListView(ListState state, context) {
-    int listLength = state.list.length;
-    return listLength > 0
+  Widget myListView(List<Game> state) {
+    return state.isNotEmpty
         ? ListView.builder(
-            itemCount: listLength,
+            itemCount: state.length,
             itemBuilder: (context, index) {
-              Game game = state.list[index];
+              Game game = state[index];
               return GestureDetector(
                   onLongPress: () => showDialog(
                         context: context,
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<FavGamesCubit>(),
-                          child: BlocProvider.value(
-                            value: context.read<PlayedGamesCubit>(),
-                            child: BlocProvider.value(
-                              value: context.read<WishlistGamesCubit>(),
-                              child: FavDialog(
-                                game: game,
-                              ),
-                            ),
-                          ),
+                        builder: (_) => FavDialog(
+                          game: game,
                         ),
                       ),
                   child: ListTile(
-                    leading: SizedBox(
-                      width: 45,
-                      child: game.cover?.url != null
-                          ? Image.network(
-                              IgdbRepository.getPictureWithResolution(
-                                  game.cover!.url, 'thumb'),
-                              fit: BoxFit.fitWidth,
-                            )
-                          : const SizedBox(),
-                    ),
-                    title: Text(
-                      game.name ?? "",
-                      style: const TextStyle(color: Colors.white),
-                      overflow: TextOverflow.clip,
-                    ),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<FavGamesCubit>(),
-                          child: BlocProvider.value(
-                            value: context.read<PlayedGamesCubit>(),
-                            child: BlocProvider.value(
-                                value: context.read<WishlistGamesCubit>(),
-                                child: DetailsPage(
-                                  gameID: game.id,
-                                )),
-                          ),
-                        ),
+                      leading: SizedBox(
+                        width: 45,
+                        child: game.cover?.url != null
+                            ? Image.network(
+                                IgdbRepository.getPictureWithResolution(
+                                    game.cover!.url, 'thumb'),
+                                fit: BoxFit.fitWidth,
+                              )
+                            : const SizedBox(),
                       ),
->>>>>>> 91116b0c0db01f1e4f9e3a65df5dd09169ec3865
-                    ),
-                  ));
+                      title: Text(
+                        game.name ?? "",
+                        style: const TextStyle(color: Colors.white),
+                        overflow: TextOverflow.clip,
+                      ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailsPage(
+                              gameID: game.id,
+                            ),
+                          ))));
             })
         : Container(
             padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 48),

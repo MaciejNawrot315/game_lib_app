@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 import 'package:game_lib_app/views/library/all_library_page.dart';
 import 'package:game_lib_app/views/main_view/my_destination.dart';
-import 'package:game_lib_app/views/drawer/settings_drawer.dart';
+import 'package:game_lib_app/views/drawer/my_drawer.dart';
 import 'package:game_lib_app/views/results_grid/results_grid.dart';
 import 'package:game_lib_app/views/search_page/search_page.dart';
 
@@ -16,16 +18,10 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
-<<<<<<< HEAD
-  bool _switchValue = false;
 
   List<LibraryAll> libraryTabChildren =
       [0, 1, 2].map((e) => LibraryAll(id: e)).toList();
   late List<MyDestination> destinations = [
-=======
-
-  List<MyDestination> destinations = [
->>>>>>> 91116b0c0db01f1e4f9e3a65df5dd09169ec3865
     MyDestination(
       body: const ResultsGrid(),
       icon: const Icon(Icons.home),
@@ -53,19 +49,26 @@ class _MainViewState extends State<MainView> {
     }
   }
 
-  NavigationRailDestination _getRailDestination(
-      int index, double passedPadding) {
-    return NavigationRailDestination(
-        icon: destinations.elementAt(index).icon,
-        label: Text(destinations.elementAt(index).label),
-        padding: EdgeInsets.symmetric(vertical: passedPadding));
+  Widget getDestinationBody(BuildContext context, int index) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (_selectedIndex == 2 &&
+            state.authStatus != AuthStatus.authenticated) {
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 48),
+            child: Text('please_login'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white)),
+          );
+          ;
+        }
+        return destinations[index].body;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    bool smallScreen = MediaQuery.of(context).size.width <= 640;
-    double paddingBetweenNavigationRail =
-        (MediaQuery.of(context).size.height / 6) - 40;
     TabBar tabBar = TabBar(
       indicatorColor: Theme.of(context).primaryColor,
       tabs: [
@@ -74,57 +77,46 @@ class _MainViewState extends State<MainView> {
         Tab(text: 'wishlist'.tr),
       ],
     );
-    return smallScreen
-        ? DefaultTabController(
-            length: libraryTabChildren.length,
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: Builder(builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: IconButton(
-                        icon: const Icon(Icons.settings),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                      ),
-                    );
-                  }),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return DefaultTabController(
+          length: libraryTabChildren.length,
+          child: Scaffold(
+              appBar: AppBar(
+                leading: Builder(builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                    ),
+                  );
+                }),
 
-                  //preffered size is here so that I can change the color of the tabBar
-                  bottom: (_selectedIndex == 2)
-                      ? PreferredSize(
-                          preferredSize: tabBar.preferredSize,
-                          child: ColoredBox(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            child: tabBar,
-                          ),
-                        )
-                      : null,
-                ),
-                drawer: SettingsDrawer(),
-                body: destinations.elementAt(_selectedIndex).body,
-                bottomNavigationBar: BottomNavigationBar(
-                  items: destinations
-                      .map((e) => BottomNavigationBarItem(
-                          icon: e.icon, label: e.label.tr))
-                      .toList(),
-                  currentIndex: _selectedIndex,
-                  onTap: _onDestinationSelected,
-                )),
-          )
-        : Scaffold(
-            body: Row(
-            children: [
-              NavigationRail(
-                destinations: [0, 1, 2]
-                    .map((e) =>
-                        _getRailDestination(e, paddingBetweenNavigationRail))
-                    .toList(),
-                selectedIndex: _selectedIndex,
-                onDestinationSelected: _onDestinationSelected,
-                groupAlignment: 0,
+                //preffered size is here so that I can change the color of the tabBar
+                bottom: (_selectedIndex == 2 &&
+                        state.authStatus == AuthStatus.authenticated)
+                    ? PreferredSize(
+                        preferredSize: tabBar.preferredSize,
+                        child: ColoredBox(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          child: tabBar,
+                        ),
+                      )
+                    : null,
               ),
-              Expanded(child: destinations.elementAt(_selectedIndex).body)
-            ],
-          ));
+              drawer: MyDrawer(),
+              body: getDestinationBody(context, _selectedIndex),
+              bottomNavigationBar: BottomNavigationBar(
+                items: destinations
+                    .map((e) => BottomNavigationBarItem(
+                        icon: e.icon, label: e.label.tr))
+                    .toList(),
+                currentIndex: _selectedIndex,
+                onTap: _onDestinationSelected,
+              )),
+        );
+      },
+    );
   }
 }
