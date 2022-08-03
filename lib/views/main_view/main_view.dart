@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
+import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
 import 'package:game_lib_app/views/library/all_library_page.dart';
 import 'package:game_lib_app/views/main_view/my_destination.dart';
 import 'package:game_lib_app/views/drawer/my_drawer.dart';
@@ -49,6 +51,14 @@ class _MainViewState extends State<MainView> {
     }
   }
 
+  @override
+  void initState() {
+    context
+        .read<UserCubit>()
+        .getUser(fb_auth.FirebaseAuth.instance.currentUser?.uid);
+    super.initState();
+  }
+
   Widget getDestinationBody(BuildContext context, int index) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
@@ -60,7 +70,6 @@ class _MainViewState extends State<MainView> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.white)),
           );
-          ;
         }
         return destinations[index].body;
       },
@@ -83,6 +92,7 @@ class _MainViewState extends State<MainView> {
           length: libraryTabChildren.length,
           child: Scaffold(
               appBar: AppBar(
+                title: Text(context.watch<UserCubit>().state.name),
                 leading: Builder(builder: (context) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 10),

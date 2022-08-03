@@ -1,14 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
-import 'package:game_lib_app/constants.dart';
 import 'package:game_lib_app/models/user.dart';
-import 'package:game_lib_app/repositories/firestore_repository.dart';
 import 'package:get/get.dart';
 
 class MainDrawerView extends StatefulWidget {

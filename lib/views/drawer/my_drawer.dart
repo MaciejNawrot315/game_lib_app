@@ -7,7 +7,6 @@ import 'package:game_lib_app/repositories/fb_auth_repository.dart';
 import 'package:game_lib_app/views/drawer/login_view.dart';
 import 'package:game_lib_app/views/drawer/main_drawer_view.dart';
 import 'package:game_lib_app/views/drawer/register_view.dart';
-import 'package:get/get.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({Key? key}) : super(key: key);

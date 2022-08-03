@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:game_lib_app/models/custom_error.dart';
 import 'package:game_lib_app/repositories/fb_auth_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'signin_state.dart';
 

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:game_lib_app/constants.dart';
 import 'package:game_lib_app/models/custom_error.dart';
-import 'package:game_lib_app/models/user.dart';
 
 class AuthRepository {
   final FirebaseFirestore firebaseFirestore;
