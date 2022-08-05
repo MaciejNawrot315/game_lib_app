@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/games_cubits.dart';
+import 'package:game_lib_app/blocs_and_cubits/games_cubits.dart';
 
 import 'package:game_lib_app/models/game/field_with_name.dart';
 import 'package:game_lib_app/models/game/game.dart';
