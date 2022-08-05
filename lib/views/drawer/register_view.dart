@@ -31,11 +31,18 @@ class _RegisterViewState extends State<RegisterView> {
 
     form.save();
 
-    context.read<SignupCubit>().signup(
+    context
+        .read<SignupCubit>()
+        .signup(
           name: _name!,
           email: _email!,
           password: _password!,
-        );
+        )
+        .then((value) => {
+              context
+                  .read<UserCubit>()
+                  .getUser(FirebaseAuth.instance.currentUser?.uid)
+            });
   }
 
   @override

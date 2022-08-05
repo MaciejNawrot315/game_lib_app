@@ -6,14 +6,14 @@ part of 'involved_company.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-InvolvedCompany _$InvolvedCompanyFromJson(Map<String, dynamic> json) =>
-    InvolvedCompany(
+InvolvedCompany _$InvolvedCompanyFromJson(Map json) => InvolvedCompany(
       company: json['company'] == null
           ? null
-          : FieldWithName.fromJson(json['company'] as Map<String, dynamic>),
+          : FieldWithName.fromJson(
+              Map<String, dynamic>.from(json['company'] as Map)),
     );
 
 Map<String, dynamic> _$InvolvedCompanyToJson(InvolvedCompany instance) =>
     <String, dynamic>{
-      'company': instance.company,
+      'company': instance.company?.toJson(),
     };

@@ -22,23 +22,50 @@ class MyDrawer extends StatelessWidget {
         break;
       case DrawerState.login:
         {
-          content = BlocProvider(
-            create: (context) =>
-                SigninCubit(authRepository: context.read<AuthRepository>()),
-            child: const LoginView(),
-          );
+          content = const LoginView();
         }
         break;
       case DrawerState.register:
         {
-          content = BlocProvider(
-            create: (context) =>
-                SignupCubit(authRepository: context.read<AuthRepository>()),
-            child: const RegisterView(),
-          );
+          content = const RegisterView();
         }
         break;
     }
-    return Drawer(child: content);
+    double width = MediaQuery.of(context).size.width;
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        // Note: Sensitivity is integer used when you don't want to mess up vertical drag
+        int sensitivity = 8;
+        if (details.delta.dx > sensitivity) {
+          null;
+        } else if (details.delta.dx < -sensitivity) {
+          null;
+        }
+      },
+      child: Container(
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            Drawer(child: content),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  (context.read<SigninCubit>().state.signinStatus ==
+                              SigninStatus.submitting ||
+                          context.read<SignupCubit>().state.signupStatus ==
+                              SignupStatus.submitting)
+                      ? null
+                      : Navigator.pop(context);
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: SizedBox(height: MediaQuery.of(context).size.height),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

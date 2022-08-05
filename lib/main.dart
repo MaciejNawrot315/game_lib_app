@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
-import 'package:game_lib_app/blocs_and_cubits/games_cubits.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
 
 import 'package:game_lib_app/locale_string.dart';
@@ -36,8 +35,8 @@ class MyApp extends StatelessWidget {
               firebaseFirestore: FirebaseFirestore.instance),
         ),
         RepositoryProvider(
-          create: (context) =>
-              ProfileRepository(firebaseFirestore: FirebaseFirestore.instance),
+          create: (context) => FirestoreRepository(
+              firebaseFirestore: FirebaseFirestore.instance),
         )
       ],
       child: MultiBlocProvider(
@@ -46,18 +45,9 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 AuthBloc(authRepository: context.read<AuthRepository>()),
           ),
-          BlocProvider<FavGamesCubit>(
-            create: (context) => FavGamesCubit(),
-          ),
-          BlocProvider<PlayedGamesCubit>(
-            create: (context) => PlayedGamesCubit(),
-          ),
-          BlocProvider<WishlistGamesCubit>(
-            create: (context) => WishlistGamesCubit(),
-          ),
           BlocProvider<UserCubit>(
             create: (context) => UserCubit(
-                profileRepository: ProfileRepository(
+                firestoreRepository: FirestoreRepository(
                     firebaseFirestore: FirebaseFirestore.instance)),
           ),
         ],
@@ -72,7 +62,11 @@ class MyApp extends StatelessWidget {
           translations: LocaleString(),
           home: BlocProvider<DrawerCubit>(
             create: (context) => DrawerCubit(),
-            child: const MainView(),
+            child: WillPopScope(
+                onWillPop: () async {
+                  return false;
+                },
+                child: const MainView()),
           ),
         ),
       ),

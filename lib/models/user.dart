@@ -45,4 +45,22 @@ class User {
       wishlistGames: [],
     );
   }
+
+  User copyWith({
+    String? id,
+    String? name,
+    String? email,
+    List<Game>? favGames,
+    List<Game>? playedGames,
+    List<Game>? wishlistGames,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      favGames: favGames ?? this.favGames,
+      playedGames: playedGames ?? this.playedGames,
+      wishlistGames: wishlistGames ?? this.wishlistGames,
+    );
+  }
 }

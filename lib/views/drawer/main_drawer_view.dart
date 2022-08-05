@@ -40,6 +40,12 @@ class _MainDrawerViewState extends State<MainDrawerView> {
           child: ListView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                    onPressed: Navigator.of(context).pop),
+              ),
               Text('${"settings".tr}${name == '' ? '' : ',  Hi $name!!'}'),
               Row(
                 children: [
