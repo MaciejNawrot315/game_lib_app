@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
+import 'package:game_lib_app/blocs_and_cubits/signin/signin_cubit.dart';
+import 'package:game_lib_app/blocs_and_cubits/signup/signup_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
+import 'package:game_lib_app/repositories/fb_auth_repository.dart';
 import 'package:game_lib_app/views/library/all_library_page.dart';
 import 'package:game_lib_app/views/main_view/my_destination.dart';
 import 'package:game_lib_app/views/drawer/my_drawer.dart';
@@ -21,8 +24,11 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
 
-  List<LibraryAll> libraryTabChildren =
-      [0, 1, 2].map((e) => LibraryAll(id: e)).toList();
+  List<LibraryAll> libraryTabChildren = [
+    UserListNames.favGames,
+    UserListNames.playedGames,
+    UserListNames.wishlistGames
+  ].map((e) => LibraryAll(listName: e)).toList();
   late List<MyDestination> destinations = [
     MyDestination(
       body: const ResultsGrid(),
@@ -86,47 +92,70 @@ class _MainViewState extends State<MainView> {
         Tab(text: 'wishlist'.tr),
       ],
     );
-    return BlocBuilder<AuthBloc, AuthState>(
+    return WillPopScope(onWillPop: () async {
+      return false;
+    }, child: BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return DefaultTabController(
-          length: libraryTabChildren.length,
-          child: Scaffold(
-              appBar: AppBar(
-                title: Text(context.watch<UserCubit>().state.name),
-                leading: Builder(builder: (context) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: IconButton(
-                      icon: const Icon(Icons.settings),
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                    ),
-                  );
-                }),
-
-                //preffered size is here so that I can change the color of the tabBar
-                bottom: (_selectedIndex == 2 &&
-                        state.authStatus == AuthStatus.authenticated)
-                    ? PreferredSize(
-                        preferredSize: tabBar.preferredSize,
-                        child: ColoredBox(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          child: tabBar,
+            length: libraryTabChildren.length,
+            child: WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+              child: Scaffold(
+                  appBar: AppBar(
+                    title: Text(context.watch<UserCubit>().state.name),
+                    leading: Builder(builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: IconButton(
+                          icon: const Icon(Icons.settings),
+                          onPressed: () => Scaffold.of(context).openDrawer(),
                         ),
-                      )
-                    : null,
-              ),
-              drawer: MyDrawer(),
-              body: getDestinationBody(context, _selectedIndex),
-              bottomNavigationBar: BottomNavigationBar(
-                items: destinations
-                    .map((e) => BottomNavigationBarItem(
-                        icon: e.icon, label: e.label.tr))
-                    .toList(),
-                currentIndex: _selectedIndex,
-                onTap: _onDestinationSelected,
-              )),
-        );
+                      );
+                    }),
+
+                    //preffered size is here so that I can change the color of the tabBar
+                    bottom: (_selectedIndex == 2 &&
+                            state.authStatus == AuthStatus.authenticated)
+                        ? PreferredSize(
+                            preferredSize: tabBar.preferredSize,
+                            child: ColoredBox(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              child: tabBar,
+                            ),
+                          )
+                        : null,
+                  ),
+                  drawer: MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (context) => SignupCubit(
+                            authRepository: context.read<AuthRepository>(),
+                          ),
+                        ),
+                        BlocProvider(
+                          create: (context) => SigninCubit(
+                            authRepository: context.read<AuthRepository>(),
+                          ),
+                        ),
+                      ],
+                      child: WillPopScope(
+                          onWillPop: () async {
+                            return false;
+                          },
+                          child: MyDrawer())),
+                  body: getDestinationBody(context, _selectedIndex),
+                  bottomNavigationBar: BottomNavigationBar(
+                    items: destinations
+                        .map((e) => BottomNavigationBarItem(
+                            icon: e.icon, label: e.label.tr))
+                        .toList(),
+                    currentIndex: _selectedIndex,
+                    onTap: _onDestinationSelected,
+                  )),
+            ));
       },
-    );
+    ));
   }
 }

@@ -6,8 +6,7 @@ part of 'field_with_name.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FieldWithName _$FieldWithNameFromJson(Map<String, dynamic> json) =>
-    FieldWithName(
+FieldWithName _$FieldWithNameFromJson(Map json) => FieldWithName(
       name: json['name'] as String?,
     );
 

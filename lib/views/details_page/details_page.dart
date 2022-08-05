@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/blocs_and_cubits/games_cubits.dart';
+import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
 
 import 'package:game_lib_app/models/game/field_with_name.dart';
 import 'package:game_lib_app/models/game/game.dart';
@@ -94,7 +94,8 @@ class _DetailsPageState extends State<DetailsPage> {
                             children: [
                               AddToListButton(
                                 game: game,
-                                cubit: context.watch<FavGamesCubit>(),
+                                cubit: context.watch<UserCubit>(),
+                                listName: UserListNames.favGames,
                                 removeTooltip: 'remove_fav'.tr,
                                 addTooltip: 'add__fav'.tr,
                                 icon: Icons.favorite_rounded,
@@ -102,7 +103,8 @@ class _DetailsPageState extends State<DetailsPage> {
                               ),
                               AddToListButton(
                                 game: game,
-                                cubit: context.watch<PlayedGamesCubit>(),
+                                cubit: context.watch<UserCubit>(),
+                                listName: UserListNames.playedGames,
                                 removeTooltip: 'remove_played'.tr,
                                 addTooltip: 'add__played'.tr,
                                 icon: Icons.check,
@@ -110,7 +112,8 @@ class _DetailsPageState extends State<DetailsPage> {
                               ),
                               AddToListButton(
                                 game: game,
-                                cubit: context.watch<WishlistGamesCubit>(),
+                                cubit: context.watch<UserCubit>(),
+                                listName: UserListNames.wishlistGames,
                                 removeTooltip: 'remove_wishlist'.tr,
                                 addTooltip: 'add__wishlist'.tr,
                                 icon: Icons.shopping_bag_rounded,
