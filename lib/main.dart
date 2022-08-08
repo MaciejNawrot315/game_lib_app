@@ -41,6 +41,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<DrawerCubit>(
+            create: (context) => DrawerCubit(
+              authRepository: context.read<AuthRepository>(),
+            ),
+          ),
           BlocProvider<AuthBloc>(
             create: (context) =>
                 AuthBloc(authRepository: context.read<AuthRepository>()),
@@ -60,14 +65,7 @@ class MyApp extends StatelessWidget {
           ),
           locale: const Locale('en', 'US'),
           translations: LocaleString(),
-          home: BlocProvider<DrawerCubit>(
-            create: (context) => DrawerCubit(),
-            child: WillPopScope(
-                onWillPop: () async {
-                  return false;
-                },
-                child: const MainView()),
-          ),
+          home: const MainView(),
         ),
       ),
     );

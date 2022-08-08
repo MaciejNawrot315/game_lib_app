@@ -76,4 +76,14 @@ class AuthRepository {
   Future<void> signout() async {
     await firebaseAuth.signOut();
   }
+
+  Future<void> resetPass({
+    required String email,
+  }) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on fb_auth.FirebaseAuthException catch (e) {
+      'do nothing';
+    }
+  }
 }

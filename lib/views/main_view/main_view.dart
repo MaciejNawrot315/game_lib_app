@@ -128,23 +128,20 @@ class _MainViewState extends State<MainView> {
                         : null,
                   ),
                   drawer: MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (context) => SignupCubit(
-                            authRepository: context.read<AuthRepository>(),
-                          ),
+                    providers: [
+                      BlocProvider(
+                        create: (context) => SignupCubit(
+                          authRepository: context.read<AuthRepository>(),
                         ),
-                        BlocProvider(
-                          create: (context) => SigninCubit(
-                            authRepository: context.read<AuthRepository>(),
-                          ),
+                      ),
+                      BlocProvider(
+                        create: (context) => SigninCubit(
+                          authRepository: context.read<AuthRepository>(),
                         ),
-                      ],
-                      child: WillPopScope(
-                          onWillPop: () async {
-                            return false;
-                          },
-                          child: MyDrawer())),
+                      ),
+                    ],
+                    child: MyDrawer(),
+                  ),
                   body: getDestinationBody(context, _selectedIndex),
                   bottomNavigationBar: BottomNavigationBar(
                     items: destinations
