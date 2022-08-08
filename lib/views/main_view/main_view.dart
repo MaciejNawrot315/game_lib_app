@@ -92,70 +92,57 @@ class _MainViewState extends State<MainView> {
         Tab(text: 'wishlist'.tr),
       ],
     );
-    return WillPopScope(onWillPop: () async {
-      return false;
-    }, child: BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return DefaultTabController(
             length: libraryTabChildren.length,
-            child: WillPopScope(
-              onWillPop: () async {
-                return false;
-              },
-              child: Scaffold(
-                  appBar: AppBar(
-                    title: Text(context.watch<UserCubit>().state.name),
-                    leading: Builder(builder: (context) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: IconButton(
-                          icon: const Icon(Icons.settings),
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                        ),
-                      );
-                    }),
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text(context.watch<UserCubit>().state.name),
+                  leading: Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: IconButton(
+                        icon: const Icon(Icons.settings),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                      ),
+                    );
+                  }),
 
-                    //preffered size is here so that I can change the color of the tabBar
-                    bottom: (_selectedIndex == 2 &&
-                            state.authStatus == AuthStatus.authenticated)
-                        ? PreferredSize(
-                            preferredSize: tabBar.preferredSize,
-                            child: ColoredBox(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              child: tabBar,
-                            ),
-                          )
-                        : null,
+                  //preffered size is here so that I can change the color of the tabBar
+                  bottom: (_selectedIndex == 2 &&
+                          state.authStatus == AuthStatus.authenticated)
+                      ? PreferredSize(
+                          preferredSize: tabBar.preferredSize,
+                          child: ColoredBox(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: tabBar,
+                          ),
+                        )
+                      : null,
+                ),
+                drawer: MultiBlocProvider(providers: [
+                  BlocProvider(
+                    create: (context) => SignupCubit(
+                      authRepository: context.read<AuthRepository>(),
+                    ),
                   ),
-                  drawer: MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (context) => SignupCubit(
-                            authRepository: context.read<AuthRepository>(),
-                          ),
-                        ),
-                        BlocProvider(
-                          create: (context) => SigninCubit(
-                            authRepository: context.read<AuthRepository>(),
-                          ),
-                        ),
-                      ],
-                      child: WillPopScope(
-                          onWillPop: () async {
-                            return false;
-                          },
-                          child: MyDrawer())),
-                  body: getDestinationBody(context, _selectedIndex),
-                  bottomNavigationBar: BottomNavigationBar(
-                    items: destinations
-                        .map((e) => BottomNavigationBarItem(
-                            icon: e.icon, label: e.label.tr))
-                        .toList(),
-                    currentIndex: _selectedIndex,
-                    onTap: _onDestinationSelected,
-                  )),
-            ));
+                  BlocProvider(
+                    create: (context) => SigninCubit(
+                      authRepository: context.read<AuthRepository>(),
+                    ),
+                  ),
+                ], child: MyDrawer()),
+                body: getDestinationBody(context, _selectedIndex),
+                bottomNavigationBar: BottomNavigationBar(
+                  items: destinations
+                      .map((e) => BottomNavigationBarItem(
+                          icon: e.icon, label: e.label.tr))
+                      .toList(),
+                  currentIndex: _selectedIndex,
+                  onTap: _onDestinationSelected,
+                )));
       },
-    ));
+    );
   }
 }

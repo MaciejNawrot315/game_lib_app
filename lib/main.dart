@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:game_lib_app/repositories/fb_auth_repository.dart';
 import 'package:game_lib_app/repositories/firestore_repository.dart';
 import 'package:game_lib_app/services/network_service.dart';
 import 'package:game_lib_app/views/main_view/main_view.dart';
+import 'package:game_lib_app/views/main_view/splash_screen.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 
@@ -20,7 +22,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -54,20 +59,13 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           title: 'Game Library',
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.grey[900],
+            scaffoldBackgroundColor: Color(0xFF212121),
             primarySwatch: Colors.purple,
             primaryColor: Colors.purple[600],
           ),
           locale: const Locale('en', 'US'),
           translations: LocaleString(),
-          home: BlocProvider<DrawerCubit>(
-            create: (context) => DrawerCubit(),
-            child: WillPopScope(
-                onWillPop: () async {
-                  return false;
-                },
-                child: const MainView()),
-          ),
+          home: const SplashScreen(),
         ),
       ),
     );
