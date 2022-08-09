@@ -76,4 +76,8 @@ class AuthRepository {
   Future<void> signout() async {
     await firebaseAuth.signOut();
   }
+
+  Future<void> deleteCurrentUser() async {
+    await fb_auth.FirebaseAuth.instance.currentUser!.delete();
+  }
 }
