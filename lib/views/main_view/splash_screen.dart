@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: (20)),
+      duration: const Duration(seconds: (20)),
       vsync: this,
     );
   }
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       body: Lottie.asset(
-        'assets/lottie/animation.json',
+        'assets/lottie/71262-games-knight-loading-icon.json',
         controller: _controller,
         height: MediaQuery.of(context).size.height,
         animate: true,

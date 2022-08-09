@@ -17,7 +17,10 @@ class AddButton extends StatelessWidget {
             : null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(text), const Icon(Icons.add)],
+          children: [
+            Text(text),
+            const Icon(Icons.add),
+          ],
         ));
   }
 }

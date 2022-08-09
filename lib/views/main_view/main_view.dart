@@ -65,23 +65,6 @@ class _MainViewState extends State<MainView> {
     super.initState();
   }
 
-  Widget getDestinationBody(BuildContext context, int index) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        if (_selectedIndex == 2 &&
-            state.authStatus != AuthStatus.authenticated) {
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 48),
-            child: Text('please_login'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white)),
-          );
-        }
-        return destinations[index].body;
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     TabBar tabBar = TabBar(
@@ -132,7 +115,7 @@ class _MainViewState extends State<MainView> {
                       authRepository: context.read<AuthRepository>(),
                     ),
                   ),
-                ], child: MyDrawer()),
+                ], child: const MyDrawer()),
                 body: getDestinationBody(context, _selectedIndex),
                 bottomNavigationBar: BottomNavigationBar(
                   items: destinations
@@ -142,6 +125,23 @@ class _MainViewState extends State<MainView> {
                   currentIndex: _selectedIndex,
                   onTap: _onDestinationSelected,
                 )));
+      },
+    );
+  }
+
+  Widget getDestinationBody(BuildContext context, int index) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (_selectedIndex == 2 &&
+            state.authStatus != AuthStatus.authenticated) {
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 48),
+            child: Text('please_login'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white)),
+          );
+        }
+        return destinations[index].body;
       },
     );
   }

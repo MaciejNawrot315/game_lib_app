@@ -20,7 +20,7 @@ class SignupCubit extends Cubit<SignupState> {
     ));
 
     try {
-      await authRepository.signup(
+      await authRepository.signUp(
         name: name,
         email: email,
         password: password,

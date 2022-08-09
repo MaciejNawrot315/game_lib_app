@@ -4,16 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
-import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
-import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
 
 import 'package:game_lib_app/locale_string.dart';
 import 'package:game_lib_app/repositories/fb_auth_repository.dart';
 import 'package:game_lib_app/repositories/firestore_repository.dart';
 import 'package:game_lib_app/services/network_service.dart';
-import 'package:game_lib_app/views/main_view/main_view.dart';
 import 'package:game_lib_app/views/main_view/splash_screen.dart';
+import 'package:game_lib_app/widgets/bloc_provider_wrapper.dart';
+import 'package:game_lib_app/widgets/repository_provider_wrapper.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 
@@ -32,34 +30,12 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => AuthRepository(
-              firebaseAuth: FirebaseAuth.instance,
-              firebaseFirestore: FirebaseFirestore.instance),
-        ),
-        RepositoryProvider(
-          create: (context) => FirestoreRepository(
-              firebaseFirestore: FirebaseFirestore.instance),
-        )
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthBloc>(
-            create: (context) =>
-                AuthBloc(authRepository: context.read<AuthRepository>()),
-          ),
-          BlocProvider<UserCubit>(
-            create: (context) => UserCubit(
-                firestoreRepository: FirestoreRepository(
-                    firebaseFirestore: FirebaseFirestore.instance)),
-          ),
-        ],
+    return RepositoryProviderWrapper(
+      child: BlocProviderWrapper(
         child: GetMaterialApp(
           title: 'Game Library',
           theme: ThemeData(
-            scaffoldBackgroundColor: Color(0xFF212121),
+            scaffoldBackgroundColor: const Color(0xFF212121),
             primarySwatch: Colors.purple,
             primaryColor: Colors.purple[600],
           ),
