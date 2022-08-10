@@ -24,6 +24,7 @@ class _ResultsGridState extends State<ResultsGrid> {
   bool gamesLoading = false;
   int count = 0;
   bool isEnd = false;
+  bool firstBuild = true;
   List<Game> loadedGames = [];
   Future<void> loadMoreGames() async {
     if (mounted) {
@@ -43,6 +44,7 @@ class _ResultsGridState extends State<ResultsGrid> {
     if (mounted) {
       setState(() {});
     }
+    firstBuild = false;
   }
 
   @override
@@ -71,9 +73,11 @@ class _ResultsGridState extends State<ResultsGrid> {
                     style: TextStyle(color: Colors.grey[300]),
                   );
                 }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return firstBuild
+                    ? const SizedBox()
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      );
               }
               return ResultsGameTile(
                 index: index,

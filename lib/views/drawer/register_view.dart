@@ -63,12 +63,15 @@ class _RegisterViewState extends State<RegisterView> {
             children: [
               Align(
                 alignment: Alignment.topLeft,
-                child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    onPressed: () =>
-                        state.signupStatus != SignupStatus.submitting
-                            ? context.read<DrawerCubit>().changeToInitialState()
-                            : null),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                      onPressed: () => state.signupStatus !=
+                              SignupStatus.submitting
+                          ? context.read<DrawerCubit>().changeToInitialState()
+                          : null),
+                ),
               ),
               const SizedBox(
                 height: 110,
