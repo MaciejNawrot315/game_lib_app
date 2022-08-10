@@ -6,6 +6,7 @@ import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/signup/signup_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
 import 'package:game_lib_app/widgets/error_dialog.dart';
+import 'package:game_lib_app/widgets/my_snack_bar.dart';
 import 'package:get/get.dart';
 
 class RegisterView extends StatefulWidget {
@@ -43,6 +44,11 @@ class _RegisterViewState extends State<RegisterView> {
                   .read<UserCubit>()
                   .getUser(FirebaseAuth.instance.currentUser?.uid)
             });
+    ScaffoldMessenger.of(context).showSnackBar(
+      MySnackBar(
+        text: "account_deleted".tr,
+      ),
+    );
   }
 
   @override

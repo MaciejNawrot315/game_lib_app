@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
+import 'package:game_lib_app/main.dart';
 import 'package:game_lib_app/models/user.dart';
 import 'package:game_lib_app/repositories/firestore_repository.dart';
+import 'package:game_lib_app/widgets/my_snack_bar.dart';
 import 'package:get/get.dart';
 
 class MainDrawerView extends StatefulWidget {
@@ -102,6 +104,11 @@ class _MainDrawerViewState extends State<MainDrawerView> {
                                                 .read<UserCubit>()
                                                 .setToInitial();
                                             Navigator.pop(context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              MySnackBar(
+                                                  text: "account_deleted".tr),
+                                            );
                                           },
                                         ),
                                         TextButton(

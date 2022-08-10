@@ -41,7 +41,11 @@ class LocaleString extends Translations {
           'sign_in': 'Sign In',
           'sign_up': 'Sign Up',
           'email': "Email",
-          'pass': 'Password'
+          'pass': 'Password',
+          'delete_account': "Delete your account",
+          'do_you_really_want_to_delete':
+              "Do you really want to delete your account?",
+          'account_deleted': "Account has been deleted succesfully"
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -82,7 +86,10 @@ class LocaleString extends Translations {
           'sign_in': 'Zaloguj się',
           'sign_up': 'Zarejestruj się',
           'email': 'Email',
-          'pass': 'Hasło'
+          'pass': 'Hasło',
+          'delete_account': "Usuń konto",
+          'do_you_really_want_to_delete': "Czy na pewno chcesz usunąć konto?",
+          'account_deleted': "konto zostało usunięte"
         }
       };
 }
