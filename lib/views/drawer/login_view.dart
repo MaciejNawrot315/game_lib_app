@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                         icon: const Icon(Icons.email_outlined),
                         contentPadding:
                             const EdgeInsets.only(bottom: 13.0, left: 8.0),
-                        hintText: "email".tr,
+                        hintText: "email",
                         hintStyle: const TextStyle(color: Colors.grey),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.purple),
