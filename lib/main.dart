@@ -9,8 +9,10 @@ import 'package:game_lib_app/locale_string.dart';
 import 'package:game_lib_app/repositories/fb_auth_repository.dart';
 import 'package:game_lib_app/repositories/firestore_repository.dart';
 import 'package:game_lib_app/services/network_service.dart';
+import 'package:game_lib_app/views/main_view/main_view.dart';
 import 'package:game_lib_app/views/main_view/splash_screen.dart';
 import 'package:game_lib_app/widgets/bloc_provider_wrapper.dart';
+import 'package:game_lib_app/widgets/injector.dart';
 import 'package:game_lib_app/widgets/repository_provider_wrapper.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
@@ -20,6 +22,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await injectorSetup();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
@@ -41,7 +44,11 @@ class MyApp extends StatelessWidget {
           ),
           locale: const Locale('en', 'US'),
           translations: LocaleString(),
-          home: const SplashScreen(),
+          initialRoute: SplashScreen.splashScreenRoute,
+          routes: {
+            MainView.mainViewRoute: (context) => const MainView(),
+            SplashScreen.splashScreenRoute: (context) => SplashScreen(),
+          },
         ),
       ),
     );

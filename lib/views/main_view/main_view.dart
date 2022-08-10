@@ -15,6 +15,7 @@ import 'package:game_lib_app/views/search_page/search_page.dart';
 import 'package:get/get.dart';
 
 class MainView extends StatefulWidget {
+  static const String mainViewRoute = '/mainViewRoute';
   const MainView({Key? key}) : super(key: key);
 
   @override
