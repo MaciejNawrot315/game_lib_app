@@ -149,7 +149,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       value: game.collection?.name ?? "",
                     ),
                     SingleDetailsLineIfExists(
-                      item: "from the franchise",
+                      item: "franchise".tr,
                       value:
                           getNamesString(game.franchises ?? <FieldWithName>[]),
                     ),
