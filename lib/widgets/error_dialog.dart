@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/custom_error.dart';
+import 'package:game_lib_app/models/custom_error.dart';
 
 void errorDialog(BuildContext context, CustomError e) {
   showDialog(
@@ -8,7 +7,7 @@ void errorDialog(BuildContext context, CustomError e) {
     builder: (context) {
       return AlertDialog(
         title: Text(e.code),
-        content: Text(e.plugin + '\n' + e.message),
+        content: Text('${e.plugin}\n${e.message}'),
         actions: [
           TextButton(
             child: const Text('OK'),

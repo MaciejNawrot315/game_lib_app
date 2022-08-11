@@ -13,7 +13,7 @@ class AuthRepository {
   });
   Stream<fb_auth.User?> get user => firebaseAuth.userChanges();
 
-  Future<void> signup({
+  Future<void> signUp({
     required String name,
     required String email,
     required String password,
@@ -49,7 +49,7 @@ class AuthRepository {
     }
   }
 
-  Future<void> signin({
+  Future<void> signIn({
     required String email,
     required String password,
   }) async {
@@ -73,7 +73,11 @@ class AuthRepository {
     }
   }
 
-  Future<void> signout() async {
+  Future<void> signOut() async {
     await firebaseAuth.signOut();
+  }
+
+  Future<void> deleteCurrentUser() async {
+    await fb_auth.FirebaseAuth.instance.currentUser!.delete();
   }
 }

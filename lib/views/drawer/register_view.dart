@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/blocs_and_cubits/auth/auth_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/signup/signup_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
@@ -20,30 +19,6 @@ class _RegisterViewState extends State<RegisterView> {
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   final TextEditingController _passwordController = TextEditingController();
   String? _name, _email, _password;
-  void _submit() {
-    setState(() {
-      _autovalidateMode = AutovalidateMode.always;
-    });
-
-    final form = _formKey.currentState;
-
-    if (form == null || !form.validate()) return;
-
-    form.save();
-
-    context
-        .read<SignupCubit>()
-        .signup(
-          name: _name!,
-          email: _email!,
-          password: _password!,
-        )
-        .then((value) => {
-              context
-                  .read<UserCubit>()
-                  .getUser(FirebaseAuth.instance.currentUser?.uid)
-            });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +39,13 @@ class _RegisterViewState extends State<RegisterView> {
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    onPressed: () =>
-                        state.signupStatus != SignupStatus.submitting
-                            ? context.read<DrawerCubit>().changeToInitialState()
-                            : null),
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  onPressed: () => state.signupStatus != SignupStatus.submitting
+                      ? context.read<DrawerCubit>().changeToInitialState()
+                      : null,
+                ),
               ),
-              const SizedBox(
-                height: 110,
-              ),
+              const SizedBox(height: 110),
               SizedBox(
                 width: 240,
                 child: Form(
@@ -184,19 +157,20 @@ class _RegisterViewState extends State<RegisterView> {
                         },
                       ),
                       Align(
-                          alignment: Alignment.bottomRight,
-                          child: TextButton(
-                            onPressed: () {
-                              state.signupStatus == SignupStatus.submitting
-                                  ? null
-                                  : _submit();
-                            },
-                            child: Text(
-                              state.signupStatus == SignupStatus.submitting
-                                  ? 'loading'.tr
-                                  : 'sign_up'.tr,
-                            ),
-                          ))
+                        alignment: Alignment.bottomRight,
+                        child: TextButton(
+                          onPressed: () {
+                            state.signupStatus == SignupStatus.submitting
+                                ? null
+                                : _submit();
+                          },
+                          child: Text(
+                            state.signupStatus == SignupStatus.submitting
+                                ? 'loading'.tr
+                                : 'sign_up'.tr,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -206,5 +180,32 @@ class _RegisterViewState extends State<RegisterView> {
         },
       ),
     );
+  }
+
+  void _submit() {
+    setState(() {
+      _autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = _formKey.currentState;
+
+    if (form == null || !form.validate()) return;
+
+    form.save();
+
+    context
+        .read<SignupCubit>()
+        .signup(
+          name: _name!,
+          email: _email!,
+          password: _password!,
+        )
+        .then(
+          (value) => {
+            context
+                .read<UserCubit>()
+                .getUser(FirebaseAuth.instance.currentUser?.uid),
+          },
+        );
   }
 }
