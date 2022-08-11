@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:game_lib_app/constants.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/models/game/game_list_model.dart';
@@ -26,6 +27,7 @@ class _ResultsGridState extends State<ResultsGrid> {
   bool gamesLoading = false;
   int count = 0;
   bool isEnd = false;
+  bool firstBuild = true;
   List<Game> loadedGames = [];
   Future<void> loadMoreGames() async {
     if (mounted) {
@@ -33,18 +35,20 @@ class _ResultsGridState extends State<ResultsGrid> {
         gamesLoading = true;
       });
     }
-    loadedGames +=
+    List<Game> temp =
         await IgdbRepository.fetchGamePosters(widget.whereFilters, count);
-
-    if (count == loadedGames.length) {
+    if (temp.length < pagesToLoad) {
       isEnd = true;
-    } else {
-      gamesLoading = false;
     }
+    loadedGames += temp;
+
+    gamesLoading = false;
+
     count = loadedGames.length;
     if (mounted) {
       setState(() {});
     }
+    firstBuild = false;
   }
 
   @override
@@ -78,11 +82,12 @@ class _ResultsGridState extends State<ResultsGrid> {
                     style: TextStyle(color: Colors.grey[300]),
                   );
                 }
-                return index > 1
-                    ? const Center(
+
+                return firstBuild
+                    ? const SizedBox()
+                    : const Center(
                         child: CircularProgressIndicator(),
-                      )
-                    : const SizedBox();
+                      );
               }
               return ResultsGameTile(
                 index: index,

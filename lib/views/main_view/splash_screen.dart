@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/models/game/game_list_model.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/views/main_view/main_view.dart';
@@ -47,7 +47,6 @@ class SplashScreen extends HookWidget {
   Future<void> loadGames(BuildContext context) async {
     GameListModel gameList = locator.get<GameListModel>();
     gameList.list = await IgdbRepository.fetchGamePosters('', 0);
-    print(gameList.list);
     fetchingFinished = true;
     if (animationFinished) {
       Navigator.pushNamed(context, MainView.mainViewRoute);

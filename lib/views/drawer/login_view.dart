@@ -35,11 +35,14 @@ class _LoginViewState extends State<LoginView> {
           children: [
             Align(
               alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                onPressed: () => state.signinStatus != SigninStatus.submitting
-                    ? context.read<DrawerCubit>().changeToInitialState()
-                    : null,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  onPressed: () => state.signinStatus != SigninStatus.submitting
+                      ? context.read<DrawerCubit>().changeToInitialState()
+                      : null,
+                ),
               ),
             ),
             const SizedBox(height: 150),

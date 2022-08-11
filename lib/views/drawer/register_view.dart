@@ -38,11 +38,14 @@ class _RegisterViewState extends State<RegisterView> {
             children: [
               Align(
                 alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  onPressed: () => state.signupStatus != SignupStatus.submitting
-                      ? context.read<DrawerCubit>().changeToInitialState()
-                      : null,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                      onPressed: () => state.signupStatus !=
+                              SignupStatus.submitting
+                          ? context.read<DrawerCubit>().changeToInitialState()
+                          : null),
                 ),
               ),
               const SizedBox(height: 110),
@@ -123,10 +126,10 @@ class _RegisterViewState extends State<RegisterView> {
                                 borderSide: BorderSide(color: Colors.purple))),
                         validator: (String? value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'pass_required';
+                            return 'pass_required'.tr;
                           }
                           if (value.trim().length < 6) {
-                            return 'pass_6_char';
+                            return 'pass_6_char'.tr;
                           }
                           return null;
                         },

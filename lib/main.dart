@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:game_lib_app/locale_string.dart';
-import 'package:game_lib_app/repositories/fb_auth_repository.dart';
-import 'package:game_lib_app/repositories/firestore_repository.dart';
+
 import 'package:game_lib_app/services/network_service.dart';
 import 'package:game_lib_app/views/main_view/main_view.dart';
 import 'package:game_lib_app/views/main_view/splash_screen.dart';
