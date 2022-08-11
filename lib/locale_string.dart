@@ -107,7 +107,7 @@ class LocaleString extends Translations {
           'email_required': 'Email jest wymagany',
           'enter_valid_email': 'Wpisz poprawny email',
           'pass_required': 'asło jest wymagane',
-          'pass_6_char': 'Hasło musi zawierać conajmniej 6 znaków',
+          'pass_6_char': 'Hasło ma min. 6 znaków',
           'loading': 'Ładuję...',
           'hi': 'Cześć',
           'log_out': 'Wyloguj się',
