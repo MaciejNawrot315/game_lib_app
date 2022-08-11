@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "126935175631",
+    "project_id": "maciek-game-app",
+    "storage_bucket": "maciek-game-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126935175631:android:f666f8b55ac4beaa2642ba",
+        "android_client_info": {
+          "package_name": "com.example.game_lib_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126935175631-6c08gl1qfv40nmo7r3klvbd8k0q3pi6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkX0XDzaPh400fnusd3hvbZbO1ppXEsX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126935175631-6c08gl1qfv40nmo7r3klvbd8k0q3pi6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

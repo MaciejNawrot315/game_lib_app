@@ -6,7 +6,7 @@ part of 'screenshot.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Screenshot _$ScreenshotFromJson(Map<String, dynamic> json) => Screenshot(
+Screenshot _$ScreenshotFromJson(Map json) => Screenshot(
       url: json['url'] as String?,
     );
 

@@ -30,13 +30,18 @@ class LocaleString extends Translations {
           'remove_fav': 'remove from favourites',
           'remove_played': 'remove from played games',
           'remove_wishlist': 'remove from wishlist',
-          'wishlist_removed': 'Removed Game from the wishList',
-          'wishlist_added': 'Added Game to the wishList',
+          'wishlist_removed': 'Removed Game from the wishlist',
+          'wishlist_added': 'Added Game to the wishlist',
           'played_removed': 'Removed Game from the \'played\' library',
           'played_added': 'Added Game to the \'played\' library',
           'fav_removed': 'Removed Game from the favourites',
           'fav_added': 'Added Game to the favourites',
-          'no_more_results': 'no more results :('
+          'no_more_results': 'no more results :(',
+          'nothing_here': 'there are no games added to your collection yet C:',
+          'sign_in': 'Sign In',
+          'sign_up': 'Sign Up',
+          'email': "Email",
+          'pass': 'Password'
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -71,7 +76,13 @@ class LocaleString extends Translations {
           'played_added': 'Gra została dodana do \'Zagranych\'',
           'fav_added': 'Gra została dodana do Ulubionych',
           'fav_removed': 'Gra została usunięta z Ulubionych',
-          'no_more_results': 'brak dalszych wyników :('
+          'no_more_results': 'brak dalszych wyników :(',
+          'nothing_here':
+              'Jeszcze nic nie zostało dodane do twojej biblioteki C:',
+          'sign_in': 'Zaloguj się',
+          'sign_up': 'Zarejestruj się',
+          'email': 'Email',
+          'pass': 'Hasło'
         }
       };
 }

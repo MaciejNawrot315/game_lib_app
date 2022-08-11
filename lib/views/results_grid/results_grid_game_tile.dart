@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_lib_app/cubit/games_cubits.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
