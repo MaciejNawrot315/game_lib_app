@@ -64,7 +64,8 @@ class LocaleString extends Translations {
           'no_results_found': "No results found",
           "delete_account": "Delete account",
           'do_you_really_want_to_delete':
-              "Do you really want to delete your account?"
+              "Do you really want to delete your account?",
+          'successful_registration': "Signed Up successfuly"
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -126,7 +127,8 @@ class LocaleString extends Translations {
           'reset': 'Wyślij',
           "delete_account": "Usuń konto",
           'no_results_found': "Brak wyników",
-          'do_you_really_want_to_delete': "Czy na pewno chcesz usunąć konto?"
+          'do_you_really_want_to_delete': "Czy na pewno chcesz usunąć konto?",
+          'successful_registration': "Zarejestrowano pomyślnie"
         }
       };
 }
