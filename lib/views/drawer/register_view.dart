@@ -153,10 +153,10 @@ class _RegisterViewState extends State<RegisterView> {
                                 borderSide: BorderSide(color: Colors.purple))),
                         validator: (String? value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'pass_required';
+                            return 'pass_required'.tr;
                           }
                           if (value.trim().length < 6) {
-                            return 'pass_6_char';
+                            return 'pass_6_char'.tr;
                           }
                           return null;
                         },
