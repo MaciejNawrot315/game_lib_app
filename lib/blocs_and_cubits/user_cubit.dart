@@ -17,8 +17,9 @@ class UserCubit extends Cubit<User> {
 
   Future<void> getUser(String? uid) async {
     if (uid != null) {
-      emit(await firestoreRepository.getProfile(
-          uid: uid)); //metoda niedodajaca do bazy
+      emit(
+        await firestoreRepository.getProfile(uid: uid),
+      ); //metoda niedodajaca do bazy
     }
   }
 

@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 class AddToListButton extends StatelessWidget {
   final Game game;
   final UserListNames listName;
-  final UserCubit cubit;
   final String removeTooltip;
   final String addTooltip;
   final IconData icon;
@@ -17,7 +16,6 @@ class AddToListButton extends StatelessWidget {
   const AddToListButton({
     Key? key,
     required this.game,
-    required this.cubit,
     required this.removeTooltip,
     required this.addTooltip,
     required this.icon,
@@ -27,6 +25,7 @@ class AddToListButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserCubit cubit = context.watch<UserCubit>();
     return cubit.containsInList(game, listName)
         ? Tooltip(
             message: removeTooltip,
@@ -45,8 +44,9 @@ class AddToListButton extends StatelessWidget {
               onPressed: () {
                 if (context.read<AuthBloc>().state.authStatus !=
                     AuthStatus.authenticated) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(MySnackBar(text: 'login_to_add'.tr));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    MySnackBar(text: 'login_to_add'.tr),
+                  );
                 } else {
                   cubit.addGameToList(game, listName);
                 }

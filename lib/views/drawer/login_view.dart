@@ -19,28 +19,6 @@ class _LoginViewState extends State<LoginView> {
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   String? _email, _password;
 
-  void _submit() async {
-    setState(() {
-      _autovalidateMode = AutovalidateMode.always;
-    });
-
-    final form = _formKey.currentState;
-
-    if (form == null || !form.validate()) {
-      return;
-    }
-
-    form.save();
-    await context
-        .read<SigninCubit>()
-        .signin(email: _email!, password: _password!)
-        .then((value) => {
-              context
-                  .read<UserCubit>()
-                  .getUser(FirebaseAuth.instance.currentUser?.uid)
-            });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SigninCubit, SigninState>(
@@ -58,14 +36,13 @@ class _LoginViewState extends State<LoginView> {
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  onPressed: () => state.signinStatus != SigninStatus.submitting
-                      ? context.read<DrawerCubit>().changeToInitialState()
-                      : null),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                onPressed: () => state.signinStatus != SigninStatus.submitting
+                    ? context.read<DrawerCubit>().changeToInitialState()
+                    : null,
+              ),
             ),
-            const SizedBox(
-              height: 150,
-            ),
+            const SizedBox(height: 150),
             SizedBox(
               width: 240,
               child: Form(
@@ -80,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
                         icon: const Icon(Icons.email_outlined),
                         contentPadding:
                             const EdgeInsets.only(bottom: 13.0, left: 8.0),
-                        hintText: "email",
+                        hintText: "email".tr,
                         hintStyle: const TextStyle(color: Colors.grey),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.purple),
@@ -157,5 +134,27 @@ class _LoginViewState extends State<LoginView> {
         );
       },
     );
+  }
+
+  void _submit() async {
+    setState(() {
+      _autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = _formKey.currentState;
+
+    if (form == null || !form.validate()) {
+      return;
+    }
+
+    form.save();
+    await context
+        .read<SigninCubit>()
+        .signin(email: _email!, password: _password!)
+        .then((value) => {
+              context
+                  .read<UserCubit>()
+                  .getUser(FirebaseAuth.instance.currentUser?.uid)
+            });
   }
 }

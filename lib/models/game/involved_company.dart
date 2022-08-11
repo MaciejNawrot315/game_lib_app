@@ -7,7 +7,9 @@ part 'involved_company.g.dart';
 class InvolvedCompany {
   final FieldWithName? company;
 
-  InvolvedCompany({this.company});
+  InvolvedCompany({
+    this.company,
+  });
   factory InvolvedCompany.fromJson(Map<String, dynamic> json) =>
       _$InvolvedCompanyFromJson(json);
   Map<String, dynamic> toJson() => _$InvolvedCompanyToJson(this);
