@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:game_lib_app/constants.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
@@ -32,14 +33,15 @@ class _ResultsGridState extends State<ResultsGrid> {
         gamesLoading = true;
       });
     }
-    loadedGames +=
+    List<Game> temp =
         await IgdbRepository.fetchGamePosters(widget.whereFilters, count);
-
-    if (count == loadedGames.length) {
+    if (temp.length < pagesToLoad) {
       isEnd = true;
-    } else {
-      gamesLoading = false;
     }
+    loadedGames += temp;
+
+    gamesLoading = false;
+
     count = loadedGames.length;
     if (mounted) {
       setState(() {});
