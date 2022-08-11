@@ -47,4 +47,8 @@ class FirestoreRepository {
       listName: FieldValue.arrayRemove([game.toJson()])
     });
   }
+
+  void deleteCurrentUserDatabase() {
+    usersRef.doc(fb_auth.FirebaseAuth.instance.currentUser?.uid).delete();
+  }
 }

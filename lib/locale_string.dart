@@ -47,13 +47,13 @@ class LocaleString extends Translations {
           'email_required': 'Email required',
           'enter_valid_email': 'Enter a valid email',
           'pass_required': 'Password is required',
-          'pass_6_char': 'Password has to have at least 6 characters',
+          'pass_6_char': 'Password has min. 6 characters',
           'loading': 'Loading...',
           'hi': 'Hi',
           'log_out': 'Sign out',
           'name': 'Name',
           'name_required': 'Name required',
-          'name_2_char': 'Name has to contain at least 2 letters',
+          'name_2_char': 'Name has min. 2 letters',
           'confirm_pass': 'Confirm the password',
           'pass_not_match': 'Passwords don\'t match',
           'forgot_pass': 'I forgot my password',
@@ -61,7 +61,10 @@ class LocaleString extends Translations {
           'email_with_restart_link_sent':
               'Email with a restart link has been sent to your mailbox',
           'reset': 'Send',
-          'no_results_found': "No results found"
+          'no_results_found': "No results found",
+          "delete_account": "Delete account",
+          'do_you_really_want_to_delete':
+              "Do you really want to delete your account?"
         },
         'pl_PL': {
           'home': 'Dla Ciebie',
@@ -106,14 +109,14 @@ class LocaleString extends Translations {
           'login_to_add': 'Zaloguj się przed dodaniem gry do biblioteki',
           'email_required': 'Email jest wymagany',
           'enter_valid_email': 'Wpisz poprawny email',
-          'pass_required': 'asło jest wymagane',
+          'pass_required': 'Hasło jest wymagane',
           'pass_6_char': 'Hasło ma min. 6 znaków',
           'loading': 'Ładuję...',
           'hi': 'Cześć',
           'log_out': 'Wyloguj się',
           'name': 'Imię',
           'name_required': 'Imię jest wymagane',
-          'name_2_char': 'Imię musi składać się z conajmniej 2 znaków',
+          'name_2_char': 'Imię ma min. 2 znaki',
           'confirm_pass': 'Potwierdź hasło',
           'pass_not_match': 'Hasła nie są identyczne',
           'forgot_pass': 'Zapomniałem hasła',
@@ -121,7 +124,9 @@ class LocaleString extends Translations {
           'email_with_restart_link_sent':
               'Email z linkiem resetującym został wysłany na twoją skrzynkę',
           'reset': 'Wyślij',
-          'no_results_found': "Brak wyników"
+          "delete_account": "Usuń konto",
+          'no_results_found': "Brak wyników",
+          'do_you_really_want_to_delete': "Czy na pewno chcesz usunąć konto?"
         }
       };
 }

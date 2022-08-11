@@ -18,7 +18,7 @@ Game _$GameFromJson(Map json) => Game(
           ?.map((e) =>
               FieldWithName.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
-      first_release_date: json['first_release_date'] as int?,
+      firstReleaseDate: json['first_release_date'] as int?,
       dlcs: (json['dlcs'] as List<dynamic>?)
           ?.map((e) =>
               FieldWithName.fromJson(Map<String, dynamic>.from(e as Map)))
@@ -35,11 +35,11 @@ Game _$GameFromJson(Map json) => Game(
           ?.map((e) =>
               FieldWithName.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
-      involved_companies: (json['involved_companies'] as List<dynamic>?)
+      involvedCompanies: (json['involved_companies'] as List<dynamic>?)
           ?.map((e) =>
               InvolvedCompany.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
-      parent_game: json['parent_game'] == null
+      parentGame: json['parent_game'] == null
           ? null
           : FieldWithName.fromJson(
               Map<String, dynamic>.from(json['parent_game'] as Map)),
@@ -47,8 +47,8 @@ Game _$GameFromJson(Map json) => Game(
           ?.map((e) =>
               FieldWithName.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
-      rating_count: json['rating_count'] as int?,
-      game_modes: (json['game_modes'] as List<dynamic>?)
+      ratingCount: json['rating_count'] as int?,
+      gameModes: (json['game_modes'] as List<dynamic>?)
           ?.map((e) =>
               FieldWithName.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
@@ -64,16 +64,16 @@ Map<String, dynamic> _$GameToJson(Game instance) => <String, dynamic>{
       'cover': instance.cover?.toJson(),
       'rating': instance.rating,
       'genres': instance.genres?.map((e) => e.toJson()).toList(),
-      'first_release_date': instance.first_release_date,
+      'first_release_date': instance.firstReleaseDate,
       'collection': instance.collection?.toJson(),
       'dlcs': instance.dlcs?.map((e) => e.toJson()).toList(),
       'expansions': instance.expansions?.map((e) => e.toJson()).toList(),
       'franchises': instance.franchises?.map((e) => e.toJson()).toList(),
       'involved_companies':
-          instance.involved_companies?.map((e) => e.toJson()).toList(),
-      'parent_game': instance.parent_game?.toJson(),
+          instance.involvedCompanies?.map((e) => e.toJson()).toList(),
+      'parent_game': instance.parentGame?.toJson(),
       'platforms': instance.platforms?.map((e) => e.toJson()).toList(),
-      'rating_count': instance.rating_count,
-      'game_modes': instance.game_modes?.map((e) => e.toJson()).toList(),
+      'rating_count': instance.ratingCount,
+      'game_modes': instance.gameModes?.map((e) => e.toJson()).toList(),
       'screenshots': instance.screenshots?.map((e) => e.toJson()).toList(),
     };
