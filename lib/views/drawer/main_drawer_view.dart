@@ -49,7 +49,8 @@ class _MainDrawerViewState extends State<MainDrawerView> {
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
                     onPressed: Navigator.of(context).pop),
               ),
-              Text('${"settings".tr}${name == '' ? '' : ',  Hi $name!!'}'),
+              Text(
+                  '${"settings".tr}${name == '' ? '' : ',  ${"hi".tr}, $name!!'}'),
               Row(
                 children: [
                   const Text("EN"),

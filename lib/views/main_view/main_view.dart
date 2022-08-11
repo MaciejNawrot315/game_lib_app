@@ -70,8 +70,7 @@ class _MainViewState extends State<MainView> {
       builder: (context, state) {
         if (_selectedIndex == 2 &&
             state.authStatus != AuthStatus.authenticated) {
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 48),
+          return Center(
             child: Text('please_login'.tr,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.white)),
