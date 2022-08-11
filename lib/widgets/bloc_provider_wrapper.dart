@@ -27,7 +27,8 @@ class BlocProviderWrapper extends StatelessWidget {
           ),
         ),
         BlocProvider<DrawerCubit>(
-          create: (context) => DrawerCubit(),
+          create: (context) =>
+              DrawerCubit(authRepository: context.read<AuthRepository>()),
         ),
       ],
       child: child ?? const SizedBox(),

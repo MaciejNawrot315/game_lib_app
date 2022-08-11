@@ -104,18 +104,28 @@ class _LoginViewState extends State<LoginView> {
                       },
                     ),
                     Align(
-                        alignment: Alignment.bottomRight,
-                        child: TextButton(
-                          child: Text(
-                              state.signinStatus == SigninStatus.submitting
-                                  ? 'loading'.tr
-                                  : "sign_in".tr),
-                          onPressed: () {
+                      alignment: Alignment.bottomRight,
+                      child: TextButton(
+                        child: Text(
                             state.signinStatus == SigninStatus.submitting
-                                ? null
-                                : _submit();
-                          },
-                        ))
+                                ? 'loading'.tr
+                                : "sign_in".tr),
+                        onPressed: () {
+                          state.signinStatus == SigninStatus.submitting
+                              ? null
+                              : _submit();
+                        },
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          context.read<DrawerCubit>().changeToRestartState(),
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(
+                            decoration: TextDecoration.underline),
+                      ),
+                      child: Text('forgot_pass'.tr),
+                    ),
                   ],
                 ),
               ),

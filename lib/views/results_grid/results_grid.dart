@@ -82,7 +82,7 @@ class _ResultsGridState extends State<ResultsGrid> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : SizedBox();
+                    : const SizedBox();
               }
               return ResultsGameTile(
                 index: index,
