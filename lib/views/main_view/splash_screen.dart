@@ -7,11 +7,19 @@ import 'package:game_lib_app/views/main_view/main_view.dart';
 import 'package:game_lib_app/widgets/injector.dart';
 import 'package:lottie/lottie.dart';
 
-class SplashScreen extends HookWidget {
+class SplashScreen extends StatefulHookWidget {
   static const String splashScreenRoute = '/';
-  SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
   bool animationFinished = false;
+
   bool fetchingFinished = false;
+
   @override
   Widget build(BuildContext context) {
     final AnimationController animationController = useAnimationController();
@@ -47,7 +55,7 @@ class SplashScreen extends HookWidget {
     GameListModel gameList = locator.get<GameListModel>();
     gameList.list = await IgdbRepository.fetchGamePosters('', 0);
     fetchingFinished = true;
-    if (animationFinished) {
+    if (animationFinished && mounted) {
       Navigator.pushNamed(context, MainView.mainViewRoute);
     }
   }
