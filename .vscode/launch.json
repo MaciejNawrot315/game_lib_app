@@ -1,25 +1,17 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
+    "version": "0.0.1",
     "configurations": [
         {
-            "name": "game_lib_app",
+            "name": "Dev",
+            "type": "dart",
             "request": "launch",
-            "type": "dart"
+            "program": "lib/main_dev.dart"
         },
         {
-            "name": "game_lib_app (profile mode)",
-            "request": "launch",
+            "name": "Prod",
             "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "game_lib_app (release mode)",
             "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
+            "program": "lib/main_prod.dart"
         }
     ]
 }

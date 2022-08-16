@@ -72,9 +72,18 @@ class LibraryAll extends StatelessWidget {
             : Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 100, horizontal: 48),
-                child: Text('nothing_here'.tr,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white)),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.library_add_rounded,
+                      size: 70,
+                      color: Colors.grey[300],
+                    ),
+                    Text('nothing_here'.tr,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white)),
+                  ],
+                ),
               );
       },
     );

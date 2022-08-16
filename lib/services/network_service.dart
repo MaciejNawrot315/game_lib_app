@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:game_lib_app/credentials.dart';
+import 'package:game_lib_app/services/config_reader.dart';
 
 class NetworkService {
   static Dio? _api;
@@ -18,8 +18,8 @@ class NetworkService {
   // The same header for all requests:
   _setHeader() {
     _api!.options.headers.clear();
-    _api!.options.headers['Client-ID'] = clientID;
-    _api!.options.headers['Authorization'] = auth;
+    _api!.options.headers['Client-ID'] = ConfigReader.getClientID();
+    _api!.options.headers['Authorization'] = ConfigReader.getAuthKey();
   }
 
   Future<Response> get(String path) async {

@@ -140,9 +140,19 @@ class _MainViewState extends State<MainView> {
         if (_selectedIndex == 2 &&
             state.authStatus != AuthStatus.authenticated) {
           return Center(
-            child: Text('please_login'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.do_not_disturb_on_rounded,
+                  size: 70,
+                  color: Colors.grey[300],
+                ),
+                Text('please_login'.tr,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white)),
+              ],
+            ),
           );
         }
         return destinations[index].body;

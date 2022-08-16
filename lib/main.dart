@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:game_lib_app/locale_string.dart';
+import 'package:game_lib_app/services/config_reader.dart';
 
 import 'package:game_lib_app/services/network_service.dart';
 import 'package:game_lib_app/views/main_view/main_view.dart';
@@ -13,8 +14,9 @@ import 'package:game_lib_app/widgets/repository_provider_wrapper.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 
-void main() async {
+Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ConfigReader.initialize(env);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
