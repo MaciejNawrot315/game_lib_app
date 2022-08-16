@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           initialRoute: SplashScreen.splashScreenRoute,
           routes: {
             MainView.mainViewRoute: (context) => const MainView(),
-            SplashScreen.splashScreenRoute: (context) => SplashScreen(),
+            SplashScreen.splashScreenRoute: (context) => const SplashScreen(),
           },
         ),
       ),
