@@ -83,7 +83,7 @@ class AuthRepository {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
     } on fb_auth.FirebaseAuthException catch (e) {
-      'do nothing';
+      'do nothing$e';
     }
   }
 
