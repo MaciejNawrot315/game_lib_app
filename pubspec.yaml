@@ -74,7 +74,7 @@ flutter_icons:
   image_path: "assets/console.png"
   adaptive_icon_foreground: "assets/console.png"
   adaptive_icon_background: "#ffffff"
- 
+  remove_alpha_ios: true
   
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
