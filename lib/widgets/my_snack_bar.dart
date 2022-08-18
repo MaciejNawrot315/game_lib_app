@@ -4,6 +4,7 @@ class MySnackBar extends SnackBar {
   final String text;
   MySnackBar({Key? key, required this.text})
       : super(
+          duration: const Duration(seconds: 2),
           key: key,
           behavior: SnackBarBehavior.floating,
           margin: const EdgeInsets.all(10.0),

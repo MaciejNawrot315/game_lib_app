@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/user_cubit.dart';
 
 import 'package:game_lib_app/models/game/field_with_name.dart';
@@ -9,7 +8,7 @@ import 'package:game_lib_app/repositories/igdb_repository.dart';
 import 'package:game_lib_app/views/details_page/details_image.dart';
 
 import 'package:game_lib_app/views/details_page/screenshot_gallery.dart';
-import 'package:game_lib_app/views/details_page/add_to_list__button.dart';
+import 'package:game_lib_app/views/details_page/add_to_list_button.dart';
 
 import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
@@ -79,7 +78,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         url: game.cover!.url,
                         name: game.name!,
                         rating: game.rating,
-                        ratingCount: game.rating_count),
+                        ratingCount: game.ratingCount),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -94,28 +93,25 @@ class _DetailsPageState extends State<DetailsPage> {
                             children: [
                               AddToListButton(
                                 game: game,
-                                cubit: context.watch<UserCubit>(),
                                 listName: UserListNames.favGames,
                                 removeTooltip: 'remove_fav'.tr,
-                                addTooltip: 'add__fav'.tr,
+                                addTooltip: 'add_fav'.tr,
                                 icon: Icons.favorite_rounded,
                                 activeColor: Colors.red,
                               ),
                               AddToListButton(
                                 game: game,
-                                cubit: context.watch<UserCubit>(),
                                 listName: UserListNames.playedGames,
                                 removeTooltip: 'remove_played'.tr,
-                                addTooltip: 'add__played'.tr,
+                                addTooltip: 'add_played'.tr,
                                 icon: Icons.check,
                                 activeColor: Colors.green,
                               ),
                               AddToListButton(
                                 game: game,
-                                cubit: context.watch<UserCubit>(),
                                 listName: UserListNames.wishlistGames,
                                 removeTooltip: 'remove_wishlist'.tr,
-                                addTooltip: 'add__wishlist'.tr,
+                                addTooltip: 'add_wishlist'.tr,
                                 icon: Icons.shopping_bag_rounded,
                                 activeColor: Colors.blue,
                               ),
@@ -133,7 +129,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       item: 'release_date'.tr,
                       value: dateFormat.format(
                           DateTime.fromMillisecondsSinceEpoch(
-                              (game.first_release_date ?? 0) * 1000)),
+                              (game.firstReleaseDate ?? 0) * 1000)),
                     ),
                     SingleDetailsLineIfExists(
                       item: 'genres'.tr,
@@ -142,21 +138,21 @@ class _DetailsPageState extends State<DetailsPage> {
                     SingleDetailsLineIfExists(
                       item: 'game_modes'.tr,
                       value:
-                          getNamesString(game.game_modes ?? <FieldWithName>[]),
+                          getNamesString(game.gameModes ?? <FieldWithName>[]),
                     ),
                     SingleDetailsLineIfExists(
                       item: "part_of".tr,
                       value: game.collection?.name ?? "",
                     ),
                     SingleDetailsLineIfExists(
-                      item: "from the franchise",
+                      item: "franchise".tr,
                       value:
                           getNamesString(game.franchises ?? <FieldWithName>[]),
                     ),
                     SingleDetailsLineIfExists(
                       item: "companies".tr,
                       value: getCompaniesNamesString(
-                          game.involved_companies ?? <InvolvedCompany>[]),
+                          game.involvedCompanies ?? <InvolvedCompany>[]),
                     ),
                     SingleDetailsLineIfExists(
                       item: "available_on".tr,
@@ -165,7 +161,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     SingleDetailsLineIfExists(
                       item: "main_game".tr,
-                      value: game.parent_game?.name ?? "",
+                      value: game.parentGame?.name ?? "",
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 30, 0, 0),

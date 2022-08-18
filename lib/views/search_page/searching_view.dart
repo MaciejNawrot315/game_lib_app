@@ -18,27 +18,7 @@ class SearchingView extends StatefulWidget {
 class _SearchingViewState extends State<SearchingView> {
   bool isFetching = false;
   List<SearchResponse> loadedResponses = [];
-  Future<void> searchInAPI(String text, int offset) async {
-    isFetching = true;
-    loadedResponses.addAll(await IgdbRepository.searchForPhrases(text, offset));
-    if (mounted) {
-      setState(
-        () {},
-      );
-    }
-    isFetching = false;
-  }
-
-  void checkIfEmpty(String value) {
-    if (value.isEmpty) {
-      if (mounted) {
-        setState(() {
-          loadedResponses = [];
-        });
-      }
-    }
-  }
-
+  bool noMoreResults = false;
   FocusNode focusNode = FocusNode();
 
   TextEditingController editingController = TextEditingController();
@@ -78,6 +58,7 @@ class _SearchingViewState extends State<SearchingView> {
                                 onSubmitted: (text) => isFetching
                                     ? null
                                     : {
+                                        noMoreResults = false,
                                         searchText = text,
                                         loadedResponses = [],
                                         searchInAPI(text, 0)
@@ -92,6 +73,7 @@ class _SearchingViewState extends State<SearchingView> {
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
                                     editingController.clear();
+                                    noMoreResults = false;
                                     if (mounted) {
                                       setState(() {
                                         loadedResponses = [];
@@ -122,10 +104,26 @@ class _SearchingViewState extends State<SearchingView> {
           itemBuilder: (context, index) {
             if (index == listLength) {
               if (index > 0) {
-                return TextButton(
-                    onPressed: () =>
-                        isFetching ? null : searchInAPI(searchText, listLength),
-                    child: Text('search_more'.tr));
+                return noMoreResults
+                    ? Center(
+                        child: Text(
+                          'no_more_results'.tr,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : TextButton(
+                        onPressed: () => isFetching
+                            ? null
+                            : searchInAPI(searchText, listLength),
+                        child: Text('search_more'.tr));
+              }
+              if (noMoreResults) {
+                return Center(
+                  child: Text(
+                    'no_results_found'.tr,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
               }
               return const SizedBox();
             }
@@ -165,6 +163,34 @@ class _SearchingViewState extends State<SearchingView> {
             );
           }),
     );
+  }
+
+  Future<void> searchInAPI(String text, int offset) async {
+    isFetching = true;
+    noMoreResults = false;
+    List<SearchResponse> temp =
+        await IgdbRepository.searchForPhrases(text, offset);
+    if (temp.length < 30) {
+      noMoreResults = true;
+    }
+    loadedResponses.addAll(temp);
+    if (mounted) {
+      setState(
+        () {},
+      );
+    }
+    isFetching = false;
+  }
+
+  void checkIfEmpty(String value) {
+    if (value.isEmpty) {
+      if (mounted) {
+        setState(() {
+          loadedResponses = [];
+          noMoreResults = false;
+        });
+      }
+    }
   }
 
   @override

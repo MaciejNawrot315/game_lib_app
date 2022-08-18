@@ -17,7 +17,7 @@ class SigninCubit extends Cubit<SigninState> {
       signinStatus: SigninStatus.submitting,
     ));
     try {
-      await authRepository.signin(
+      await authRepository.signIn(
         email: email,
         password: password,
       );

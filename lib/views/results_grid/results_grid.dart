@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:game_lib_app/constants.dart';
 
 import 'package:game_lib_app/models/game/game.dart';
+import 'package:game_lib_app/models/game/game_list_model.dart';
 import 'package:game_lib_app/repositories/igdb_repository.dart';
+import 'package:game_lib_app/widgets/injector.dart';
 import 'package:get/get.dart';
 
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -24,6 +27,7 @@ class _ResultsGridState extends State<ResultsGrid> {
   bool gamesLoading = false;
   int count = 0;
   bool isEnd = false;
+  bool firstBuild = true;
   List<Game> loadedGames = [];
   Future<void> loadMoreGames() async {
     if (mounted) {
@@ -31,24 +35,31 @@ class _ResultsGridState extends State<ResultsGrid> {
         gamesLoading = true;
       });
     }
-    loadedGames +=
+    List<Game> temp =
         await IgdbRepository.fetchGamePosters(widget.whereFilters, count);
-
-    if (count == loadedGames.length) {
+    if (temp.length < pagesToLoad) {
       isEnd = true;
-    } else {
-      gamesLoading = false;
     }
+    loadedGames += temp;
+
+    gamesLoading = false;
+
     count = loadedGames.length;
     if (mounted) {
       setState(() {});
     }
+    firstBuild = false;
   }
 
   @override
   void initState() {
     super.initState();
-    loadMoreGames();
+    if (widget.whereFilters == '') {
+      loadedGames = locator.get<GameListModel>().list;
+      count = loadedGames.length;
+    } else {
+      loadMoreGames();
+    }
   }
 
   @override
@@ -71,9 +82,12 @@ class _ResultsGridState extends State<ResultsGrid> {
                     style: TextStyle(color: Colors.grey[300]),
                   );
                 }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+
+                return firstBuild
+                    ? const SizedBox()
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      );
               }
               return ResultsGameTile(
                 index: index,

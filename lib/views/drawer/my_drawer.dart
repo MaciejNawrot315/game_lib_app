@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_lib_app/blocs_and_cubits/drawer_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/signin/signin_cubit.dart';
 import 'package:game_lib_app/blocs_and_cubits/signup/signup_cubit.dart';
-import 'package:game_lib_app/repositories/fb_auth_repository.dart';
 import 'package:game_lib_app/views/drawer/login_view.dart';
 import 'package:game_lib_app/views/drawer/main_drawer_view.dart';
 import 'package:game_lib_app/views/drawer/register_view.dart';
+import 'package:game_lib_app/views/drawer/restart_view.dart';
 
 class MyDrawer extends StatelessWidget {
-  MyDrawer({Key? key}) : super(key: key);
+  const MyDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,12 @@ class MyDrawer extends StatelessWidget {
           content = const RegisterView();
         }
         break;
+      case DrawerState.restart:
+        {
+          content = const RestartView();
+        }
+        break;
     }
-    double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
         // Note: Sensitivity is integer used when you don't want to mess up vertical drag

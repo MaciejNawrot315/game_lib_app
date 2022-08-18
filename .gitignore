@@ -21,6 +21,4 @@ doc/api/
 *.js.map
 #
 credentials.dart
-firebase_options.dart
-.flutter-plugins
-.flutter-plugins-dependencies
+/config

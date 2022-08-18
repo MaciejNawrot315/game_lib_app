@@ -17,35 +17,41 @@ class Game {
   final Cover? cover;
   final double? rating;
   final List<FieldWithName>? genres;
-  final int? first_release_date;
+  @JsonKey(name: 'first_release_date')
+  final int? firstReleaseDate;
   final Collection? collection;
   final List<FieldWithName>? dlcs;
   final List<FieldWithName>? expansions;
   final List<FieldWithName>? franchises;
-  final List<InvolvedCompany>? involved_companies;
-  final FieldWithName? parent_game;
+  @JsonKey(name: 'involved_companies')
+  final List<InvolvedCompany>? involvedCompanies;
+  @JsonKey(name: 'parent_game')
+  final FieldWithName? parentGame;
   final List<FieldWithName>? platforms;
-  final int? rating_count;
-  final List<FieldWithName>? game_modes;
+  @JsonKey(name: 'rating_count')
+  final int? ratingCount;
+  @JsonKey(name: 'game_modes')
+  final List<FieldWithName>? gameModes;
   final List<Screenshot>? screenshots;
-  Game(
-      {required this.id,
-      this.name,
-      this.summary,
-      this.cover,
-      this.rating,
-      this.genres,
-      this.first_release_date,
-      this.dlcs,
-      this.collection,
-      this.expansions,
-      this.franchises,
-      this.involved_companies,
-      this.parent_game,
-      this.platforms,
-      this.rating_count,
-      this.game_modes,
-      this.screenshots});
+  Game({
+    required this.id,
+    this.name,
+    this.summary,
+    this.cover,
+    this.rating,
+    this.genres,
+    this.firstReleaseDate,
+    this.dlcs,
+    this.collection,
+    this.expansions,
+    this.franchises,
+    this.involvedCompanies,
+    this.parentGame,
+    this.platforms,
+    this.ratingCount,
+    this.gameModes,
+    this.screenshots,
+  });
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
   Map<String, dynamic> toJson() => _$GameToJson(this);
 }
